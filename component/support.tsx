@@ -1,13 +1,13 @@
 "use client";
 
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
-import { ReactNode } from "react";
 import { FaPhone } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
-import { IoSearchOutline } from "react-icons/io5";
 import { CircleMinus, Plus } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
+import * as Accordion from "@radix-ui/react-accordion";
+import { ChevronDown } from "lucide-react";
 
 interface objType {
   para1: string;
@@ -41,7 +41,8 @@ const SupportComp = () => {
         "Get instant help from our support team. Available 24/7 to assist with orders, products, and account issues",
       para3: "Start Chat",
       icon: <IoChatbubbleEllipsesOutline />,
-      link: "/chat",
+      link: "https://wa.me/2348020937309?text=Hello%2C%20I%20need%20assistance%20with%20my%20order.",
+
     },
     {
       para1: "Phone Support",
@@ -49,7 +50,8 @@ const SupportComp = () => {
         "Speak directly with our customer service representatives for personalized assistance with your concerns",
       para3: "Call Now",
       icon: <FaPhone />,
-      link: "/phone",
+      link: "tel:+2348020937309",
+
     },
     {
       para1: "Email Support",
@@ -57,7 +59,8 @@ const SupportComp = () => {
         "Send us detailed inquiries and we will respond within 24 hours with comprehend solutions",
       para3: "Send Email",
       icon: <IoMailOutline />,
-      link: "/email",
+    link: "mailto:oyewolemonisola102@gmail.com?subject=Support%20Request&body=Hello%2C%20I%20need%20help%20with%20my%20order.%20Please%20get%20back%20to%20me%20as%20soon%20as%20possible.",
+
     },
   ];
 
@@ -98,14 +101,7 @@ const SupportComp = () => {
         We are here to help you with all your shopping needs. Get instant
         assistance or browse our comprehensive help resources
       </p>
-      <div className="mb-[50px] relative flex items-center">
-        <input
-          type="text"
-          placeholder="Search products,articles,faq,..."
-          className="text-black text-[12px] bg-green-500/60 mx-auto  text-sm w-[40%] py-5 px-7 border rounded-3xl border-green-500/60 focus:outline-none"
-        />
-        <IoSearchOutline className="absolute left-[356px] top-1/2 -translate-y-1/2 text-black-500" />
-      </div>
+    
 
       <div className="w-[80%] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -113,31 +109,27 @@ const SupportComp = () => {
             supports.map((prod, index) => <SupportCard s={prod} key={index} />)}
         </div>
       </div>
-      <h1 className="text-center text-black font-bold text-3xl mt-12">
-        Frequently Asked Questions
-      </h1>
-      <div className="flex flex-col bg-white px-8 py-8 gap-4 mt-8  rounded-lg">
-        {faqs.map((q, i) => (
-          <div
-            key={i}
-            className="flex justify-between border-b border-green-500/60"
-          >
-            <p>{q.question}</p>
-            <div className="flex gap-2">
-            <button onClick={() => handleAnswer(i)} type="button">
-              {answer === i ? (
-                <CircleMinus className="h-5 w-5" />
-              ) : (
-                <Plus className="h-5 w-5" />
-              )}
-            </button>
-            {answer === i && (
-              <p className="mt-2 text-sm text-black">{q.answer}</p>
-            )}
-            </div>
-            </div>
-        ))}
-      </div>
+  <h1 className="text-center font-bold text-3xl mt-12 text-black">
+  <span className="text-black">Frequently </span>
+  <span className="text-green-400">Asked Questions</span>
+</h1>
+<div className="mt-8 bg-white rounded-lg p-6">
+  <Accordion.Root type="single" collapsible className="w-full">
+    {faqs.map((q, i) => (
+      <Accordion.Item key={i} value={`item-${i}`} className="border-b border-green-500/60">
+        <Accordion.Header>
+          <Accordion.Trigger className="flex justify-between items-center w-full py-4 text-left text-sm font-medium text-black hover:underline">
+            {q.question}
+            <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+          </Accordion.Trigger>
+        </Accordion.Header>
+        <Accordion.Content className="text-sm text-black pb-4">
+          {q.answer}
+        </Accordion.Content>
+      </Accordion.Item>
+    ))}
+  </Accordion.Root>
+</div>
     </div>
   );
 };

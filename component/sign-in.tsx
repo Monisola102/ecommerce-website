@@ -1,88 +1,151 @@
-import Link from "next/link";
-export default function SignInUser() {
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSignupMutation }from "@/store/Features/auth/auth-api"; 
+import { useAppDispatch } from "@/store/hook";
+import { setUser } from "@/store/Features/auth/auth-slice";
+import { toast } from "react-toastify";
+import Image from "next/image";
+
+
+interface FormState {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
+
+export default function SignUpUser() {
+  const [form, setForm] = useState<FormState>({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const [signup, { isLoading }] = useSignupMutation();
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    try {
+      const user = await signup({
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      }).unwrap();
+
+      dispatch(setUser(user));
+      toast.success(`Welcome, ${user.name}!`);
+
+      setTimeout(() => {
+        if (user.role === "admin") {
+          router.push("/admin");
+        } else {
+          router.push("/");
+        }
+      }, 1500);
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Signup failed");
+    }
+  };
+
   return (
-    <>
-      <div className="bg-[url('/regpic.jpg')] bg-cover bg-center min-h-screen pt-[20px]">
-        <div className="flex h-auto flex-1 flex-col justify-center px-4 py-[50px] lg:px-8 bg-white/60 backdrop-blur-sm rounded-md max-w-2xl mx-auto ">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-              Welcome Back
-            </h2>
-            <p className="text-center text-sm sm:text-base md:text-[15px] text-black px-4">
-              Sign in to your account to continue.
-            </p>
-          </div>
-
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form action="#" method="POST" className="space-y-6">
-              <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  Email address
-                </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    autoComplete="email"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    Password
-                  </label>
-                  <div className="text-sm">
-                    <Link
-                      href="/forgot-password"
-                      className="font-semibold text-purple-400 hover:text-black"
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    required
-                    autoComplete="current-password"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-purple-400 px-3 py-1.5 text-sm/6 font-semibold text-black shadow-xs hover:bg-white hover:text-purple-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  Sign in
-                </button>
-              </div>
-            </form>
-
-            <p className="mt-10 text-center text-sm/6 text-black">
-              Don't have an account?{" "}
-              <Link className="text-purple-400 hover:underline" href="/account">
-                {" "}
-                Sign up
-              </Link>
-            </p>
-          </div>
+    <section className="min-h-screen flex items-center justify-center bg-gray-50">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white p-8 rounded-lg shadow-md w-full max-w-md"
+      >
+        <div  className="flex items-center justify-center  mb-4">
+        <h2 className="text-3xl font-bold text-center mb-6 text-gray-800">
+          Create an Account
+        </h2>
+     <Image
+      src="/shoeShop.png"
+      alt="Logo"
+      width={38} 
+      height={38}
+      className="rounded-full mb-2"
+    />
+    </div>
+        <div className="mb-4">
+          <label className="block text-gray-600 font-medium mb-1">Name</label>
+          <input
+            type="text"
+            name="name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your full name"
+          />
         </div>
-      </div>
-    </>
+
+        <div className="mb-4">
+          <label className="block text-gray-600 font-medium mb-1">Email</label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter your email"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label className="block text-gray-600 font-medium mb-1">
+            Password
+          </label>
+          <input
+            type="password"
+            name="password"
+            value={form.password}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter a password"
+          />
+        </div>
+
+        <div className="mb-6">
+          <label className="block text-gray-600 font-medium mb-1">
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            name="confirmPassword"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Confirm your password"
+          />
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading}
+          className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md transition duration-200 ${
+            isLoading ? "opacity-50 cursor-not-allowed" : ""
+          }`}
+        >
+          {isLoading ? "Signing Up..." : "Sign Up"}
+        </button>
+      </form>
+    </section>
   );
 }

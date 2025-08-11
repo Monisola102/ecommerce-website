@@ -1,9 +1,11 @@
-import Account from "@/component/account";
+"use client";
 
-export default function LogIn() {
+import AccountPage from "@/component/accountss";
+export default function AccountHome() {
   return (
-    <div>
-      <Account />
-    </div>
+   <>
+   <AccountPage/>
+   </>
   );
 }
+

@@ -1,154 +1,106 @@
+"use client";
 import Link from "next/link";
+import { useState} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "react-toastify";
+import { useAppDispatch } from "@/store/hook";
+import { useLoginMutation } from "@/store/Features/auth/auth-api"; 
+import { setUser } from "@/store/Features/auth/auth-slice"; 
+import Image from "next/image";
+export default function Login() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get("redirect");
+  const dispatch = useAppDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [login, { isLoading }] = useLoginMutation(); 
 
-export default function Account() {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      const user = await login({ email, password }).unwrap(); 
+      dispatch(setUser(user));
+      toast.success("Login successful!");
+      router.replace(redirectUrl || "/");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Login failed");
+    }
+  };
+
   return (
-    <>
-      <div className="bg-[url('/regpic.jpg')] bg-cover bg-center min-h-screen p-[15px]">
-        <div className="flex h-auto flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-white/60 backdrop-blur-sm rounded-md max-w-2xl mx-auto mt-10">
-          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-black">
-              Welcome
-            </h2>
-            <p className="text-center text-sm sm:text-base md:text-[15px] text-black px-4">
-              Create your account and step into style.
-            </p>
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="w-full max-w-7xl flex flex-col lg:flex-row shadow-lg rounded-lg overflow-hidden">
+        <div className="hidden lg:block lg:w-1/2">
+          <div className="h-full w-full min-h-[500px] bg-[url('/reg4pic.jpg')] bg-cover bg-center" >
           </div>
-
-          <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form action="#" method="POST" className="space-y-6">
+        </div>
+        <div className="flex flex-col justify-center px-6 py-12 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
+          <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+            <div className="flex items-center justify-center  mb-4">
+            <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
+              Login 
+            </h2>
+             <Image
+      src="/shoeShop.png"
+      alt="Logo"
+      width={38}
+      height={38}
+      className="rounded-full mb-2"
+    />
+</div>
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label
-                  htmlFor="username"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  FULL NAME
+                <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+                  Email
                 </label>
-                <div className="mt-2">
-                  <input
-                    id="fullname"
-                    name="fullname"
-                    type="text"
-                    required
-                    placeholder="Enter your full name"
-                    autoComplete="text"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
+                <input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="Enter your email"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
+                />
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm/6 font-medium text-gray-900"
-                >
-                  EMAIL
+                <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+                  Password
                 </label>
-                <div className="mt-2">
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    required
-                    placeholder="Enter your email address"
-                    autoComplete="email"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    PASSWORD
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="Enter your password"
-                    required
-                    autoComplete="new-password"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="confirmPassword"
-                    className="block text-sm/6 font-medium text-gray-900"
-                  >
-                    CONFIRM PASSWORD
-                  </label>
-                </div>
-                <div className="mt-2">
-                  <input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="Confirm your password"
-                    required
-                    autoComplete="new-password"
-                    className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="mt-2">
-                  <input
-                    id="terms"
-                    name="terms"
-                    type="checkbox"
-                    required
-                    className="block h-3 w-3 bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="terms"
-                    className="text-center text-sm/6 font-medium text-black"
-                  >
-                    I agree to the {""}
-                    <Link
-                      className="text-purple-400 hover:underline"
-                      href="/terms"
-                    >
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link
-                      className="text-purple-400 hover:underline"
-                      href="/privacy"
-                    >
-                      Privacy Policy
-                    </Link>
-                  </label>
-                </div>
+                <input
+                  id="password"
+                  name="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="Enter your password"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
+                />
               </div>
 
-              <div>
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded-md bg-purple-400 px-3 py-1.5 text-sm/6 font-semibold text-black shadow-xs hover:bg-black hover:text-purple-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                >
-                  CREATE ACCOUNT
-                </button>
-              </div>
+              <button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold py-2 rounded-md hover:opacity-90 transition"
+              >
+                {isLoading ? "Logging in..." : "LOGIN"}
+              </button>
             </form>
 
-            <p className="mt-10 text-center text-sm/6 text-black">
-              Already have an account?{" "}
-              <Link className="hover:underline text-purple-400" href="/sign-in">
-                Sign in
+            <p className="mt-6 text-center text-sm text-black">
+              Don't have an account?{" "}
+              <Link href="/sign-in" className="hover:underline text-purple-400">
+                Create one
               </Link>
             </p>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

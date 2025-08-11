@@ -1,9 +1,9 @@
-import SignInUser from "@/component/sign-in";
+import SignUpUser from "@/component/sign-in";
 
 export default function SignIn() {
   return (
     <div>
-      <SignInUser />
+      <SignUpUser />
     </div>
   );
 }

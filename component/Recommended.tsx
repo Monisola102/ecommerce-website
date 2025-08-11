@@ -1,60 +1,34 @@
 "use client";
-import image12 from "@/public/image12.jpg";
-import image13 from "@/public/Image13.png";
-import image14 from "@/public/Image14.png";
-import image15 from "@/public/Image15.png";
-import image16 from "@/public/Image16.png";
-import image17 from "@/public/Image17.png";
-import Card from "../component/RecommendedCard";
 import Slider from "react-slick";
-
-const props = [
-  {
-    img: image17,
-    brand: "Nike/Sneakers",
-    name: "Air Max 1'87 - Safety Orange",
-    price: "74,94£",
-    discount: "-42% OFF",
-  },
-  {
-    img: image16,
-    brand: "Nike/Sneakers",
-    name: "Nike Air Max",
-    price: "89,99£",
-  },
-
-  {
-    img: image15,
-    brand: "Nike/Sneakers",
-    name: "Nike Air Max 90",
-    price: "98,75£",
-    discount: "-42% OFF",
-  },
-
-  {
-    img: image14,
-    brand: "Nike/Sneakers",
-    name: "Air Force 1 '07 - Triple White",
-    price: "84,56£",
-  },
-
-  {
-    img: image13,
-    brand: "Nike/Sneakers",
-    name: "Nike Air Max",
-    price: "92,45£",
-  },
-
-  {
-    img: image12,
-    brand: "Nike/Sneakers",
-    name: "Nike Air Max",
-    price: "87,67£",
-    discount: "-42% OFF",
-  },
-];
+import { useEffect, useState } from "react";
+import RecommendedCard from "./RecommendedCard";
 
 export default function RecommendedComp() {
+ const [recommended, setRecommended] = useState([]);
+
+  useEffect(() => {
+    const fetchRecommended = async () => {
+      try {
+         const category = "recommended".trim();
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`, {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch recommended products");
+        }
+
+        const data = await res.json();
+              console.log("Recommended products response:", data.data); 
+        setRecommended(data.data);
+      } catch (error) {
+        console.error("Error fetching trends:", error);
+      }
+    };
+
+    fetchRecommended();
+  }, []);
+
   const play = {
     dots: false,
     infinite: true,
@@ -67,14 +41,14 @@ export default function RecommendedComp() {
   };
 
   return (
-    <div>
-      <h1 className="font-bold text-black text-xl  mb-4 ml-[64px] ">
+    <div className="container">
+      <h1 className="font-bold text-black text-xl mt-5 mb-4 ml-[64px] ">
         RECOMMENDED FOR YOU
       </h1>
-      <div className="w-[90%] mx-auto mb-[50px]">
+      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden" >
         <Slider {...play}>
-          {props.map((prop, i) => (
-            <Card key={i} prop={prop} />
+          {recommended.map((prop, i) => (
+            <RecommendedCard key={i} prop={prop} />
           ))}
         </Slider>
       </div>
