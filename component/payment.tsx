@@ -29,7 +29,7 @@ export default function PaymentsPage() {
 
   const localUser = useSelector((state: RootState) => state.auth.user);
 
-  const payments = paymentsResponse?.payments || [];
+const payments = paymentsResponse || [];
 
   if (userLoading || paymentsLoading) {
     return <p className="text-center mt-6">Loading payments...</p>;

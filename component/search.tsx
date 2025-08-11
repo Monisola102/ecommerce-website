@@ -14,7 +14,6 @@ export default function SearchPage() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Reset both search and category first
     dispatch(setSearch(""));
     dispatch(setCategory(""));
 

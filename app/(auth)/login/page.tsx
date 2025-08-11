@@ -1,9 +1,10 @@
+import { Suspense } from "react";
 import Login from "@/component/account";
 
 export default function Account() {
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <Login />
-    </div>
+    </Suspense>
   );
 }
