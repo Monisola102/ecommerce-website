@@ -52,7 +52,7 @@ export default function SpringComp() {
       <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
         <Slider {...play}>
          {springs && springs.length > 0 ? (
-  springs.map((spring, i) => (
+  springs?.map((spring, i) => (
     <SpringCard key={i} spring={spring} />
   ))
 ) : (

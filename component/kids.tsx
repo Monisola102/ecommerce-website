@@ -71,7 +71,7 @@ export default function KidPage() {
     <div className="container">
       <div className="w-full h-[90vh]">
         <Slider {...heroSliderSettings}>
-          {heroImages.map((img, i) => (
+          {heroImages?.map((img, i) => (
             <div key={i} className="relative w-full h-[90vh] overflow-hidden">
               <Image
                 src={img}
@@ -103,7 +103,7 @@ export default function KidPage() {
       </h1>
       <div className="w-[90%] mx-auto">
         <Slider {...trendSliderSettings}>
-          {products.map((product) => (
+          {products?.map((product) => (
             <KidsCard key={product._id} kids={product} />
           ))}
         </Slider>

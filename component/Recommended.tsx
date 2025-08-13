@@ -47,7 +47,7 @@ export default function RecommendedComp() {
       </h1>
       <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden" >
         <Slider {...play}>
-          {recommended.map((prop, i) => (
+          {recommended?.map((prop, i) => (
             <RecommendedCard key={i} prop={prop} />
           ))}
         </Slider>
