@@ -100,7 +100,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
   const imageSrc = women.image?.startsWith("http")
     ? women.image
     : women.image
-    ? `http://localhost:5000${
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${
         women.image.startsWith("/") ? women.image : "/" + women.image
       }`
     : "/fallback.jpg";

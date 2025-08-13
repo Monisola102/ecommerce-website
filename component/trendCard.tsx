@@ -64,8 +64,7 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
       dispatch(toggleLike(trend._id));
     }
   };
-
-  const handleAddToCart = async () => {
+const handleAddToCart = async () => {
     if (!user) {
       toast.error("Please log in to add items to your cart.");
       const pendingItem = {
@@ -79,12 +78,12 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
     }
 
     if (!selectedSize) {
-      toast.error("Please select a size");
+      toast.error("Please select a size!");
       return;
     }
+   
 
     if (loadingCart) return;
-
     setLoadingCart(true);
     try {
       await addToCart({
@@ -101,7 +100,6 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
       setLoadingCart(false);
     }
   };
-
   return (
     <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
       <div

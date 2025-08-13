@@ -95,7 +95,7 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
  const imageSrc = spring.image?.startsWith("http")
     ? spring.image
     : spring.image
-    ? `http://localhost:5000${spring.image.startsWith("/") ? spring.image : "/" + spring.image}`
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${spring.image.startsWith("/") ? spring.image : "/" + spring.image}`
     : "/fallback.jpg";
 
   return (
@@ -134,18 +134,15 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           <IoMdStar />
         </div>
         <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="">Select Size</option>
-            {spring.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
+         {spring.sizes && spring.sizes.length > 0 ? (
+  spring.sizes.map((s, index) => (
+    <option key={index} value={s.size} disabled={s.stock === 0}>
+      Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+    </option>
+  ))
+) : (
+  <option disabled>No sizes available</option>
+)}
         </div>
 
         <div className="flex justify-center mt-3">

@@ -104,7 +104,7 @@ export default function KidsCard({ kids }: { kids: kidsInterface }) {
   const imageSrc = kids.image?.startsWith("http")
     ? kids.image
     : kids.image
-    ? `http://localhost:5000${
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}}${
         kids.image.startsWith("/") ? kids.image : "/" + kids.image
       }`
     : "/fallback.jpg";

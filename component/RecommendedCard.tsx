@@ -106,7 +106,7 @@ export default function RecommendedCard({
  const imageSrc = prop.image?.startsWith("http")
     ? prop.image
     : prop.image
-    ? `process.env.NEXT_PUBLIC_API_BASE_URL${prop.image.startsWith("/") ? prop.image : "/" + prop.image}`
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${prop.image.startsWith("/") ? prop.image : "/" + prop.image}`
     : "/fallback.jpg";
 
   return (
@@ -138,19 +138,11 @@ export default function RecommendedCard({
           <IoMdStar />
         </div>
         <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="">Select Size</option>
-            {prop.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size}{" "}
-                {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
+         {prop.sizes.map((s, index) => (
+  <option key={index} value={s.size} disabled={s.stock === 0}>
+    Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+  </option>
+))}
         </div>
         <div className="flex justify-center mt-3">
           <button

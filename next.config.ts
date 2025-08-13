@@ -5,8 +5,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "http",
-        hostname: "localhost",
-        port: "5000", 
+        hostname: "backend-ecommerce-deployment.onrender.com",
       },
       {
         protocol: "https",
@@ -18,7 +17,8 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: "http://localhost:5000/api/:path*",
+        destination:
+          "https://backend-ecommerce-deployment.onrender.com/api/:path*",
       },
     ];
   },
