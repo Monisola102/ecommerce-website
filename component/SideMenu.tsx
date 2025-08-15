@@ -36,15 +36,11 @@ const SideMenu = ({ isOpen, onClose }: SidebarProps) => {
             </button>
           </div>
 
-          {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
             <Link href="/Women" onClick={onClose}>WOMEN</Link>
             <Link href="/Men" onClick={onClose}>MEN</Link>
             <Link href="/Kids" onClick={onClose}>KIDS</Link>
             <Link href="/Sale" onClick={onClose}>SALE</Link>
-            <Link href="/New" onClick={onClose}>NEW IN</Link>
-            <Link href="/Shoes" onClick={onClose}>SHOES</Link>
-            <Link href="/Brands" onClick={onClose}>BRANDS</Link>
             <Link href="/support" onClick={onClose}>SUPPORT</Link>
           </nav>
 

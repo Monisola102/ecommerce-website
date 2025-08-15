@@ -8,6 +8,7 @@ import women4 from "@/public/women4 (2).jpg";
 import women5 from "@/public/women5.jpg";
 
 const heroImages = [women4, women5];
+
 interface SizeType {
   size: string;
   stock: number;
@@ -24,21 +25,26 @@ interface Product {
 
 export default function WomenPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const category = "women".trim();
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`, {
-          credentials: "include",
-        });
+        const category = "women";
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`,
+          { credentials: "include" }
+        );
 
-        if (!res.ok) throw new Error("Failed to fetch products");
+        if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
 
         const data = await res.json();
-        setProducts(data.data);
+        setProducts(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error("Error fetching women products:", err);
+        setProducts([]);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -69,6 +75,7 @@ export default function WomenPage() {
 
   return (
     <div className="container">
+      {/* Hero Slider */}
       <div className="w-full h-[90vh]">
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
@@ -98,16 +105,28 @@ export default function WomenPage() {
           ))}
         </Slider>
       </div>
-      <h1 id="available-section" className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]">
+
+      {/* Available Section */}
+      <h1
+        id="available-section"
+        className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]"
+      >
         AVAILABLE
       </h1>
       <div className="w-[90%] mx-auto">
-        <Slider {...trendSliderSettings}>
-          {products.map((product) => (
-            <WomenCard key={product._id} women={product} />
-          ))}
-        </Slider>
+        {loading ? (
+          <p className="text-center">Loading products...</p>
+        ) : products.length > 0 ? (
+          <Slider {...trendSliderSettings}>
+            {products.map((product) => (
+              <WomenCard key={product._id} women={product} />
+            ))}
+          </Slider>
+        ) : (
+          <p className="text-center">No products found</p>
+        )}
       </div>
     </div>
   );
 }
+
