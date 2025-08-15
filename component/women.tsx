@@ -12,6 +12,7 @@ const heroImages = [women4, women5];
 interface SizeType {
   size: string;
   stock: number;
+    _id: string;
 }
 
 interface MenInterface {
@@ -20,7 +21,7 @@ interface MenInterface {
   brand: string;
   name: string;
   price: number;
-  size: SizeType[];
+  sizes: SizeType[];
 }
 
 export default function WomenPage() {

@@ -20,6 +20,8 @@ import {
 interface SizeType {
   size: string;
   stock: number;
+    _id: string;
+
 }
 
 interface womenInterface {
@@ -28,7 +30,7 @@ interface womenInterface {
   brand: string;
   name: string;
   price: number;
-  size: SizeType[];
+  sizes: SizeType[];
 }
 
 export default function WomenCard({ women }: { women: womenInterface }) {
@@ -97,13 +99,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
       setLoadingCart(false);
     }
   };
-  const imageSrc = women.image?.startsWith("http")
-    ? women.image
-    : women.image
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${
-        women.image.startsWith("/") ? women.image : "/" + women.image
-      }`
-    : "/fallback.jpg";
+  const imageSrc = women.image || "/fallback.jpg";
 
   return (
     <div className="relative w-full max-w-[200px] ">
@@ -147,7 +143,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
             onChange={(e) => setSelectedSize(e.target.value)}
           >
             <option value="">Select Size</option>
-            {women.size.map((s, index) => (
+            {women.sizes.map((s, index) => (
               <option key={index} value={s.size} disabled={s.stock === 0}>
                 Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
               </option>
