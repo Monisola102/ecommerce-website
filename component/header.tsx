@@ -162,12 +162,6 @@ export default function Header() {
           >
             <p>SALE</p>
           </Link>
-        <Link
-            href="/New"
-            className="text-black-500 hover:font-bold transition-all duration-300 text-xs"
-          >
-            <p>NEW IN</p>
-          </Link>
           <Link
             href="/Brands"
             className="text-black-500 hover:font-bold transition-all duration-300 text-xs"
