@@ -30,7 +30,7 @@ export default function WomenPage() {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const category = "women";
+        const category = "women".trim();
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`,
           { credentials: "include" }
@@ -39,10 +39,9 @@ export default function WomenPage() {
         if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
 
         const data = await res.json();
-        setWomen(Array.isArray(data.data) ? data.data : []);
+        setWomen(data.data);
       } catch (err) {
         console.error("Error fetching women products:", err);
-        setWomen([]);
       } finally {
         setLoading(false);
       }
@@ -75,7 +74,6 @@ export default function WomenPage() {
 
   return (
     <div className="container">
-      {/* Hero Slider */}
       <div className="w-full h-[90vh]">
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
@@ -105,8 +103,6 @@ export default function WomenPage() {
           ))}
         </Slider>
       </div>
-
-      {/* Available Section */}
       <h1
         id="available-section"
         className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]"
