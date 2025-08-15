@@ -14,7 +14,7 @@ interface SizeType {
   stock: number;
 }
 
-interface Product {
+interface MenInterface {
   _id: string;
   image: string;
   brand: string;
@@ -24,7 +24,7 @@ interface Product {
 }
 
 export default function WomenPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [women, setWomen] = useState<MenInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -39,10 +39,10 @@ export default function WomenPage() {
         if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
 
         const data = await res.json();
-        setProducts(Array.isArray(data.data) ? data.data : []);
+        setWomen(Array.isArray(data.data) ? data.data : []);
       } catch (err) {
         console.error("Error fetching women products:", err);
-        setProducts([]);
+        setWomen([]);
       } finally {
         setLoading(false);
       }
@@ -116,10 +116,10 @@ export default function WomenPage() {
       <div className="w-[90%] mx-auto">
         {loading ? (
           <p className="text-center">Loading products...</p>
-        ) : products.length > 0 ? (
+        ) : women.length > 0 ? (
           <Slider {...trendSliderSettings}>
-            {products.map((product) => (
-              <WomenCard key={product._id} women={product} />
+            {women.map((w) => (
+              <WomenCard key={w._id} women={w} />
             ))}
           </Slider>
         ) : (
