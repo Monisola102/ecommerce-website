@@ -5,7 +5,7 @@ import { IoMdHeartEmpty } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
-import { useState } from "react";
+import { useState , useEffect} from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/store/hook";
@@ -34,7 +34,7 @@ interface trendInterface {
 export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [loadingCart, setLoadingCart] = useState(false);
-  const { user } = useAppSelector((state) => state.auth);
+  const { user, loading: authLoading } = useAppSelector((state) => state.auth);
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -82,7 +82,6 @@ const handleAddToCart = async () => {
       return;
     }
    
-
     if (loadingCart) return;
     setLoadingCart(true);
     try {
@@ -99,7 +98,27 @@ const handleAddToCart = async () => {
     } finally {
       setLoadingCart(false);
     }
-  };
+  }
+  useEffect(() => {
+    if (user) {
+      const pendingItem = localStorage.getItem("pendingCartItem");
+      if (pendingItem) {
+        const { productId, size, quantity } = JSON.parse(pendingItem);
+        addToCart({ productId, size, quantity })
+          .unwrap()
+          .then(() => {
+            toast.success("Item added to cart after login!");
+            dispatch(openCart());
+            localStorage.removeItem("pendingCartItem");
+          })
+          .catch(() => {
+            toast.error("Failed to add pending item to cart.");
+          });
+      }
+    }
+  }, [user, addToCart, dispatch]);
+    if (authLoading) return null;
+
   return (
     <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
       <div
