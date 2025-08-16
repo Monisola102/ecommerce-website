@@ -56,7 +56,7 @@ export default function OrderPage() {
     }).unwrap();
 
     toast.success("Order placed successfully!");
-    router.push("/order-success");
+    router.push("/account/order-success");
   } catch (err: any) {
     toast.error(err?.data?.message || "Order failed");
     console.error(err);
