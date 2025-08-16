@@ -34,7 +34,7 @@ interface trendInterface {
 export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [loadingCart, setLoadingCart] = useState(false);
-  const { user, loading: authLoading } = useAppSelector((state) => state.auth);
+  const { user} = useAppSelector((state) => state.auth);
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -73,7 +73,7 @@ const handleAddToCart = async () => {
         quantity: 1,
       };
       localStorage.setItem("pendingCartItem", JSON.stringify(pendingItem));
-      router.push(`/account?redirect=/cart`);
+      router.push(`/login?redirect=/cart`);
       return;
     }
 
@@ -99,25 +99,6 @@ const handleAddToCart = async () => {
       setLoadingCart(false);
     }
   }
-  useEffect(() => {
-    if (user) {
-      const pendingItem = localStorage.getItem("pendingCartItem");
-      if (pendingItem) {
-        const { productId, size, quantity } = JSON.parse(pendingItem);
-        addToCart({ productId, size, quantity })
-          .unwrap()
-          .then(() => {
-            toast.success("Item added to cart after login!");
-            dispatch(openCart());
-            localStorage.removeItem("pendingCartItem");
-          })
-          .catch(() => {
-            toast.error("Failed to add pending item to cart.");
-          });
-      }
-    }
-  }, [user, addToCart, dispatch]);
-    if (authLoading) return null;
 
   return (
     <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
