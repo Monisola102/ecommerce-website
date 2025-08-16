@@ -12,7 +12,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
   };
   return (
     <div className="min-h-screen flex">
-      <aside className="w-64 bg-green-400 p-6 border-r">
+      <aside className="w-64 bg-red-400 p-6 border-r">
         <h2 className="text-xl font-semibold mb-6">My Account</h2>
         <nav className="space-y-4">
           <Link href="/account" className="block hover:text-blue-600">Dashboard</Link>

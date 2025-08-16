@@ -105,7 +105,7 @@ export default function OrderPage() {
       <button
         onClick={handleCheckout}
         disabled={orderLoading || cartLoading || !cartData?.updatedCart?.length}
-        className="w-full mt-6  bg-gradient-to-r from-purple-500 to-green-500  text-black py-3 rounded hover:bg-opacity-90 disabled:opacity-50"
+        className="w-full mt-6  bg-gradient-to-r from-red-400 via-gray-300  to-black  text-white py-3 rounded hover:bg-opacity-90 disabled:opacity-50"
       >
         {orderLoading ? "Placing Order..." : "Place Order"}
       </button>
