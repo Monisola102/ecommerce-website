@@ -28,17 +28,6 @@ const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
   const { data: ordersData, isLoading: ordersLoading } = useGetOrdersQuery(undefined, { skip: activeTab !== "orders" });
   const { data: paymentsData, isLoading: paymentsLoading } = useGetUserPaymentsQuery(undefined, { skip: activeTab !== "payments" });
 
-  const handleLogout = async () => {
-  try {
-    await logoutUser().unwrap();
-    dispatch(clearUser());      
-    toast.success("Logged out successfully");
-    router.push("/");
-  } catch (error: any) {
-    toast.error(error?.data?.message || "Failed to logout");
-  }
-};
-
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-2xl font-bold mb-6">My Account</h1>
@@ -109,15 +98,6 @@ const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
             )}
           </div>
         )}
-      </div>
-      <div className="mt-6 text-right">
-        <button
-          onClick={handleLogout}
-           disabled={logoutLoading}
-          className="bg-red-500 hover:bg-red-600 text-white py-2 px-6 rounded-md"
-        >
-          Logout
-        </button>
       </div>
     </div>
   );
