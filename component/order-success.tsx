@@ -18,14 +18,14 @@ export default function OrderSuccessPage() {
         <div className="flex flex-col gap-4">
           <Link
             href="/account/orders"
-            className="bg-gradient-to-r from-red-400 via-green-400 to-gray-400 text-white px-6 py-2 rounded hover:opacity-90"
+            className="bg-gradient-to-r from-red-400 via-green-200 to-gray-400 text-black px-6 py-2 rounded hover:opacity-90"
           >
             View My Orders
           </Link>
 
           <Link
             href="/"
-            className="bg-gradient-to-r from-red-400 via-green-400 to-gray-400 text-black px-6 py-2 rounded hover:opacity-90"
+            className="bg-gradient-to-r from-red-400 via-green-200 to-gray-400 text-black px-6 py-2 rounded hover:opacity-90"
           >
             Continue Shopping
           </Link>
