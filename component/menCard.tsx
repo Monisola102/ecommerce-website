@@ -20,6 +20,7 @@ import {
 interface SizeType {
   size: string;
   stock: number;
+   _id: string;
 }
 
 interface menInterface {
@@ -28,7 +29,7 @@ interface menInterface {
   brand: string;
   name: string;
   price: number;
-  size: SizeType[];
+  sizes: SizeType[];
 }
 
 export default function MenCard({ men }: { men: menInterface }) {
@@ -100,17 +101,11 @@ export default function MenCard({ men }: { men: menInterface }) {
       setLoadingCart(false);
     }
   };
-const imageSrc = men.image?.startsWith("http")
-    ? men.image
-    : men.image
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${
-        men.image.startsWith("/") ? men.image : "/" + men.image
-      }`
-    : "/fallback.jpg";
+const imageSrc = men.image || "/fallback.jpg";
   return (
-    <div className="relative w-full max-w-[200px] ">
+        <div className="relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm ">
       <div
-        className=" absolute top-1 right-8 bg-white p-1 text-black text-md"
+                    className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
@@ -147,7 +142,7 @@ const imageSrc = men.image?.startsWith("http")
             onChange={(e) => setSelectedSize(e.target.value)}
           >
             <option value="">Select Size</option>
-            {men.size.map((s, index) => (
+            {men.sizes.map((s, index) => (
               <option key={index} value={s.size} disabled={s.stock === 0}>
                 Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
               </option>

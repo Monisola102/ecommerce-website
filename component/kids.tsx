@@ -11,19 +11,20 @@ const heroImages = [kidshero, kids];
 interface SizeType {
   size: string;
   stock: number;
+    _id: string;
 }
 
-interface Product {
+interface KidsInterface{
   _id: string;
   image: string;
   brand: string;
   name: string;
   price: number;
-  size: SizeType[];
+  sizes: SizeType[];
 }
 
 export default function KidPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<KidsInterface[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -101,7 +102,7 @@ export default function KidPage() {
       <h1 id="available-section" className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]">
         AVAILABLE
       </h1>
-      <div className="w-[90%] mx-auto">
+      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
         <Slider {...trendSliderSettings}>
           {products?.map((product) => (
             <KidsCard key={product._id} kids={product} />

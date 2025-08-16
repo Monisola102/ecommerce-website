@@ -11,18 +11,19 @@ const heroImages = [menhero1, menhero2];
 interface SizeType {
   size: string;
   stock: number;
+   _id: string;
 }
-interface Product {
+interface MenInterface {
   _id: string;
   image: string;
   brand: string;
   name: string;
   price: number;
-  size: SizeType[];
+  sizes: SizeType[];
 }
 
 export default function MenPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<MenInterface[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -107,7 +108,7 @@ export default function MenPage() {
       >
         AVAILABLE
       </h1>
-      <div className="w-[90%] mx-auto">
+      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
         <Slider {...trendSliderSettings}>
           {products.map((product) => (
             <MenCard key={product._id} men={product} />

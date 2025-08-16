@@ -15,7 +15,7 @@ interface SizeType {
     _id: string;
 }
 
-interface MenInterface {
+interface WomenInterface {
   _id: string;
   image: string;
   brand: string;
@@ -25,7 +25,7 @@ interface MenInterface {
 }
 
 export default function WomenPage() {
-  const [women, setWomen] = useState<MenInterface[]>([]);
+  const [women, setWomen] = useState<WomenInterface[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
