@@ -138,11 +138,19 @@ export default function RecommendedCard({
           <IoMdStar />
         </div>
         <div className="mt-2">
-         {prop.sizes.map((s, index) => (
-  <option key={index} value={s.size} disabled={s.stock === 0}>
-    Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-  </option>
-))}
+          <select
+            className="text-[10px] border rounded w-full px-2 py-1"
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+          >
+            <option value="" disabled>Select Size</option>
+            {prop.sizes.map((s, index) => (
+              <option key={index} value={s.size} disabled={s.stock === 0}>
+                Size {s.size}{" "}
+                {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="flex justify-center mt-3">
           <button

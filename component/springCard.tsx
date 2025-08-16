@@ -92,16 +92,12 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
       setLoadingCart(false);
     }
   };
- const imageSrc = spring.image?.startsWith("http")
-    ? spring.image
-    : spring.image
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${spring.image.startsWith("/") ? spring.image : "/" + spring.image}`
-    : "/fallback.jpg";
+  const imageSrc = spring.image || "/fallback.jpg";
 
   return (
-    <div className="relative w-full max-w-[200px] ">
+    <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm ">
       <div
-        className=" absolute top-1 right-8 bg-white p-1 text-black text-md"
+        className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
@@ -134,15 +130,19 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           <IoMdStar />
         </div>
         <div className="mt-2">
-         {spring.sizes && spring.sizes.length > 0 ? (
-  spring.sizes.map((s, index) => (
-    <option key={index} value={s.size} disabled={s.stock === 0}>
-      Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-    </option>
-  ))
-) : (
-  <option disabled>No sizes available</option>
-)}
+          <select
+            className="text-[10px] border rounded w-full px-2 py-1"
+            value={selectedSize}
+            onChange={(e) => setSelectedSize(e.target.value)}
+          >
+            <option value="">Select Size</option>
+            {spring.sizes.map((s, index) => (
+              <option key={index} value={s.size} disabled={s.stock === 0}>
+                Size {s.size}{" "}
+                {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className="flex justify-center mt-3">
