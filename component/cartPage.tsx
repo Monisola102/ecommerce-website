@@ -67,7 +67,7 @@ export default function CartPage() {
             Clear Cart
           </button>
           <button
-            onClick={() => router.push("/order")}
+            onClick={() => router.push("/orders")}
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
           >
             Proceed to Checkout
