@@ -23,7 +23,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
           <Link href="/account/payments" className="flex items-center gap-2 hover:text-white"><CreditCard size={18} /> Payments</Link>
           <button
             onClick={handleLogout}
-            className="text-left text-black hover:underline"
+            className="flex items-center gap-2 text-black hover:underline"
           >
            <LogOut size={18} /> Logout
           </button>
