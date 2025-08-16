@@ -5,13 +5,14 @@ import { RootState } from "@/store/store";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { clearUser} from "@/store/Features/auth/auth-slice";
+import { useAppDispatch } from "@/store/hook";
 import { toast } from "react-toastify";
 import { useGetOrdersQuery } from "@/store/Features/order/order-api";
 import { useGetUserPaymentsQuery, useLogoutMutation } from "@/store/Features/auth/auth-api";
 
 export default function AccountPage() {
   const user = useSelector((state: RootState) => state.auth.user);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const [activeTab, setActiveTab] = useState("profile");
 const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
