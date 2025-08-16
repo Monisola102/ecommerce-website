@@ -110,7 +110,7 @@ export default function WomenPage() {
       >
         AVAILABLE
       </h1>
-      <div className="w-[90%] mx-auto">
+      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
         {loading ? (
           <p className="text-center">Loading products...</p>
         ) : women.length > 0 ? (
