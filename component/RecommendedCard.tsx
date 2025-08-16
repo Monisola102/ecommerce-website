@@ -110,19 +110,19 @@ export default function RecommendedCard({
     : "/fallback.jpg";
 
   return (
-    <div className="container relative w-full max-w-[200px] hover:scale-105 hover:shadow-lg transition-transform duration-300 ease-in-out cursor-pointer ">
+    <div className="container relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm">
       <div
-        className=" absolute top-1 right-8 bg-white p-1 text-black text-md"
+       className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
       <div>
         <Image
-          className="w-[170.24px] h-[185px] object-cover"
+          className="w-[180px] h-[185px] object-cover"
           src={imageSrc}
           alt={prop.name}
-          width={170}
+          width={180}
           height={185}
         />
       </div>
