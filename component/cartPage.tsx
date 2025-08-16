@@ -49,15 +49,25 @@ export default function CartPage() {
           <CartCard key={item._id} item={item} />
         ))}
       </div>
-      <div className="mt-6 text-right space-y-2">
+      <div className="mt-6 flex justify-between items-center">
+          <div className="space-y-2 text-left">
         <p>Total Items: {cart.totalQuantity}</p>
         <p>Total Price: ₦{cart.totalPrice.toLocaleString()}</p>
+        </div>
+         <div className="flex gap-2">
         <button
           onClick={handleClear}
           className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
         >
           Clear Cart
         </button>
+        <button
+      onClick={() => router.push("/order")}
+      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+    >
+      Proceed to Checkout
+    </button>
+         </div>
       </div>
     </div>
   );

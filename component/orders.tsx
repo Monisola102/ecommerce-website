@@ -56,7 +56,7 @@ export default function OrderPage() {
     }).unwrap();
 
     toast.success("Order placed successfully!");
-    router.push("/orders");
+    router.push("/order-success");
   } catch (err: any) {
     toast.error(err?.data?.message || "Order failed");
     console.error(err);
@@ -66,8 +66,6 @@ export default function OrderPage() {
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Checkout</h1>
-
-      {/* Shipping Address Form */}
       <div className="space-y-4">
         {["fullName", "address", "city", "postalCode", "country"].map((field) => (
           <input
@@ -82,7 +80,6 @@ export default function OrderPage() {
         ))}
       </div>
 
-      {/* Cart Summary */}
       <div className="mt-6 border-t pt-4">
         <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
         {cartLoading ? (
