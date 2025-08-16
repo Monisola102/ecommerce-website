@@ -75,7 +75,7 @@ export default function OrderPage() {
             placeholder={field.replace(/([A-Z])/g, " $1")}
             value={(shippingAddress as any)[field]}
             onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full p-2 border border-green-400 rounded"
           />
         ))}
       </div>
@@ -102,12 +102,10 @@ export default function OrderPage() {
           </>
         )}
       </div>
-
-      {/* Checkout Button */}
       <button
         onClick={handleCheckout}
         disabled={orderLoading || cartLoading || !cartData?.updatedCart?.length}
-        className="w-full mt-6 bg-black text-white py-3 rounded hover:bg-opacity-90 disabled:opacity-50"
+        className="w-full mt-6  bg-gradient-to-r from-purple-500 to-green-500  text-black py-3 rounded hover:bg-opacity-90 disabled:opacity-50"
       >
         {orderLoading ? "Placing Order..." : "Place Order"}
       </button>
