@@ -8,7 +8,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
   const handleLogout = () => {
     dispatch(clearUser());
 
-    window.location.href = "/login";
+    window.location.href = "/";
   };
   return (
     <div className="min-h-screen flex">
