@@ -20,7 +20,7 @@ export default function AccountLayout({ children }: { children: ReactNode }) {
           <Link href="/account" className="flex items-center gap-2 hover:text-white"> <LayoutDashboard size={18} />Dashboard</Link>
           <Link href="/account/orders" className="flex items-center gap-2 hover:text-white"> <ShoppingBag size={18} /> Orders</Link>
           <Link href="/account/profile" className="flex items-center gap-2 hover:text-white"><User size={18} /> Profile</Link>
-          <Link href="/account/payments" className="flex items-center gap-2 hover:text-white"><User size={18} /> Payments</Link>
+          <Link href="/account/payments" className="flex items-center gap-2 hover:text-white"><CreditCard size={18} /> Payments</Link>
           <button
             onClick={handleLogout}
             className="text-left text-black hover:underline"
