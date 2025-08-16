@@ -102,7 +102,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
   const imageSrc = women.image || "/fallback.jpg";
 
   return (
-    <div className="relative w-full max-w-[200px] ">
+    <div className="relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm ">
       <div
         className=" absolute top-1 right-8 bg-white p-1 text-black text-md"
         onClick={handleToggleLike}
@@ -111,9 +111,9 @@ export default function WomenCard({ women }: { women: womenInterface }) {
       </div>
       <div>
         <Image
-          className="w-[170.24px] h-[185px] object-cover"
+          className="w-full h-[185px] object-cover"
           src={imageSrc}
-          width={170}
+          fill
           height={185}
           alt="trendImage"
         />
