@@ -32,7 +32,7 @@ const [logoutUser, { isLoading: logoutLoading }] = useLogoutMutation();
     await logoutUser().unwrap();
     dispatch(clearUser());      
     toast.success("Logged out successfully");
-    router.push("/login");
+    router.push("/");
   } catch (error: any) {
     toast.error(error?.data?.message || "Failed to logout");
   }
