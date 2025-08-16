@@ -1,14 +1,19 @@
 "use client";
 
 import CartCard from "./useCartCard";
-import { useGetCartQuery, useClearCartMutation } from "@/store/Features/cart/cart-api";
+import {
+  useGetCartQuery,
+  useClearCartMutation,
+} from "@/store/Features/cart/cart-api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
+  const router = useRouter();
   const { data: cart, isLoading, error } = useGetCartQuery();
   const [clearCart] = useClearCartMutation();
   const user = useSelector((state: RootState) => state.auth.user);
@@ -50,24 +55,24 @@ export default function CartPage() {
         ))}
       </div>
       <div className="mt-6 flex justify-between items-center">
-          <div className="space-y-2 text-left">
-        <p>Total Items: {cart.totalQuantity}</p>
-        <p>Total Price: ₦{cart.totalPrice.toLocaleString()}</p>
+        <div className="space-y-2 text-left">
+          <p>Total Items: {cart.totalQuantity}</p>
+          <p>Total Price: ₦{cart.totalPrice.toLocaleString()}</p>
         </div>
-         <div className="flex gap-2">
-        <button
-          onClick={handleClear}
-          className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
-        >
-          Clear Cart
-        </button>
-        <button
-      onClick={() => router.push("/order")}
-      className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
-    >
-      Proceed to Checkout
-    </button>
-         </div>
+        <div className="flex gap-2">
+          <button
+            onClick={handleClear}
+            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+          >
+            Clear Cart
+          </button>
+          <button
+            onClick={() => router.push("/order")}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+          >
+            Proceed to Checkout
+          </button>
+        </div>
       </div>
     </div>
   );
