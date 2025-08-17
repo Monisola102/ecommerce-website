@@ -7,7 +7,6 @@ export interface OrderItem {
   priceAtOrderTime: number;
 }
 export interface CreateOrderArgs {
-  items: OrderItem[];
   shippingAddress: {
     fullName: string;
     address: string;
@@ -15,7 +14,7 @@ export interface CreateOrderArgs {
     postalCode: string;
     country: string;
   };
-  totalPrice: number;
+  paymentMethod: string;
 }
 
 export interface OrderResponse {
