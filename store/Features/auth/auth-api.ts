@@ -35,10 +35,10 @@ interface UpdateProfileRequest {
 interface Payment {
   _id: string;
   amount: number;
-  method: string;
+  paymentMethod: string;
   createdAt: string;
   status: "pending" | "paid" | "failed";
-  orderId?: string;
+  order?: string;
 }
 interface OrderSummary {
   _id: string;
@@ -60,14 +60,14 @@ interface OrderSummary {
 export const authApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
-    baseUrl:`${process.env.NEXT_PUBLIC_API_BASE_URL}`,
+    baseUrl:`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
     credentials: "include",
   }),
   tagTypes: ["User", "Payments"], 
   endpoints: (builder) => ({
     signup: builder.mutation<User, SignupRequest>({
       query: (body) => ({
-        url: "/users/signup",
+        url: "/signup",
         method: "POST",
         body,
       }),
@@ -76,7 +76,7 @@ export const authApi = createApi({
 
     login: builder.mutation<User, LoginRequest>({
       query: (body) => ({
-        url: "/users/login",
+        url: "/login",
         method: "POST",
         body,
       }),
@@ -85,7 +85,7 @@ export const authApi = createApi({
 
     logout: builder.mutation<{ message: string }, void>({
       query: () => ({
-        url: "/users/logout",
+        url: "/logout",
         method: "POST",
       }),
       invalidatesTags: ["User"],
@@ -93,7 +93,7 @@ export const authApi = createApi({
 
     fetchUser: builder.query<{data: User}, void>({
       query: () => ({
-        url: "/users/me",
+        url: "/me",
         method: "GET",
       }),
       providesTags: ["User"], 
@@ -101,7 +101,7 @@ export const authApi = createApi({
 
     updateUserProfile: builder.mutation<User, UpdateProfileRequest>({
       query: (body) => ({
-        url: "/users/update-profile",
+        url: "/update-profile",
         method: "PATCH",
         body,
       }),
@@ -109,7 +109,7 @@ export const authApi = createApi({
     }),
     getUserPayments: builder.query<Payment[], void>({
   query: () => ({
-    url: "/users/payments",
+    url: "/payments",
     method: "GET",
   }),
   transformResponse: (response: { data: Payment[] }) => response.data,
@@ -117,10 +117,10 @@ export const authApi = createApi({
 }),
      createPayment: builder.mutation<
       Payment,
-      { orderId: string; amount: number; method: string }
+      { order: string; amount: number; paymentMethod: string; status: string; }
     >({
       query: (body) => ({
-        url: "/users/create-payment",
+        url: "/create-payment",
         method: "POST",
         body,
       }),
@@ -129,7 +129,7 @@ export const authApi = createApi({
 
     fetchUserDashboard:builder.query<UserDashboardResponse,void>({
  query: () => ({
-        url: "/users/dashboard",
+        url: "/dashboard",
         method: "GET",
         credentials: "include",
       }),

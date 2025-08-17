@@ -47,7 +47,7 @@ export default function CartPage() {
   return (
     <div className="p-4 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">
-        {user ? `${user.name}'s Cart` : "Your Cart"}
+        {user?.name ?`${user.name}'s Cart` : "Your Cart"}
       </h1>
       <div className="space-y-4">
         {cart.updatedCart.map((item) => (

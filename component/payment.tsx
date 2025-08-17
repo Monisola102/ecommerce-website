@@ -29,7 +29,7 @@ export default function PaymentsPage() {
 
   const localUser = useSelector((state: RootState) => state.auth.user);
 
-const payments = paymentsResponse || [];
+  const payments = paymentsResponse || [];
 
   if (userLoading || paymentsLoading) {
     return <p className="text-center mt-6">Loading payments...</p>;
@@ -65,21 +65,21 @@ const payments = paymentsResponse || [];
               className="flex items-center gap-4 border p-4 rounded-lg bg-white shadow"
             >
               <Image
-                src={getPaymentIcon(payment.method)}
-                alt={payment.method}
+                src={getPaymentIcon(payment.paymentMethod)}
+                alt={payment.paymentMethod}
                 width={50}
                 height={50}
                 className="object-contain"
               />
               <div>
                 <p>
-                  <strong>Order ID:</strong> {payment.orderId || "N/A"}
+                  <strong>Order ID:</strong> {payment.order || "N/A"}
                 </p>
                 <p>
                   <strong>Amount:</strong> ₦{payment.amount.toLocaleString()}
                 </p>
                 <p>
-                  <strong>Method:</strong> {payment.method}
+                  <strong>Method:</strong> {payment.paymentMethod}
                 </p>
                 <p>
                   <strong>Status:</strong> {payment.status}
