@@ -112,7 +112,7 @@ export const authApi = createApi({
     url: "/payments",
     method: "GET",
   }),
-  transformResponse: (response: { data: Payment[] }) => response.data,
+    transformResponse: (response: { payments: Payment[] }) => response.payments || [],
   providesTags: ["Payments"],
 }),
      createPayment: builder.mutation<

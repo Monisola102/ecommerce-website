@@ -29,7 +29,12 @@ export default function PaymentsPage() {
 
   const localUser = useSelector((state: RootState) => state.auth.user);
 
+  // Transform response to array, fallback to empty array
   const payments = paymentsResponse || [];
+
+  // DEBUGGING
+  console.log("PaymentsResponse:", paymentsResponse);
+  console.log("Payments array:", payments);
 
   if (userLoading || paymentsLoading) {
     return <p className="text-center mt-6">Loading payments...</p>;
