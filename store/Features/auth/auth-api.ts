@@ -148,4 +148,5 @@ export const {
   useUpdateUserProfileMutation,
   useGetUserPaymentsQuery,
   useFetchUserDashboardQuery,
+  useCreatePaymentMutation
 } = authApi;

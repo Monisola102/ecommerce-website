@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "@/store/Features/order/order-api";
+import { useCreatePaymentMutation } from "@/store/Features/auth/auth-api";
 import { useGetCartQuery } from "@/store/Features/cart/cart-api";
 import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
@@ -13,6 +14,7 @@ export default function OrderPage() {
 
   const { data: cartData, isLoading: cartLoading } = useGetCartQuery();
   const [createOrder, { isLoading: orderLoading }] = useCreateOrderMutation();
+  const [createPayment] = useCreatePaymentMutation();
 
   const [shippingAddress, setShippingAddress] = useState({
     fullName: "",
@@ -29,7 +31,7 @@ export default function OrderPage() {
       toast.error("Please login to proceed with checkout");
       router.push("/account?redirect=/order");
     }
-  }, [user]);
+  }, [user, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });
@@ -51,12 +53,25 @@ export default function OrderPage() {
     }
 
     try {
-      await createOrder({
+      // 1️⃣ Create the order
+      const order = await createOrder({
         shippingAddress,
         paymentMethod,
       }).unwrap();
 
       toast.success("Order placed successfully!");
+
+      // 2️⃣ Create the payment record (so it shows in Payments page)
+      await createPayment({
+        order: order._id,
+        amount: cartData.totalPrice,
+        paymentMethod,
+        status: "paid", // or "pending" if you want verification later
+      }).unwrap();
+
+      toast.success("Payment recorded successfully!");
+
+      // 3️⃣ Redirect to success page
       router.push("/account/order-success");
     } catch (err: any) {
       toast.error(err?.data?.message || "Order failed");
@@ -70,18 +85,22 @@ export default function OrderPage() {
 
       {/* Shipping Address */}
       <div className="space-y-4">
-        {["fullName", "address", "city", "postalCode", "country"].map((field) => (
-          <input
-            key={field}
-            type="text"
-            name={field}
-            placeholder={field.replace(/([A-Z])/g, " $1")}
-            value={(shippingAddress as any)[field]}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-400 rounded"
-          />
-        ))}
+        {["fullName", "address", "city", "postalCode", "country"].map(
+          (field) => (
+            <input
+              key={field}
+              type="text"
+              name={field}
+              placeholder={field.replace(/([A-Z])/g, " $1")}
+              value={(shippingAddress as any)[field]}
+              onChange={handleChange}
+              className="w-full p-2 border border-gray-400 rounded"
+            />
+          )
+        )}
       </div>
+
+      {/* Payment Method */}
       <div className="mt-4">
         <label className="font-semibold">Payment Method</label>
         <select
@@ -95,6 +114,8 @@ export default function OrderPage() {
           <option value="paypal">PayPal</option>
         </select>
       </div>
+
+      {/* Order Summary */}
       <div className="mt-6 border-t pt-4">
         <h2 className="text-lg font-semibold mb-2">Order Summary</h2>
         {cartLoading ? (
