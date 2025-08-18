@@ -70,7 +70,6 @@ export default function OrderPage() {
     <div className="max-w-3xl mx-auto p-6 bg-white shadow rounded-md">
       <h1 className="text-2xl font-bold mb-6 text-center">Checkout</h1>
 
-      {/* Shipping Address */}
       <div className="space-y-4">
         {["fullName", "address", "city", "postalCode", "country"].map(
           (field) => (
@@ -99,7 +98,7 @@ export default function OrderPage() {
           <option value="card">Card</option>
           <option value="bank">Bank Transfer</option>
           <option value="paypal">PayPal</option>
-          <option value="verve">Verve</option>
+          <option value="ussd">Ussd</option>
           <option value="mastercard">MasterCard</option>
 
 

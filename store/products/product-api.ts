@@ -28,7 +28,11 @@ export interface ProductResponse {
     pages: number;
   };
 }
-
+export interface SingleProductResponse {
+  success: boolean;
+  message: string;
+  data: Product;
+}
 export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
@@ -49,7 +53,10 @@ export const productsApi = createApi({
         return `?${params.toString()}`;
       },
     }),
+     getProductById: builder.query<SingleProductResponse, string>({
+      query: (id) => `/${id}`,
+    }),
   }),
 });
 
-export const { useGetProductsQuery } = productsApi;
+export const { useGetProductsQuery, useGetProductByIdQuery } = productsApi;

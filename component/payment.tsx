@@ -27,11 +27,7 @@ export default function PaymentsPage() {
   } = useGetUserPaymentsQuery();
 
   const localUser = useSelector((state: RootState) => state.auth.user);
-
-  // Transform response to array, fallback to empty array
   const payments = paymentsResponse || [];
-
-  // DEBUGGING
   console.log("PaymentsResponse:", paymentsResponse);
   console.log("Payments array:", payments);
 
