@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useCreateOrderMutation } from "@/store/Features/order/order-api";
-import { useCreatePaymentMutation } from "@/store/Features/auth/auth-api";
 import { useGetCartQuery } from "@/store/Features/cart/cart-api";
 import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,7 @@ export default function OrderPage() {
 
   const { data: cartData, isLoading: cartLoading } = useGetCartQuery();
   const [createOrder, { isLoading: orderLoading }] = useCreateOrderMutation();
-  const [createPayment] = useCreatePaymentMutation();
+
 
   const [shippingAddress, setShippingAddress] = useState({
     fullName: "",
@@ -29,7 +28,7 @@ export default function OrderPage() {
   useEffect(() => {
     if (!user) {
       toast.error("Please login to proceed with checkout");
-      router.push("/account?redirect=/order");
+      router.push("/login");
     }
   }, [user, router]);
 
@@ -60,18 +59,6 @@ export default function OrderPage() {
       }).unwrap();
 
       toast.success("Order placed successfully!");
-
-      // 2️⃣ Create the payment record (so it shows in Payments page)
-      await createPayment({
-        order: order._id,
-        amount: cartData.totalPrice,
-        paymentMethod,
-        status: "paid", // or "pending" if you want verification later
-      }).unwrap();
-
-      toast.success("Payment recorded successfully!");
-
-      // 3️⃣ Redirect to success page
       router.push("/account/order-success");
     } catch (err: any) {
       toast.error(err?.data?.message || "Order failed");

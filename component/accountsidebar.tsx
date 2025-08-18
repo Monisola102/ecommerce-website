@@ -1,12 +1,20 @@
 "use client";
 import Link from "next/link";
 import { clearUser } from "@/store/Features/auth/auth-slice";
-import { useAppDispatch } from "@/store/hook";
+import { useAppDispatch , useAppSelector} from "@/store/hook";
 import { LayoutDashboard, ShoppingBag, User, CreditCard, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
+
 export default function AccountSidebar() {
-  const dispatch = useAppDispatch();
-    const router = useRouter();
+const dispatch = useAppDispatch();
+const user = useAppSelector((state) => state.auth.user);
+const router = useRouter();
+    useEffect(() => {
+    if (!user) {
+      router.push("/login"); 
+    }
+  }, [user, router]);
   const handleLogout = () => {
     dispatch(clearUser());
  router.push("/"); 
