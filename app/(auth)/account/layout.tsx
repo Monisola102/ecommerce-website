@@ -4,13 +4,13 @@ import { ReactNode } from "react";
 import { clearUser } from "@/store/Features/auth/auth-slice";
 import { useAppDispatch } from "@/store/hook";
 import { LayoutDashboard, ShoppingBag, User, CreditCard, LogOut } from "lucide-react";
-
+import { useRouter } from "next/navigation";
 export default function AccountLayout({ children }: { children: ReactNode }) {
   const dispatch = useAppDispatch();
+    const router = useRouter();
   const handleLogout = () => {
     dispatch(clearUser());
-
-    window.location.href = "/";
+ router.push("/"); 
   };
   return (
     <div className="min-h-screen flex">

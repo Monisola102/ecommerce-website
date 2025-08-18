@@ -112,6 +112,10 @@ export default function OrderPage() {
           <option value="card">Card</option>
           <option value="bank">Bank Transfer</option>
           <option value="paypal">PayPal</option>
+          <option value="verve">Verve</option>
+          <option value="mastercard">MasterCard</option>
+
+
         </select>
       </div>
 
