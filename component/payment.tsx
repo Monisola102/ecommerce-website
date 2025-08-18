@@ -12,7 +12,6 @@ function getPaymentIcon(method: string): string {
   const lowerMethod = method.toLowerCase();
   if (lowerMethod.includes("visa")) return "/icons/visa.png";
   if (lowerMethod.includes("master")) return "/icons/mastercard.png";
-  if (lowerMethod.includes("verve")) return "/icons/verve.svg";
   if (lowerMethod.includes("paypal")) return "/icons/paypal.png";
   if (lowerMethod.includes("bank")) return "/icons/bank.png";
   if (lowerMethod.includes("ussd")) return "/icons/ussd.png";
