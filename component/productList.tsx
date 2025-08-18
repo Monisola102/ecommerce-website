@@ -24,7 +24,7 @@ export default function ProductList() {
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
       {data.data.map((product: any) => (
         <Link
-          href={`/product/${product._id}`} 
+          href={`/no-footer/${product._id}`} 
           key={product._id}
           className="border p-4 rounded-lg shadow hover:shadow-lg transition block"
         >
