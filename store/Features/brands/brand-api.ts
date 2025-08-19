@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const brandApi = createApi({
   reducerPath: "brandApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:5000/brands", // adjust if different
+    baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/brands`,
     credentials: "include", // ensures cookies are sent with requests
   }),
   tagTypes: ["Brand"],
