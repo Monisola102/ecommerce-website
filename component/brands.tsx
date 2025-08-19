@@ -17,6 +17,8 @@ interface Brand {
 
 const BrandsPage: FC = () => {
   const { data, isLoading, isError } = useGetBrandsQuery();
+  console.log("🔎 Brands query result:", { data, isLoading, isError });
+
   const brands: Brand[] = data || [];
 
   if (isLoading) {
