@@ -1,6 +1,7 @@
 "use client";
 
 import { FC } from "react";
+import Link from "next/link";
 import { useGetBrandsQuery } from "@/store/Features/brands/brand-api";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -42,29 +43,26 @@ const BrandsPage: FC = () => {
       <Typography variant="h4" fontWeight="bold" gutterBottom align="center">
         Our Brands
       </Typography>
-
-      {/* Tailwind Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center">
         {brands.map((brand) => (
-          <Card
-            key={brand._id}
-            className="w-full max-w-xs rounded-xl shadow-md hover:-translate-y-1 hover:shadow-xl transition-transform duration-300"
-          >
-            {brand.logo && (
-              <CardMedia
-                component="img"
-                height="140"
-                image={brand.logo}
-                alt={brand.name}
-                className="object-contain p-4"
-              />
-            )}
-            <CardContent className="text-center">
-              <Typography variant="h6" fontWeight={600}>
-                {brand.name}
-              </Typography>
-            </CardContent>
-          </Card>
+          <Link key={brand._id} href={`/brands/${brand.name.toLowerCase()}`} className="w-full max-w-xs">
+            <Card className="w-full rounded-xl shadow-md hover:-translate-y-1 hover:shadow-xl transition-transform duration-300 cursor-pointer">
+              {brand.logo && (
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image={brand.logo}
+                  alt={brand.name}
+                  className="object-contain p-4"
+                />
+              )}
+              <CardContent className="text-center">
+                <Typography variant="h6" fontWeight={600}>
+                  {brand.name}
+                </Typography>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
     </div>
