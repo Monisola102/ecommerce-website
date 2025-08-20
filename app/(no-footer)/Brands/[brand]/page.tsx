@@ -1,9 +1,5 @@
 import BrandProductsPage from "@/component/brand";
 
-interface BrandPageProps {
-  params: { brand: string };
-}
-
-export default function BrandPage({ params }: BrandPageProps) {
+export default function BrandPage({ params }: { params: { brand: string } }) {
   return <BrandProductsPage brand={params.brand} />;
 }
