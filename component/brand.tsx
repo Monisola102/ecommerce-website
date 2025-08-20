@@ -1,11 +1,9 @@
 "use client";
 
-import { useParams } from "next/navigation";
 import { useGetProductsQuery } from "@/store/products/product-api";
 
-export default function BrandProductsPage() {
-  const { brand } = useParams(); // 👈 dynamic brand from URL
-  const { data, isLoading, isError } = useGetProductsQuery({ brand: brand as string });
+export default function BrandProductsPage({ brand }: { brand: string }) {
+  const { data, isLoading, isError } = useGetProductsQuery({ brand });
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error fetching products</p>;
@@ -17,7 +15,9 @@ export default function BrandProductsPage() {
       <h1>Products for {brand}</h1>
       <ul>
         {products.map((p) => (
-          <li key={p._id}>{p.name} - ${p.price}</li>
+          <li key={p._id}>
+            {p.name} - ${p.price}
+          </li>
         ))}
       </ul>
     </div>
