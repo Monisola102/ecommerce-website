@@ -1,5 +1,7 @@
 import BrandProductsPage from "@/component/brand";
 
-export default function BrandPage({ params }: { params: { brand: string } }) {
+type Params = { brand: string };
+
+export default function BrandPage({ params }: { params: Params }) {
   return <BrandProductsPage brand={params.brand} />;
 }
