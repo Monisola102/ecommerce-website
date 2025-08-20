@@ -41,7 +41,7 @@ export const productsApi = createApi({
   endpoints: (builder) => ({
     getProducts: builder.query<
       ProductResponse,
-      { page?: number; limit?: number; search?: string; category?: string; sort?: string }
+      { page?: number; limit?: number; search?: string; category?: string; sort?: string; brand?: string; }
     >({
       query: ({ page = 1, limit = 10, search = "", category = "", sort = "" }) => {
         const params = new URLSearchParams();
@@ -50,6 +50,7 @@ export const productsApi = createApi({
         if (search) params.set("search", search);
         if (category) params.set("category", category);
         if (sort) params.set("sort", sort);
+         if (brand) params.set("brand", brand);
         return `?${params.toString()}`;
       },
     }),
