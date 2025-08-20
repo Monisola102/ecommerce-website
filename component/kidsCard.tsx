@@ -26,7 +26,7 @@ interface SizeType {
 interface kidsInterface {
   _id: string;
   image: string;
-    brand: {
+  brand: {
   _id: string;
   name: string;
 };
