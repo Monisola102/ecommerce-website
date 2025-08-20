@@ -24,7 +24,10 @@ interface SizeType {
 interface recommendedInterface {
   _id: string;
   image: string;
-  brand: string;
+    brand: {
+  _id: string;
+  name: string;
+};
   name: string;
   price: number;
   sizes: SizeType[];
@@ -126,7 +129,7 @@ export default function RecommendedCard({
         />
       </div>
       <div>
-        <p className="text-gray-400 text-[10px] font-inter">{prop.brand}</p>
+        <p className="text-gray-400 text-[10px] font-inter">{prop.brand?.name}</p>
         <p className="text-black text-[12px] font-inter">{prop.name}</p>
         <p className="text-black font-bold text-[14px]">{prop.price}</p>
         <div className="flex text-[10px]">

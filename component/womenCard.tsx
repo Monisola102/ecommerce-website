@@ -27,7 +27,10 @@ interface SizeType {
 interface womenInterface {
   _id: string;
   image: string;
-  brand: string;
+  brand: {
+  _id: string;
+  name: string;
+};
   name: string;
   price: number;
   sizes: SizeType[];
@@ -119,7 +122,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
         />
       </div>
       <div>
-        <p className="text-gray-400 text-[10px] font-inter">{women.brand}</p>
+        <p className="text-gray-400 text-[10px] font-inter">{women.brand?.name}</p>
         <p className="text-black text-[12px] font-inter">{women.name}</p>
         <div className="flex gap-2">
           <p className="text-black font-bold text-[14px]">

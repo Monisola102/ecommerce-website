@@ -26,7 +26,10 @@ interface SizeType {
 interface kidsInterface {
   _id: string;
   image: string;
-  brand: string;
+    brand: {
+  _id: string;
+  name: string;
+};
   name: string;
   price: number;
   sizes: SizeType[];
@@ -120,7 +123,7 @@ export default function KidsCard({ kids }: { kids: kidsInterface }) {
         />
       </div>
       <div>
-        <p className="text-gray-400 text-[10px] font-inter">{kids.brand}</p>
+        <p className="text-gray-400 text-[10px] font-inter">{kids.brand?.name}</p>
         <p className="text-black text-[12px] font-inter">{kids.name}</p>
         <div className="flex gap-2">
           <p className="text-black font-bold text-[14px]">{kids.price}&#163;</p>
