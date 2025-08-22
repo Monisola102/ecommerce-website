@@ -1,15 +1,20 @@
+// app/(no-footer)/Brands/[brand]/page.tsx
 import BrandProductsPage from "@/component/brand";
+import { FC } from "react";
 
-interface BrandPageProps {
+interface PageProps {
   params: { brand: string };
 }
 
-export default async function BrandServerPage({ params }: BrandPageProps) {
+// Mark it as an async arrow function to satisfy Next.js PageProps constraint
+const BrandServerPage: FC<PageProps> = async ({ params }) => {
   const { brand } = params;
 
   return (
     <div>
-      <BrandProductsPage brand={brand} /> {/* Client component */}
+      <BrandProductsPage brand={brand} />
     </div>
   );
-}
+};
+
+export default BrandServerPage;
