@@ -26,7 +26,6 @@ export default function SearchPage() {
   const query = searchParams.get("query") || "";
   const dispatch = useDispatch();
 
-
 useEffect(() => {
   if (!query) return;
 
@@ -34,19 +33,18 @@ useEffect(() => {
   const normalizedCategories = validCategories.map((c) => c.toLowerCase());
 
   if (normalizedCategories.includes(normalizedQuery)) {
-    // Find the original category with correct casing
+    // ✅ Find the properly cased category
     const matchedCategory =
-      validCategories.find(
-        (c) => c.toLowerCase() === normalizedQuery
-      ) || query;
+      validCategories.find((c) => c.toLowerCase() === normalizedQuery) || query;
 
-    dispatch(setCategory(matchedCategory)); // always correct casing
+    dispatch(setCategory(matchedCategory)); 
     dispatch(setSearch(""));
   } else {
     dispatch(setSearch(query));
     dispatch(setCategory(""));
   }
 }, [query, dispatch]);
+
 
   return (
     <div className="container mx-auto py-10">
