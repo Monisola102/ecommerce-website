@@ -37,9 +37,9 @@ export default function ProductList() {
             className="border rounded px-2 py-1"
           >
             <option value="">All</option>
-            <option value="men">Men</option>
-            <option value="women">Women</option>
-            <option value="kids">Kids</option>
+            <option value="Men">Men</option>
+            <option value="Women">Women</option>
+            <option value="Kids">Kids</option>
           </select>
         </div>
 
