@@ -1,5 +1,5 @@
 import BrandsPage from "@/component/brands";
 
-export default function Brandss() {
+export default function Brandpages() {
   return <BrandsPage />;
 }
