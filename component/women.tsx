@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import WomenCard from "./womenCard";
-import women4 from "@/public/women4 (2).jpg";
+import marai2 from "@/public/maria2.jpg"
 import women5 from "@/public/women5.jpg";
 
-const heroImages = [women4, women5];
+const heroImages = [marai2, women5];
 
 interface SizeType {
   size: string;
