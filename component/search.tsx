@@ -22,10 +22,13 @@ useEffect(() => {
   dispatch(setCategory(""));
 
   const normalizedQuery = query.toLowerCase();
+  console.log("Normalized Query:", normalizedQuery);
 
   if (validCategories.includes(normalizedQuery)) {
+   console.log("Normalized Query:", normalizedQuery);
     dispatch(setCategory(normalizedQuery));
   } else {
+  console.log("Dispatching search:", query);
     dispatch(setSearch(query));
   }
 }, [query, dispatch]);
