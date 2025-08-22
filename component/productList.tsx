@@ -33,7 +33,7 @@ export default function ProductList() {
           <label className="mr-2 font-semibold">Category:</label>
           <select
             value={category || ""}
-            onChange={(e) => dispatch(setCategory(e.target.value))}
+            onChange={(e) => dispatch(setCategory(e.target.value.toLowerCase()))}
             className="border rounded px-2 py-1"
           >
             <option value="">All</option>

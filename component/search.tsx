@@ -6,29 +6,46 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch, setCategory } from "@/store/products/product-slice";
 
-const validCategories = ["Women", "Men", "Kids", "Sale", "New", "Clothing", "Shoes", "Accesories", "Brands", "Trends", "Spring", "Recommended"];
+const validCategories = [
+  "Women",
+  "Men",
+  "Kids",
+  "Sale",
+  "New",
+  "Clothing",
+  "Shoes",
+  "Accesories",
+  "Brands",
+  "Trends",
+  "Spring",
+  "Recommended",
+];
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
-  const categoryParam = searchParams.get("category") || ""; // 👈 support category in URL
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (query) {
+    if (!query) return;
+
+    // convert everything to lowercase for matching
+    const normalizedQuery = query.toLowerCase();
+    const normalizedCategories = validCategories.map((c) => c.toLowerCase());
+
+    if (normalizedCategories.includes(normalizedQuery)) {
+      dispatch(setCategory(query)); // keep original case for display
+      dispatch(setSearch(""));
+    } else {
       dispatch(setSearch(query));
+      dispatch(setCategory(""));
     }
-    if (categoryParam && validCategories.includes(categoryParam)) {
-      dispatch(setCategory(categoryParam));
-    }
-  }, [query, categoryParam, dispatch]);
+  }, [query, dispatch]);
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-xl font-bold mb-6">
-        Showing results
-        {query && <> for "<span className="text-blue-600">{query}</span>"</>}
-        {categoryParam && <> in <span className="text-green-600">{categoryParam}</span></>}
+        Search results for: <span className="text-blue-600">"{query}"</span>
       </h1>
       <ProductList />
     </div>
