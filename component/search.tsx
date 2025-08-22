@@ -26,21 +26,27 @@ export default function SearchPage() {
   const query = searchParams.get("query") || "";
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!query) return;
 
-    // convert everything to lowercase for matching
-    const normalizedQuery = query.toLowerCase();
-    const normalizedCategories = validCategories.map((c) => c.toLowerCase());
+useEffect(() => {
+  if (!query) return;
 
-    if (normalizedCategories.includes(normalizedQuery)) {
-      dispatch(setCategory(query)); // keep original case for display
-      dispatch(setSearch(""));
-    } else {
-      dispatch(setSearch(query));
-      dispatch(setCategory(""));
-    }
-  }, [query, dispatch]);
+  const normalizedQuery = query.toLowerCase();
+  const normalizedCategories = validCategories.map((c) => c.toLowerCase());
+
+  if (normalizedCategories.includes(normalizedQuery)) {
+    // Find the original category with correct casing
+    const matchedCategory =
+      validCategories.find(
+        (c) => c.toLowerCase() === normalizedQuery
+      ) || query;
+
+    dispatch(setCategory(matchedCategory)); // always correct casing
+    dispatch(setSearch(""));
+  } else {
+    dispatch(setSearch(query));
+    dispatch(setCategory(""));
+  }
+}, [query, dispatch]);
 
   return (
     <div className="container mx-auto py-10">
