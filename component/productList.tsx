@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetProductsQuery } from "@/store/products/product-api";
 import Link from "next/link";
-import { setCategory, setSort } from "@/store/products/product-slice";
+import { setCategory, setSort } from "@/store/products/product-slice"; // make sure you have these actions
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -37,9 +37,9 @@ export default function ProductList() {
             className="border rounded px-2 py-1"
           >
             <option value="">All</option>
-            <option value="Men">Men</option>
-            <option value="Women">Women</option>
-            <option value="Kids">Kids</option>
+            <option value="men">Men</option>
+            <option value="women">Women</option>
+            <option value="kids">Kids</option>
           </select>
         </div>
 

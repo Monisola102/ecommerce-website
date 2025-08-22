@@ -7,18 +7,9 @@ import { useDispatch } from "react-redux";
 import { setSearch, setCategory } from "@/store/products/product-slice";
 
 const validCategories = [
-  "Women",
-  "Men",
-  "Kids",
-  "Sale",
-  "New",
-  "Clothing",
-  "Shoes",
-  "Accesories",
-  "Brands",
-  "Trends",
-  "Spring",
-  "Recommended",
+  "women", "men", "kids", "sale", "new",
+  "clothing", "shoes", "accessories",
+  "brands", "trends", "spring", "recommended"
 ];
 
 export default function SearchPage() {
@@ -27,24 +18,17 @@ export default function SearchPage() {
   const dispatch = useDispatch();
 
 useEffect(() => {
-  if (!query) return;
+  dispatch(setSearch(""));
+  dispatch(setCategory(""));
 
   const normalizedQuery = query.toLowerCase();
-  const normalizedCategories = validCategories.map((c) => c.toLowerCase());
 
-  if (normalizedCategories.includes(normalizedQuery)) {
-    // ✅ Find the properly cased category
-    const matchedCategory =
-      validCategories.find((c) => c.toLowerCase() === normalizedQuery) || query;
-
-    dispatch(setCategory(matchedCategory)); 
-    dispatch(setSearch(""));
+  if (validCategories.includes(normalizedQuery)) {
+    dispatch(setCategory(normalizedQuery));
   } else {
     dispatch(setSearch(query));
-    dispatch(setCategory(""));
   }
 }, [query, dispatch]);
-
 
   return (
     <div className="container mx-auto py-10">
