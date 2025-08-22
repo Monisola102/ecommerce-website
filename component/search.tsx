@@ -11,23 +11,24 @@ const validCategories = ["Women", "Men", "Kids", "Sale", "New", "Clothing", "Sho
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
+  const categoryParam = searchParams.get("category") || ""; // 👈 support category in URL
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setSearch(""));
-    dispatch(setCategory(""));
-
-    if (validCategories.includes(query)) {
-      dispatch(setCategory(query)); 
-    } else {
-      dispatch(setSearch(query));   
+    if (query) {
+      dispatch(setSearch(query));
     }
-  }, [query, dispatch]);
+    if (categoryParam && validCategories.includes(categoryParam)) {
+      dispatch(setCategory(categoryParam));
+    }
+  }, [query, categoryParam, dispatch]);
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-xl font-bold mb-6">
-        Search results for: <span className="text-blue-600">"{query}"</span>
+        Showing results
+        {query && <> for "<span className="text-blue-600">{query}</span>"</>}
+        {categoryParam && <> in <span className="text-green-600">{categoryParam}</span></>}
       </h1>
       <ProductList />
     </div>
