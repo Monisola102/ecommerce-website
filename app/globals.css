@@ -12,10 +12,18 @@ body {
   }
 }
 .slick-slide {
-  height: 90vh !important;
-  position: relative;
+  display: flex !important;
 }
 
 .slick-slide > div {
+  width: 100% !important;
+  height: 100% !important; /* keep full height to avoid disappearing images */
+  position: relative !important;
+}
+
+/* Make sure images scale properly */
+.slick-slide img {
+  width: 100%;
   height: 100%;
+  object-fit: cover; /* crop to fit nicely */
 }
