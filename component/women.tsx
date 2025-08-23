@@ -100,12 +100,12 @@ export default function WomenPage() {
   <div className="w-full h-[70vh] sm:h-[80vh] lg:h-[90vh]">
     <Slider {...heroSliderSettings}>
       {heroImages.map((img, i) => (
-        <div key={i} className="relative w-full h-full">
+        <div key={i} className="relative w-full h-[70vh] sm:h-[80vh] lg:h-[90vh] overflow-hidden">
           <Image
             src={img}
             alt={`Hero ${i}`}
             fill
-            className="w-full h-full object-cover"
+            className="object-cover object-center"
             priority
           />
           <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4">
