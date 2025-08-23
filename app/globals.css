@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 body {
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
@@ -12,15 +13,9 @@ body {
 }
 .slick-slide {
   height: 90vh !important;
-  width: 100% !important; /* ensure full width */
   position: relative;
 }
 
 .slick-slide > div {
-  height: 100% !important;
-  width: 100% !important; /* fix shrinking on tablets */
-}
-.slick-list,
-.slick-track {
-  width: 100% !important; /* prevent slick from shrinking track */
+  height: 100%;
 }
