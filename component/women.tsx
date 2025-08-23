@@ -39,8 +39,7 @@ export default function WomenPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`,
           { credentials: "include" }
         );
-        if (!res.ok)
-          throw new Error(`Failed to fetch products (${res.status})`);
+        if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
         const data = await res.json();
         setWomen(data.data);
       } catch (err) {
@@ -81,19 +80,13 @@ export default function WomenPage() {
   };
 
   return (
-    <div className="container">
+    <div className="container mx-auto px-4">
       {/* Hero Section */}
-      <div className="w-full">
-        <Slider {...heroSliderSettings}>
-          {heroImages.map((img, i) => (
-            <div
-              key={i}
-              className="
-          relative w-full 
-          h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] xl:h-[100vh] 
-          min-h-[400px] overflow-hidden
-        "
-            >
+      <Slider {...heroSliderSettings}>
+        {heroImages.map((img, i) => (
+          <div key={i} className="relative w-full">
+            {/* Hero wrapper with responsive heights */}
+            <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] 2xl:h-[100vh] min-h-[400px]">
               <Image
                 src={img}
                 alt={`Hero ${i}`}
@@ -107,8 +100,7 @@ export default function WomenPage() {
                 </h1>
                 <button
                   onClick={() => {
-                    const section =
-                      document.getElementById("available-section");
+                    const section = document.getElementById("available-section");
                     if (section) section.scrollIntoView({ behavior: "smooth" });
                   }}
                   className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300 text-sm sm:text-base"
@@ -117,14 +109,14 @@ export default function WomenPage() {
                 </button>
               </div>
             </div>
-          ))}
-        </Slider>
-      </div>
+          </div>
+        ))}
+      </Slider>
 
       {/* Available Section */}
       <h1
         id="available-section"
-        className="font-bold text-black text-lg sm:text-xl mt-[30px] sm:mt-[45px] mb-3 sm:mb-4 ml-4 sm:ml-[64px]"
+        className="font-bold text-black text-lg sm:text-xl mt-8 sm:mt-12 mb-3 sm:mb-4 ml-1 sm:ml-16"
       >
         AVAILABLE
       </h1>

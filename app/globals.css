@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+
 body {
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
-
-/* Container max width for very large screens */
 @media screen and (min-width: 1400px) {
   .container {
     max-width: 1400px;
@@ -13,11 +12,7 @@ body {
   }
 }
 
-/* Optional: make sure slick slides fill width */
-.slick-slide {
-  width: 100% !important;
-}
 
 .slick-slide > div {
-  height: 100%; /* ensures inner slide content fills the container */
+  height: 100%;
 }
