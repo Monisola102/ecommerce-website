@@ -12,7 +12,7 @@ body {
   }
 }
 .slick-slide {
-  height: auto !important;
+  height: 90vh !important;
   position: relative;
 }
 

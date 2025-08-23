@@ -100,7 +100,7 @@ export default function WomenPage() {
   <div className="w-full h-[70vh] sm:h-[80vh] lg:h-[90vh]">
     <Slider {...heroSliderSettings}>
       {heroImages.map((img, i) => (
-        <div key={i} className="relative w-full h-full sm:h-[60vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
+        <div key={i} className="relative w-full h-[70vh] sm:h-[80vh] lg:h-[90vh] overflow-hidden">
           <Image
             src={img}
             alt={`Hero ${i}`}
