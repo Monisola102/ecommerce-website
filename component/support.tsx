@@ -3,7 +3,6 @@
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { FaPhone } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
-import { CircleMinus, Plus } from "lucide-react";
 import { useState } from "react";
 import Link from "next/link";
 import * as Accordion from "@radix-ui/react-accordion";
@@ -25,7 +24,7 @@ const SupportCard = ({ s }: { s: objType }) => (
     <p className="text-black text-[14px] mb-2">{s.para1}</p>
     <p className="text-black text-[14px] mb-3 font-bold">{s.para2}</p>
     <Link
-      className=" bg-green-500/60 shadow-md hover:bg-black  hover:text-green-500 cursor-pointer text-[14px] text-black w-[70%] border-none border rounded p-[10px] "
+      className=" bg-green-500/60 shadow-md hover:bg-black  hover:text-green-500 cursor-pointer text-[14px] text-black w-[70%] border-none border rounded p-[10px]"
       href={s.link}
     >
       {s.para3}
@@ -42,7 +41,6 @@ const SupportComp = () => {
       para3: "Start Chat",
       icon: <IoChatbubbleEllipsesOutline />,
       link: "https://wa.me/2348020937309?text=Hello%2C%20I%20need%20assistance%20with%20my%20order.",
-
     },
     {
       para1: "Phone Support",
@@ -51,7 +49,6 @@ const SupportComp = () => {
       para3: "Call Now",
       icon: <FaPhone />,
       link: "tel:+2348020937309",
-
     },
     {
       para1: "Email Support",
@@ -59,8 +56,7 @@ const SupportComp = () => {
         "Send us detailed inquiries and we will respond within 24 hours with comprehend solutions",
       para3: "Send Email",
       icon: <IoMailOutline />,
-    link: "mailto:oyewolemonisola102@gmail.com?subject=Support%20Request&body=Hello%2C%20I%20need%20help%20with%20my%20order.%20Please%20get%20back%20to%20me%20as%20soon%20as%20possible.",
-
+      link: "mailto:oyewolemonisola102@gmail.com?subject=Support%20Request&body=Hello%2C%20I%20need%20help%20with%20my%20order.%20Please%20get%20back%20to%20me%20as%20soon%20as%20possible.",
     },
   ];
 
@@ -93,43 +89,51 @@ const SupportComp = () => {
   };
 
   return (
-    <div className=" h-auto p-[50px] bg-[url('/support.jpg')] bg-cover bg-center">
-      <h1 className="text-center text-black font-bold mb-3 text-3xl">
-        Support Center
-      </h1>
-      <p className=" max-w-[400px] text-center mx-auto text-black mb-7 text-sm">
-        We are here to help you with all your shopping needs. Get instant
-        assistance or browse our comprehensive help resources
-      </p>
-    
+    <div className="h-auto p-[50px] bg-[url('/support.jpg')] bg-cover bg-center">
+      <div className="max-w-[1200px] mx-auto px-4">
+        <h1 className="text-center text-black font-bold mb-3 text-3xl">
+          Support Center
+        </h1>
+        <p className="max-w-[600px] text-center mx-auto text-black mb-7 text-sm sm:text-base">
+          We are here to help you with all your shopping needs. Get instant
+          assistance or browse our comprehensive help resources
+        </p>
 
-      <div className="w-[80%] mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {supports &&
-            supports.map((prod, index) => <SupportCard s={prod} key={index} />)}
+        <div className="w-full">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {supports.map((prod, index) => (
+              <SupportCard s={prod} key={index} />
+            ))}
+          </div>
+        </div>
+
+        <h1 className="text-center font-bold text-3xl mt-12 text-black">
+          <span className="text-black">Frequently </span>
+          <span className="text-green-400">Asked Questions</span>
+        </h1>
+
+        <div className="mt-8 bg-white rounded-lg p-4 sm:p-6">
+          <Accordion.Root type="single" collapsible className="w-full">
+            {faqs.map((q, i) => (
+              <Accordion.Item
+                key={i}
+                value={`item-${i}`}
+                className="border-b border-green-500/60"
+              >
+                <Accordion.Header>
+                  <Accordion.Trigger className="flex justify-between items-center w-full py-4 text-left text-sm sm:text-base font-medium text-black hover:underline">
+                    {q.question}
+                    <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
+                  </Accordion.Trigger>
+                </Accordion.Header>
+                <Accordion.Content className="text-sm sm:text-base text-black pb-4">
+                  {q.answer}
+                </Accordion.Content>
+              </Accordion.Item>
+            ))}
+          </Accordion.Root>
         </div>
       </div>
-  <h1 className="text-center font-bold text-3xl mt-12 text-black">
-  <span className="text-black">Frequently </span>
-  <span className="text-green-400">Asked Questions</span>
-</h1>
-<div className="mt-8 bg-white rounded-lg p-6">
-  <Accordion.Root type="single" collapsible className="w-full">
-    {faqs.map((q, i) => (
-      <Accordion.Item key={i} value={`item-${i}`} className="border-b border-green-500/60">
-        <Accordion.Header>
-          <Accordion.Trigger className="flex justify-between items-center w-full py-4 text-left text-sm font-medium text-black hover:underline">
-            {q.question}
-            <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
-          </Accordion.Trigger>
-        </Accordion.Header>
-        <Accordion.Content className="text-sm text-black pb-4">
-          {q.answer}
-        </Accordion.Content>
-      </Accordion.Item>
-    ))}
-  </Accordion.Root>
-</div>
     </div>
   );
 };
