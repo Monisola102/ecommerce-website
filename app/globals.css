@@ -11,11 +11,14 @@ body {
     margin: 0 auto;
   }
 }
+/* Ensure slick slides respect Tailwind heights */
 .slick-slide {
-  height: auto !important;
-  position: relative;
+  display: flex !important;
+  align-items: stretch !important;
 }
 
 .slick-slide > div {
-  height: 100%;
+  width: 100% !important;
+  height: 100% !important;
+  position: relative !important;
 }
