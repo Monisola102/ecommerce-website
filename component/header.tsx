@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { MdInput, MdOutlineHeadsetMic } from "react-icons/md";
+import { MdOutlineHeadsetMic } from "react-icons/md";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaRegUser } from "react-icons/fa6";
 import { AiOutlineShopping } from "react-icons/ai";
@@ -48,37 +48,42 @@ export default function Header() {
   }, [showSearch]);
 
   return (
-    <header className="container py-1 px-10 relative">
-      <div className="flex justify-between">
-        <div className="w-full md:w-1/3 flex justify-start">
+    <header className="container py-2 px-4 sm:px-6 lg:px-10 relative">
+      {/* Top Row */}
+      <div className="flex justify-between items-center">
+        {/* Left: MobileMenu + Logo */}
+        <div className="flex items-center gap-2 md:gap-4">
           <MobileMenu />
           <Logo />
         </div>
 
+        {/* Middle: Search + Support (desktop only) */}
         <div className="hidden md:flex items-center gap-4 relative">
           <Link
             href="/support"
-            className="flex items-center gap-1 text-black-500"
+            className="flex items-center gap-1 text-gray-700 hover:text-black transition"
           >
             <MdOutlineHeadsetMic />
-            <p className="text-[12px] leading-[24px]">Support</p>
+            <p className="text-xs lg:text-sm">Support</p>
           </Link>
+
           {!showSearch && (
             <button
               onClick={() => setShowSearch(true)}
-              className="text-black-500"
+              className="text-gray-700 hover:text-black"
               title="Search"
             >
               <IoSearchOutline size={20} />
             </button>
           )}
+
           {showSearch && (
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 handleSearch();
               }}
-              className="flex items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-1 rounded-full shadow-md"
+              className="flex items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-1 rounded-full shadow-md w-48 lg:w-64"
             >
               <input
                 type="text"
@@ -86,42 +91,45 @@ export default function Header() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Search products..."
-                className="rounded-full px-4 py-2 w-full text-sm focus:outline-none"
+                className="rounded-full px-3 py-1 w-full text-xs lg:text-sm focus:outline-none"
                 onKeyDown={handleKeyPress}
               />
               <button
                 type="submit"
-                className="ml-2 text-white font-bold text-lg px-3 py-2 rounded-full hover:scale-110 transition-transform"
+                className="ml-2 text-white px-2"
                 title="Search"
               >
-                <IoSearchOutline size={20} color="black" />
+                <IoSearchOutline size={18} />
               </button>
             </form>
           )}
         </div>
 
+        {/* Right: User Actions */}
         <div className="hidden md:flex items-center gap-4">
           <Link href="/favorites" className="relative inline-block">
-            <IoMdHeartEmpty size={18} />
+            <IoMdHeartEmpty size={20} />
             {favoritesCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                 {favoritesCount}
               </span>
             )}
           </Link>
+
           {user ? (
             <Link href="/account">
-              <FaRegUser size={16} />
+              <FaRegUser size={18} />
             </Link>
           ) : (
-            <Link href="/login" className="text-xs font-medium">
+            <Link href="/login" className="text-xs lg:text-sm font-medium">
               Log In
             </Link>
           )}
+
           <Link href="/cart" className="relative inline-block">
-            <AiOutlineShopping size={18} />
+            <AiOutlineShopping size={20} />
             {cartCount > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] w-4 h-4 flex items-center justify-center rounded-full">
                 {cartCount}
               </span>
             )}
@@ -129,43 +137,32 @@ export default function Header() {
         </div>
       </div>
 
+      {/* Main Nav */}
       <nav
-        aria-label="product-categories"
-        className="flex items-center space-x-4 border-b border-gray-200 mt-4"
+        aria-label="main-navigation"
+        className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base"
       >
-        <Link
-          href="/Women"
-          className="text-[14px] text-black-500 font-bold hover:font-normal transition-all duration-300"
-        >
-          <p>WOMEN</p>
+        <Link href="/" className="font-semibold hover:opacity-70">
+          HOME
         </Link>
-        <Link
-          href="/Men"
-          className="text-[14px] text-black-500 hover:font-bold transition-all duration-300"
-        >
-          <p>MEN</p>
+        <Link href="/Women" className="hover:opacity-70">
+          WOMEN
         </Link>
-        <Link
-          href="/Kids"
-          className="text-[14px] text-black-500 hover:font-bold transition-all duration-300"
-        >
-          <p className="font-poppins">KIDS</p>
+        <Link href="/Men" className="hover:opacity-70">
+          MEN
+        </Link>
+        <Link href="/Kids" className="hover:opacity-70">
+          KIDS
         </Link>
       </nav>
 
-      {/* Sub Navigation */}
-      <div className="flex justify-between items-center">
-        <nav className="flex justify-between space-x-4 mb-2">
-          <Link
-            href="/Sale"
-            className="text-black-500 hover:font-bold transition-all duration-300 text-xs"
-          >
-            <p>SALE</p>
+      {/* Sub Nav */}
+      <div className="hidden md:flex justify-between items-center">
+        <nav className="flex space-x-4 mt-1 text-xs lg:text-sm">
+          <Link href="/Sale" className="hover:opacity-70">
+            SALE
           </Link>
-          <Link
-            href="/Brands"
-            className="text-black-500 hover:font-bold transition-all duration-300 text-xs"
-          >
+          <Link href="/Brands" className="hover:opacity-70">
             BRANDS
           </Link>
         </nav>
