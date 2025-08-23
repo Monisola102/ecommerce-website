@@ -13,40 +13,11 @@ body {
   }
 }
 
-/* Slick slider responsiveness */
+/* Optional: make sure slick slides fill width */
 .slick-slide {
-  width: 100% !important;   /* Force full width */
-  position: relative;
-  height: 50vh;             /* Default height for mobile */
-  min-height: 300px;        /* Ensure minimum height */
+  width: 100% !important;
 }
 
-/* Adjust height for larger screens */
-@media (min-width: 640px) { /* sm */
-  .slick-slide {
-    height: 60vh;
-  }
-}
-
-@media (min-width: 768px) { /* md */
-  .slick-slide {
-    height: 70vh;
-  }
-}
-
-@media (min-width: 1024px) { /* lg */
-  .slick-slide {
-    height: 80vh;
-  }
-}
-
-@media (min-width: 1280px) { /* xl */
-  .slick-slide {
-    height: 90vh;
-  }
-}
-
-/* Ensure the inner slide content fills the container */
 .slick-slide > div {
-  height: 100%;
+  height: 100%; /* ensures inner slide content fills the container */
 }

@@ -39,7 +39,8 @@ export default function WomenPage() {
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`,
           { credentials: "include" }
         );
-        if (!res.ok) throw new Error(`Failed to fetch products (${res.status})`);
+        if (!res.ok)
+          throw new Error(`Failed to fetch products (${res.status})`);
         const data = await res.json();
         setWomen(data.data);
       } catch (err) {
@@ -85,7 +86,14 @@ export default function WomenPage() {
       <div className="w-full">
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
-            <div key={i} className="slick-slide">
+            <div
+              key={i}
+              className="
+          relative w-full 
+          h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] xl:h-[100vh] 
+          min-h-[400px] overflow-hidden
+        "
+            >
               <Image
                 src={img}
                 alt={`Hero ${i}`}
@@ -99,7 +107,8 @@ export default function WomenPage() {
                 </h1>
                 <button
                   onClick={() => {
-                    const section = document.getElementById("available-section");
+                    const section =
+                      document.getElementById("available-section");
                     if (section) section.scrollIntoView({ behavior: "smooth" });
                   }}
                   className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300 text-sm sm:text-base"
