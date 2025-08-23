@@ -82,38 +82,36 @@ export default function WomenPage() {
   return (
     <div className="container">
       {/* Hero Section */}
-    <div className="w-full">
-  <Slider {...heroSliderSettings}>
-    {heroImages.map((img, i) => (
-      <div key={i} className="relative w-full overflow-hidden">
-        {/* Wrapper div to control height */}
-        <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] min-h-[300px]">
-          <Image
-            src={img}
-            alt={`Hero ${i}`}
-            fill
-            className="object-cover object-center"
-            priority
-          />
-          <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4 sm:px-8">
-            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-5">
-              For Every Step She Takes
-            </h1>
-            <button
-              onClick={() => {
-                const section = document.getElementById("available-section");
-                if (section) section.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300 text-sm sm:text-base"
-            >
-              Shop the Collection
-            </button>
-          </div>
-        </div>
+      <div className="w-full">
+        <Slider {...heroSliderSettings}>
+          {heroImages.map((img, i) => (
+            <div key={i} className="slick-slide">
+              <Image
+                src={img}
+                alt={`Hero ${i}`}
+                fill
+                className="object-cover object-center"
+                priority
+              />
+              <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4 sm:px-8">
+                <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-5">
+                  For Every Step She Takes
+                </h1>
+                <button
+                  onClick={() => {
+                    const section = document.getElementById("available-section");
+                    if (section) section.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300 text-sm sm:text-base"
+                >
+                  Shop the Collection
+                </button>
+              </div>
+            </div>
+          ))}
+        </Slider>
       </div>
-    ))}
-  </Slider>
-</div>
+
       {/* Available Section */}
       <h1
         id="available-section"
