@@ -48,7 +48,6 @@ export default function WomenPage() {
         setLoading(false);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -86,7 +85,14 @@ export default function WomenPage() {
       <div className="w-full">
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
-            <div key={i} className="relative w-full aspect-[16/9] md:aspect-[4/3] lg:aspect-[21/9] overflow-hidden">
+            <div
+              key={i}
+              className="
+                relative w-full 
+                h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] 
+                overflow-hidden
+              "
+            >
               <Image
                 src={img}
                 alt={`Hero ${i}`}
