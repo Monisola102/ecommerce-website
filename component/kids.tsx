@@ -4,48 +4,47 @@ import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Image from "next/image";
 import KidsCard from "./kidsCard";
-import kids from "@/public/kids.jpg"
-import kidshero from "@/public/kidshero1.jpg"
+import kids from "@/public/kids.jpg";
+import kidshero from "@/public/kidshero1.jpg";
 
 const heroImages = [kidshero, kids];
+
 interface SizeType {
   size: string;
   stock: number;
-    _id: string;
+  _id: string;
 }
 
-interface KidsInterface{
+interface KidsInterface {
   _id: string;
   image: string;
   brand: {
-  _id: string;
-  name: string;
-};
+    _id: string;
+    name: string;
+  };
   name: string;
   price: number;
   sizes: SizeType[];
 }
 
-export default function KidPage() {
+export default function KidsPage() {
   const [products, setProducts] = useState<KidsInterface[]>([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const category = "kids".trim();
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`, {
-          credentials: "include",
-        });
-
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}/products?category=${category}`,
+          { credentials: "include" }
+        );
         if (!res.ok) throw new Error("Failed to fetch products");
-
         const data = await res.json();
         setProducts(data.data);
       } catch (err) {
         console.error("Error fetching kids products:", err);
       }
     };
-
     fetchProducts();
   }, []);
 
@@ -70,76 +69,67 @@ export default function KidPage() {
     autoplaySpeed: 2000,
     pauseOnHover: true,
     responsive: [
-    {
-      breakpoint: 1280, // below xl (desktop large)
-      settings: { slidesToShow: 4 },
-    },
-    {
-      breakpoint: 1024, // below lg (laptop/tablet landscape)
-      settings: { slidesToShow: 3 },
-    },
-    {
-      breakpoint: 768, // below md (tablet portrait)
-      settings: { slidesToShow: 2 },
-    },
-    {
-      breakpoint: 480, // mobile
-      settings: { slidesToShow: 1 },
-    },
-  ],
+      { breakpoint: 1280, settings: { slidesToShow: 4 } },
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } },
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
+    ],
   };
 
   return (
-   <div className="w-full">
-  {/* Hero Section */}
-  <div className="w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh]">
-    <Slider {...heroSliderSettings}>
-      {heroImages?.map((img, i) => (
-        <div key={i} className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
-          <Image
-            src={img}
-            alt={`Hero ${i}`}
-            fill
-            className="object-cover object-center"
-            priority
-          />
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center px-4 text-center">
-            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-snug">
-              For Every little step they take
-            </h1>
-            <button
-              onClick={() => {
-                const section = document.getElementById("available-section");
-                if (section) section.scrollIntoView({ behavior: "smooth" });
-              }}
-              className="bg-gradient-to-r from-pink-200 via-blue-200 to-green-200 text-gray-700 rounded-3xl px-5 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-md hover:brightness-105 hover:scale-105 transition duration-300"
-            >
-              Shop the Collection
-            </button>
-          </div>
+    <>
+      {/* Hero Section - full width */}
+      <div className="w-full">
+        <Slider {...heroSliderSettings}>
+          {heroImages.map((img, i) => (
+            <div key={i} className="relative w-full">
+              <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] 2xl:h-[100vh] min-h-[400px]">
+                <Image
+                  src={img}
+                  alt={`Hero ${i}`}
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
+                <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center px-4 text-center">
+                  <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-snug">
+                    For Every Little Step They Take
+                  </h1>
+                  <button
+                    onClick={() => {
+                      const section = document.getElementById("available-section");
+                      if (section) section.scrollIntoView({ behavior: "smooth" });
+                    }}
+                    className="bg-gradient-to-r from-pink-200 via-blue-200 to-green-200 text-gray-700 rounded-3xl px-5 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-md hover:brightness-105 hover:scale-105 transition duration-300"
+                  >
+                    Shop the Collection
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </Slider>
+      </div>
+
+      {/* Rest of content inside container */}
+      <div className="container mx-auto px-4">
+        {/* Available Section */}
+        <h1
+          id="available-section"
+          className="font-bold text-black text-lg sm:text-xl md:text-2xl mt-8 mb-4 px-4 sm:px-8"
+        >
+          AVAILABLE
+        </h1>
+
+        {/* Product Slider */}
+        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-hidden">
+          <Slider {...trendSliderSettings}>
+            {products.map((product) => (
+              <KidsCard key={product._id} kids={product} />
+            ))}
+          </Slider>
         </div>
-      ))}
-    </Slider>
-  </div>
-
-  {/* Available Section */}
-  <h1
-    id="available-section"
-    className="font-bold text-black text-lg sm:text-xl md:text-2xl mt-8 mb-4 px-4 sm:px-8"
-  >
-    AVAILABLE
-  </h1>
-
-  {/* Product Slider */}
-  <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px]">
-    <Slider {...trendSliderSettings}>
-      {products?.map((product) => (
-        <KidsCard key={product._id} kids={product} />
-      ))}
-    </Slider>
-  </div>
-</div>
-
+      </div>
+    </>
   );
 }
