@@ -113,7 +113,6 @@ export default function MenPage() {
 
       {/* Rest of content inside container */}
       <div className="container mx-auto px-4">
-        {/* Available Section */}
         <h1
           id="available-section"
           className="font-bold text-black text-lg sm:text-xl mt-8 sm:mt-12 mb-3 sm:mb-4 ml-1 sm:ml-16"
@@ -121,7 +120,6 @@ export default function MenPage() {
           AVAILABLE
         </h1>
 
-        {/* Product Slider */}
         <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-hidden">
           <Slider {...trendSliderSettings}>
             {products.map((product) => (
@@ -133,3 +131,4 @@ export default function MenPage() {
     </>
   );
 }
+
