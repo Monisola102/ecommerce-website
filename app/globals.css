@@ -1,7 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-
 body {
   font-family: var(--font-poppins), Arial, Helvetica, sans-serif;
 }
@@ -12,18 +11,16 @@ body {
   }
 }
 .slick-slide {
-  display: flex !important;
+  height: 90vh !important;
+  width: 100% !important; /* ensure full width */
+  position: relative;
 }
 
 .slick-slide > div {
-  width: 100% !important;
-  height: 100% !important; /* keep full height to avoid disappearing images */
-  position: relative !important;
+  height: 100% !important;
+  width: 100% !important; /* fix shrinking on tablets */
 }
-
-/* Make sure images scale properly */
-.slick-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* crop to fit nicely */
+.slick-list,
+.slick-track {
+  width: 100% !important; /* prevent slick from shrinking track */
 }
