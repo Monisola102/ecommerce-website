@@ -1,14 +1,12 @@
 "use client";
 import Link from "next/link";
-import { useState} from "react";
+import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/store/hook";
 import { useLoginMutation } from "@/store/Features/auth/auth-api"; 
 import { setUser } from "@/store/Features/auth/auth-slice"; 
 import Image from "next/image";
-
-
 
 export default function Login() {
   const router = useRouter();
@@ -33,29 +31,33 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-7xl flex flex-col lg:flex-row shadow-lg rounded-lg overflow-hidden">
+        
+        {/* Left Image */}
         <div className="hidden lg:block lg:w-1/2">
-          <div className="h-full w-full min-h-[500px] bg-[url('/reg4pic.jpg')] bg-cover bg-center" >
-          </div>
+          <div className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-full w-full bg-[url('/reg4pic.jpg')] bg-cover bg-center" />
         </div>
-        <div className="flex flex-col justify-center px-6 py-12 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
+
+        {/* Form Section */}
+        <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:px-10 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-            <div className="flex items-center justify-center  mb-4">
-            <h2 className="text-2xl font-bold text-center mb-4 text-gray-900">
-              Login 
-            </h2>
-             <Image
-      src="/shoeShop.png"
-      alt="Logo"
-      width={38}
-      height={38}
-      className="rounded-full mb-2"
-    />
-</div>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <div className="flex items-center justify-center mb-4 gap-2">
+              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900">
+                Login 
+              </h2>
+              <Image
+                src="/shoeShop.png"
+                alt="Logo"
+                width={38}
+                height={38}
+                className="rounded-full"
+              />
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+                <label htmlFor="email" className="block text-sm sm:text-base font-medium text-gray-900">
                   Email
                 </label>
                 <input
@@ -66,12 +68,12 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="Enter your email"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
+                  className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+                <label htmlFor="password" className="block text-sm sm:text-base font-medium text-gray-900">
                   Password
                 </label>
                 <input
@@ -82,20 +84,20 @@ export default function Login() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="Enter your password"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
+                  className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold py-2 rounded-md hover:opacity-90 transition"
+                className="w-full bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold py-2 sm:py-3 rounded-md hover:opacity-90 transition"
               >
                 {isLoading ? "Logging in..." : "LOGIN"}
               </button>
             </form>
 
-            <p className="mt-6 text-center text-sm text-black">
+            <p className="mt-6 text-center text-sm sm:text-base text-black">
               Don't have an account?{" "}
               <Link href="/sign-in" className="hover:underline text-purple-400">
                 Create one
