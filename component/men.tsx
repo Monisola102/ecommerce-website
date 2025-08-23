@@ -71,53 +71,89 @@ export default function MenPage() {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    responsive: [
+    {
+      breakpoint: 1280, // below xl (desktop large)
+      settings: { slidesToShow: 4 },
+    },
+    {
+      breakpoint: 1024, // below lg (laptop/tablet landscape)
+      settings: { slidesToShow: 3 },
+    },
+    {
+      breakpoint: 768, // below md (tablet portrait)
+      settings: { slidesToShow: 2 },
+    },
+    {
+      breakpoint: 480, // mobile
+      settings: { slidesToShow: 1 },
+    },
+  ],
   };
 
   return (
-    <div className="container">
-      <div className="w-full h-[90vh]">
-        <Slider {...heroSliderSettings}>
-          {heroImages.map((img, i) => (
-            <div key={i} className="relative w-full h-[90vh] overflow-hidden">
-              <Image
-                src={img}
-                alt={`Hero ${i}`}
-                fill
-                className="object-cover object-center"
-                priority
-              />
-              <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4">
-                <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5">
-                  For Every Step He Takes
-                </h1>
-                <button
-                  onClick={() => {
-                    const section =
-                      document.getElementById("available-section");
-                    if (section) section.scrollIntoView({ behavior: "smooth" });
-                  }}
-                  className="bg-gradient-to-r from-blue-700 via-green-600 to-gray-800 text-white font-semibold py-2 px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300"
-                >
-                  Shop the Collection
-                </button>
-              </div>
+  <div className="container">
+    {/* Hero Section */}
+    <div className="w-full h-[70vh] sm:h-[80vh] lg:h-[90vh]">
+      <Slider {...heroSliderSettings}>
+        {heroImages.map((img, i) => (
+          <div
+            key={i}
+            className="relative w-full h-[70vh] sm:h-[80vh] lg:h-[90vh] overflow-hidden"
+          >
+            <Image
+              src={img}
+              alt={`Hero ${i}`}
+              fill
+              className="object-cover object-center"
+              priority
+            />
+            <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4">
+              <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-5">
+                For Every Step He Takes
+              </h1>
+              <button
+                onClick={() => {
+                  const section = document.getElementById("available-section");
+                  if (section) section.scrollIntoView({ behavior: "smooth" });
+                }}
+                className="bg-gradient-to-r from-blue-700 via-green-600 to-gray-800 text-white font-semibold py-2 px-4 sm:px-6 rounded-full shadow-lg hover:brightness-110 hover:scale-105 transition duration-300 text-sm sm:text-base"
+              >
+                Shop the Collection
+              </button>
             </div>
-          ))}
-        </Slider>
-      </div>
-      <h1
-        id="available-section"
-        className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]"
-      >
-        AVAILABLE
-      </h1>
-      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
-        <Slider {...trendSliderSettings}>
-          {products.map((product) => (
-            <MenCard key={product._id} men={product} />
-          ))}
-        </Slider>
-      </div>
+          </div>
+        ))}
+      </Slider>
     </div>
-  );
+
+    {/* Available Section */}
+    <h1
+      id="available-section"
+      className="font-bold text-black text-lg sm:text-xl mt-[30px] sm:mt-[45px] mb-3 sm:mb-4 ml-4 sm:ml-[64px]"
+    >
+      AVAILABLE
+    </h1>
+
+    {/* Product Slider */}
+    <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-hidden">
+      <Slider
+        {...{
+          ...trendSliderSettings,
+          responsive: [
+            { breakpoint: 1280, settings: { slidesToShow: 4 } },
+            { breakpoint: 1024, settings: { slidesToShow: 3 } },
+            { breakpoint: 768, settings: { slidesToShow: 2 } },
+            { breakpoint: 480, settings: { slidesToShow: 1 } },
+          ],
+        }}
+      >
+        {products.map((product) => (
+          <MenCard key={product._id} men={product} />
+        ))}
+      </Slider>
+    </div>
+  </div>
+);
+
 }

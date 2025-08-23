@@ -69,49 +69,77 @@ export default function KidPage() {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+    responsive: [
+    {
+      breakpoint: 1280, // below xl (desktop large)
+      settings: { slidesToShow: 4 },
+    },
+    {
+      breakpoint: 1024, // below lg (laptop/tablet landscape)
+      settings: { slidesToShow: 3 },
+    },
+    {
+      breakpoint: 768, // below md (tablet portrait)
+      settings: { slidesToShow: 2 },
+    },
+    {
+      breakpoint: 480, // mobile
+      settings: { slidesToShow: 1 },
+    },
+  ],
   };
 
   return (
-    <div className="container">
-      <div className="w-full h-[90vh]">
-        <Slider {...heroSliderSettings}>
-          {heroImages?.map((img, i) => (
-            <div key={i} className="relative w-full h-[90vh] overflow-hidden">
-              <Image
-                src={img}
-                alt={`Hero ${i}`}
-                fill
-                className="object-cover object-center"
-                priority
-              />
-              <div className="absolute inset-0 bg-black/10 flex flex-col items-center justify-center px-4">
-                <h1 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold text-center mb-5">
-                  For Every little step they take
-                </h1>
-               <button
-  onClick={() => {
-    const section = document.getElementById("available-section");
-    if (section) section.scrollIntoView({ behavior: "smooth" });
-  }}
-  className="bg-gradient-to-r from-pink-200 via-blue-200 to-green-200 text-gray-700 rounded-3xl px-6 py-2 text-sm font-semibold shadow-md hover:brightness-105 hover:scale-105 transition duration-300"
->
-  Shop the Collection
-</button>
-              </div>
-            </div>
-          ))}
-        </Slider>
-      </div>
-      <h1 id="available-section" className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]">
-        AVAILABLE
-      </h1>
-      <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
-        <Slider {...trendSliderSettings}>
-          {products?.map((product) => (
-            <KidsCard key={product._id} kids={product} />
-          ))}
-        </Slider>
-      </div>
-    </div>
+   <div className="w-full">
+  {/* Hero Section */}
+  <div className="w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh]">
+    <Slider {...heroSliderSettings}>
+      {heroImages?.map((img, i) => (
+        <div key={i} className="relative w-full h-[60vh] sm:h-[70vh] md:h-[80vh] lg:h-[90vh] overflow-hidden">
+          <Image
+            src={img}
+            alt={`Hero ${i}`}
+            fill
+            className="object-cover object-center"
+            priority
+          />
+          {/* Overlay */}
+          <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center px-4 text-center">
+            <h1 className="text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-5 leading-snug">
+              For Every little step they take
+            </h1>
+            <button
+              onClick={() => {
+                const section = document.getElementById("available-section");
+                if (section) section.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="bg-gradient-to-r from-pink-200 via-blue-200 to-green-200 text-gray-700 rounded-3xl px-5 sm:px-6 py-2 sm:py-3 text-xs sm:text-sm md:text-base font-semibold shadow-md hover:brightness-105 hover:scale-105 transition duration-300"
+            >
+              Shop the Collection
+            </button>
+          </div>
+        </div>
+      ))}
+    </Slider>
+  </div>
+
+  {/* Available Section */}
+  <h1
+    id="available-section"
+    className="font-bold text-black text-lg sm:text-xl md:text-2xl mt-8 mb-4 px-4 sm:px-8"
+  >
+    AVAILABLE
+  </h1>
+
+  {/* Product Slider */}
+  <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px]">
+    <Slider {...trendSliderSettings}>
+      {products?.map((product) => (
+        <KidsCard key={product._id} kids={product} />
+      ))}
+    </Slider>
+  </div>
+</div>
+
   );
 }

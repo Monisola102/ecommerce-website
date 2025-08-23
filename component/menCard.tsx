@@ -106,62 +106,81 @@ export default function MenCard({ men }: { men: menInterface }) {
   };
 const imageSrc = men.image || "/fallback.jpg";
   return (
-        <div className="relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm ">
-      <div
-                    className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
-        onClick={handleToggleLike}
-      >
-        {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
-      </div>
-      <div>
-        <Image
-          className="w-[170.24px] h-[185px] object-cover"
-          src={imageSrc}
-          width={170}
-          height={185}
-          alt="trendImage"
-        />
-      </div>
-      <div>
-        <p className="text-gray-400 text-[10px] font-inter">{men.brand?.name}</p>
-        <p className="text-black text-[12px] font-inter">{men.name}</p>
-        <div className="flex gap-2">
-          <p className="text-black font-bold text-[14px]">{men.price}&#163;</p>
-          <span className="line-through  text-gray-400 text-[12px] italic ">
-            110,00&#163;
-          </span>
-        </div>
-        <div className="flex text-[10px]">
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-        </div>
-        <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="">Select Size</option>
-            {men.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
-        </div>
+     <div className="relative w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] p-2 rounded-lg shadow-sm">
+  {/* Like button */}
+  <div
+    className="absolute top-1 right-2 bg-white p-1 text-black text-sm sm:text-md cursor-pointer z-10"
+    onClick={handleToggleLike}
+  >
+    {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
+  </div>
 
-        <div className="flex justify-center mt-3">
-          <button
-            className="bg-gradient-to-r from-blue-700 via-green-600 to-gray-800 text-white rounded-3xl  px-4 py-2 text-[9px] flex items-center gap-1 hover: cursor-pointer"
-            onClick={handleAddToCart}
-          >
-            <ShoppingCart className=" w-4 text-white" /> Add to Cart
-          </button>
-        </div>
-      </div>
+  {/* Product image */}
+  <div>
+    <Image
+      className="w-[140px] h-[160px] sm:w-[160px] sm:h-[175px] md:w-[170px] md:h-[185px] object-cover mx-auto"
+      src={imageSrc}
+      width={170}
+      height={185}
+      alt="trendImage"
+    />
+  </div>
+
+  {/* Info */}
+  <div>
+    <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter">
+      {men.brand?.name}
+    </p>
+    <p className="text-black text-[11px] sm:text-[12px] font-inter">
+      {men.name}
+    </p>
+
+    <div className="flex gap-2">
+      <p className="text-black font-bold text-[12px] sm:text-[14px]">
+        {men.price}&#163;
+      </p>
+      <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">
+        110,00&#163;
+      </span>
     </div>
+
+    {/* Stars */}
+    <div className="flex text-[9px] sm:text-[10px]">
+      <IoMdStar />
+      <IoMdStar />
+      <IoMdStar />
+      <IoMdStar />
+      <IoMdStar />
+    </div>
+
+    {/* Size dropdown */}
+    <div className="mt-2">
+      <select
+        className="text-[9px] sm:text-[10px] border rounded w-full px-2 py-1"
+        value={selectedSize}
+        onChange={(e) => setSelectedSize(e.target.value)}
+      >
+        <option value="">Select Size</option>
+        {men.sizes.map((s, index) => (
+          <option key={index} value={s.size} disabled={s.stock === 0}>
+            Size {s.size}{" "}
+            {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+          </option>
+        ))}
+      </select>
+    </div>
+
+    {/* Add to cart */}
+    <div className="flex justify-center mt-3">
+      <button
+        className="bg-gradient-to-r from-blue-700 via-green-600 to-gray-800 text-white rounded-3xl px-3 sm:px-4 py-1.5 sm:py-2 text-[8px] sm:text-[9px] md:text-[10px] flex items-center gap-1 hover:cursor-pointer"
+        onClick={handleAddToCart}
+      >
+        <ShoppingCart className="w-3 sm:w-4 text-white" /> Add to Cart
+      </button>
+    </div>
+  </div>
+</div>
+
   );
 }
