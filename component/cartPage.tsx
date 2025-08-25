@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-
+import { CartItem } from "./useCartCard";
 export default function CartPage() {
   const router = useRouter();
   const { data: cart, isLoading, error } = useGetCartQuery();
@@ -58,9 +58,9 @@ export default function CartPage() {
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4">Products</h2>
           <div className="flex flex-col gap-4">
-            {(cart.updatedCart as any[]).map((item) => (
-              <CartCard key={item.product._id + item.size} item={item} />
-            ))}
+  {(cart.updatedCart as CartItem[]).map((item, index) => (
+  <CartCard key={index} item={item} />
+))}
           </div>
         </div>
 

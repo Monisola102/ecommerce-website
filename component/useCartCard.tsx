@@ -17,7 +17,7 @@ interface SizeType {
   stock: number;
 }
 
-interface CartItem {
+export interface CartItem {
   _id: string;
   product: {
     _id: string;
