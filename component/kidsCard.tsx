@@ -40,7 +40,6 @@ export default function KidsCard({ kids }: { kids: kidsInterface }) {
   const [selectedSize, setSelectedSize] = useState<string>("");
   const { user } = useAppSelector((state) => state.auth);
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
-
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [addToCart] = useAddToCartMutation();

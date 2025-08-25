@@ -36,7 +36,7 @@ useEffect(() => {
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-xl font-bold mb-6">
-        Search results for: <span className="text-blue-600">"{query}"</span>
+        Search results for: <span className="text-red-4000">{query}</span>
       </h1>
       <ProductList />
     </div>

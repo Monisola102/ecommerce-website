@@ -26,33 +26,40 @@ export default function Favourite() {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-xl font-bold mb-4">Favourites</h1>
+    <div className="p-4 sm:p-6">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4">Favourites</h1>
+
       {favorites?.length === 0 ? (
         <p>No liked items yet.</p>
       ) : (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {favorites?.map((item) => (
-            <div key={item._id} className="border p-4 rounded-md relative">
+            <div
+              key={item._id}
+              className="flex flex-col sm:flex-row items-center sm:items-start border p-3 rounded-md relative hover:shadow-md transition"
+            >
               {/* Remove Favorite Button */}
               <button
                 onClick={() => handleRemove(item._id)}
                 className="absolute top-2 right-2 text-red-500 hover:text-red-700"
                 title="Remove from favorites"
               >
-                <FaHeart size={18} />
+                <FaHeart size={16} />
               </button>
 
               <Image
                 src={item.image}
                 alt={item.name}
-                width={200}
-                height={150}
-                className="w-full h-40 object-cover rounded-md"
+                width={120}
+                height={120}
+                className="w-32 h-32 sm:w-24 sm:h-24 object-cover rounded-md"
               />
-              <p className="text-sm text-gray-500 mt-2">{item.brand}</p>
-              <p className="font-semibold">{item.name}</p>
-              <p className="text-orange-500 font-bold">₤{item.price}</p>
+
+              <div className="mt-2 sm:mt-0 sm:ml-4 flex flex-col justify-center text-center sm:text-left">
+                <p className="text-sm sm:text-xs text-gray-500">{item.brand}</p>
+                <p className="font-semibold text-sm sm:text-base">{item.name}</p>
+                <p className="text-orange-500 font-bold text-sm sm:text-base">₤{item.price}</p>
+              </div>
             </div>
           ))}
         </div>
