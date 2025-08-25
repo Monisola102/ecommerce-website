@@ -24,10 +24,10 @@ interface SizeType {
 interface recommendedInterface {
   _id: string;
   image: string;
-    brand: {
-  _id: string;
-  name: string;
-};
+  brand: {
+    _id: string;
+    name: string;
+  };
   name: string;
   price: number;
   sizes: SizeType[];
@@ -60,9 +60,12 @@ export default function RecommendedCard({
 
     try {
       if (isLiked) {
-        await removeFavorite(prop._id).unwrap();
+        await removeFavorite({
+          productId: prop._id,
+          size: selectedSize,
+        }).unwrap();
       } else {
-        await addFavorite(prop._id).unwrap();
+        await addFavorite({ productId: prop._id, size: selectedSize }).unwrap();
       }
     } catch (error) {
       toast.error("Failed to update favorite.");
@@ -106,15 +109,18 @@ export default function RecommendedCard({
       setLoadingCart(false);
     }
   };
- const imageSrc = prop.image?.startsWith("http")
+  const imageSrc = prop.image?.startsWith("http")
     ? prop.image
     : prop.image
-    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${prop.image.startsWith("/") ? prop.image : "/" + prop.image}`
+    ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${
+        prop.image.startsWith("/") ? prop.image : "/" + prop.image
+      }`
     : "/fallback.jpg";
 
   return (
     <div className="container relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm">
-      <div className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
+      <div
+        className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
@@ -129,7 +135,9 @@ export default function RecommendedCard({
         />
       </div>
       <div>
-        <p className="text-gray-400 text-[10px] font-inter">{prop.brand?.name}</p>
+        <p className="text-gray-400 text-[10px] font-inter">
+          {prop.brand?.name}
+        </p>
         <p className="text-black text-[12px] font-inter">{prop.name}</p>
         <p className="text-black font-bold text-[14px]">{prop.price}</p>
         <div className="flex text-[10px]">
@@ -145,7 +153,9 @@ export default function RecommendedCard({
             value={selectedSize}
             onChange={(e) => setSelectedSize(e.target.value)}
           >
-            <option value="" disabled>Select Size</option>
+            <option value="" disabled>
+              Select Size
+            </option>
             {prop.sizes.map((s, index) => (
               <option key={index} value={s.size} disabled={s.stock === 0}>
                 Size {s.size}{" "}

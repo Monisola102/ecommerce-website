@@ -1,58 +1,70 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-interface Product {
+export interface Product {
   _id: string;
   name: string;
   image: string;
   price: number;
-  brand?: string;
+  brand?: string | { _id: string; name: string };
   category?: string;
   description?: string;
+  sizes?: { size: string; stock: number }[];
 }
 
-interface AddFavoriteRequest {
-  productId: string;
-}
-
-interface RemoveFavoriteRequest {
-  productId: string;
+export interface Favorite {
+  _id: string;              // Favorite document ID
+  product: Product;
+  size: string;
 }
 
 interface FavoritesResponse {
   message: string;
-  favorites: Product[];
+  favorite?: Favorite;       // For add/remove single favorite
+  favorites?: Favorite[];    // For getFavorites
+}
+
+interface AddFavoriteRequest {
+  productId: string;
+  size?: string;
+}
+
+interface RemoveFavoriteRequest {
+  productId: string;
+  size?: string;
 }
 
 export const likeApi = createApi({
   reducerPath: "likeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl:`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`, 
-    credentials: "include", 
+    baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
+    credentials: "include",
   }),
   tagTypes: ["Favorites"],
   endpoints: (builder) => ({
-    getFavorites: builder.query<Product[], void>({
+    getFavorites: builder.query<Favorite[], void>({
       query: () => "/favorites",
       providesTags: ["Favorites"],
-      transformResponse: (response: FavoritesResponse) => response.favorites,
+      transformResponse: (response: FavoritesResponse) => response.favorites || [],
     }),
 
-    addFavorite: builder.mutation<FavoritesResponse, string>({
-      query: (productId: string): { url: string; method: string; body: AddFavoriteRequest } => ({
+    addFavorite: builder.mutation<Favorite, AddFavoriteRequest>({
+      query: ({ productId, size }) => ({
         url: "/add-favorite",
         method: "POST",
-        body: { productId },
+        body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
+      transformResponse: (response: FavoritesResponse) => response.favorite as Favorite,
     }),
 
-    removeFavorite: builder.mutation<FavoritesResponse, string>({
-      query: (productId: string): { url: string; method: string; body: RemoveFavoriteRequest } => ({
+    removeFavorite: builder.mutation<Favorite, RemoveFavoriteRequest>({
+      query: ({ productId, size }) => ({
         url: "/remove-favorite",
         method: "POST",
-        body: { productId },
+        body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
+      transformResponse: (response: FavoritesResponse) => response.favorite as Favorite,
     }),
   }),
 });

@@ -57,11 +57,11 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
     dispatch(toggleLike(trend._id));
 
     try {
-      if (isLiked) {
-        await removeFavorite(trend._id).unwrap();
-      } else {
-        await addFavorite(trend._id).unwrap();
-      }
+  if (isLiked) {
+  await removeFavorite({ productId: trend._id, size: selectedSize }).unwrap();
+} else {
+  await addFavorite({ productId: trend._id, size: selectedSize }).unwrap();
+}
     } catch (error) {
       toast.error("Failed to update favorite.");
       dispatch(toggleLike(trend._id));

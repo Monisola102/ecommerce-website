@@ -54,11 +54,12 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
     dispatch(toggleLike(spring._id));
 
     try {
-      if (isLiked) {
-        await removeFavorite(spring._id).unwrap();
-      } else {
-        await addFavorite(spring._id).unwrap();
-      }
+    if (isLiked) {
+  await removeFavorite({ productId: spring._id, size: selectedSize }).unwrap();
+} else {
+  await addFavorite({ productId: spring._id, size: selectedSize }).unwrap();
+}
+
     } catch (error) {
       toast.error("Failed to update favorite.");
       dispatch(toggleLike(spring._id));
