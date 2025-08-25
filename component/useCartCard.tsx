@@ -1,59 +1,122 @@
 "use client";
 
 import Image from "next/image";
-import { useDeleteFromCartMutation, useSubtractFromCartMutation, useAddToCartMutation } from "@/store/Features/cart/cart-api";
-import { CartItem } from "@/store/Features/cart/cart-api";
+import { FaTrash } from "react-icons/fa";
+import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { toast } from "react-toastify";
+import { useAppDispatch, useAppSelector } from "@/store/hook";
+import {
+  useAddToCartMutation,
+  useSubtractFromCartMutation,
+  useDeleteFromCartMutation
+} from "@/store/Features/cart/cart-api";
+import { openCart } from "@/store/Features/cart/cart-slice";
+
+interface SizeType {
+  size: string;
+  stock: number;
+}
+
+interface CartItem {
+  _id: string;
+  product: {
+    _id: string;
+    name: string;
+    image: string;
+    brand: string | { name: string };
+    price: number;
+    sizes: SizeType[];
+  };
+  size: string;
+  quantity: number;
+}
 
 export default function CartCard({ item }: { item: CartItem }) {
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const [addToCart] = useAddToCartMutation();
   const [subtractFromCart] = useSubtractFromCartMutation();
   const [deleteFromCart] = useDeleteFromCartMutation();
 
   const handleAdd = async () => {
     try {
-      await addToCart({ productId: item.product._id, quantity: 1, size: item.size }).unwrap();
-    } catch (err) {
-      toast.error("Could not increase quantity");
+      await addToCart({ productId: item.product._id, size: item.size, quantity: 1 }).unwrap();
+      dispatch(openCart());
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to add");
     }
   };
 
   const handleSubtract = async () => {
     try {
-      await subtractFromCart({ productId: item.product._id, size: item.size }).unwrap();
-    } catch (err) {
-      toast.error("Could not decrease quantity");
+      await subtractFromCart({ productId: item.product._id, size: item.size}).unwrap();
+      dispatch(openCart());
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to subtract");
     }
   };
 
-  const handleDelete = async () => {
+  const handleRemove = async () => {
     try {
       await deleteFromCart({ productId: item.product._id, size: item.size }).unwrap();
-      toast.success("Item removed");
-    } catch (err) {
+      toast.success("Removed from cart");
+      dispatch(openCart());
+    } catch {
       toast.error("Failed to remove item");
     }
   };
 
   return (
-    <div className="border p-4 rounded-xl shadow-sm flex gap-4 items-center">
-      <Image
-        src={item.product.image}
-        alt={item.product.name}
-        width={80}
-        height={80}
-        className="rounded-lg object-cover"
-      />
-      <div className="flex-1">
-        <h2 className="font-semibold">{item.product.name}</h2>
-        <p className="text-sm">Size: {item.size}</p>
-        <p className="text-sm">₦{item.product.price.toLocaleString()} x {item.quantity}</p>
+    <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
+      
+      {/* Remove button on top-right */}
+      <button
+        onClick={handleRemove}
+        className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
+        title="Remove from cart"
+      >
+        <FaTrash size={16} />
+      </button>
+
+      {/* Product Image */}
+      <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
+        <Image
+          src={item.product.image}
+          alt={item.product.name}
+          width={128}
+          height={128}
+          className="object-cover w-full h-full"
+        />
       </div>
-      <div className="flex flex-col gap-1 items-center">
-        <button onClick={handleAdd} className="px-2 py-1 bg-green-200 rounded">+</button>
-        <span>{item.quantity}</span>
-        <button onClick={handleSubtract} className="px-2 py-1 bg-yellow-200 rounded">-</button>
-        <button onClick={handleDelete} className="text-red-500 text-sm mt-2">Remove</button>
+
+      {/* Product Info */}
+      <div className="flex flex-col flex-1 text-center sm:text-left gap-1">
+        <p className="text-gray-400 text-[10px]">
+          {typeof item.product.brand === "object" ? item.product.brand.name : item.product.brand}
+        </p>
+        <p className="font-semibold text-[12px]">{item.product.name}</p>
+        <p className="text-black font-bold text-[12px]">₤{item.product.price}</p>
+        {item.size && <p className="text-gray-400 text-[10px]">Size: {item.size}</p>}
+
+        {/* Quantity controls with black bg */}
+        <div className="flex flex-col items-center sm:items-start mt-2 gap-1">
+          <p className="text-black font-semibold text-[10px]">Quantity</p>
+          <div className="flex items-center gap-2 bg-black p-1 rounded">
+            <button
+              onClick={handleSubtract}
+              className="p-1 rounded bg-white hover:bg-gray-100 transition"
+            >
+              <IoMdRemove size={16} />
+            </button>
+            <span className="font-semibold text-white text-sm px-2">{item.quantity}</span>
+            <button
+              onClick={handleAdd}
+              className="p-1 rounded bg-white hover:bg-gray-100 transition"
+            >
+              <IoMdAdd size={16} />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

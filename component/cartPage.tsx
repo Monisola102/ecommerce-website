@@ -48,45 +48,50 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+    <div className="p-4 sm:p-6 max-w-5xl mx-auto">
       <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
         {user?.name ? `${user.name}'s Cart` : "Your Cart"}
       </h1>
 
-      {/* Product Section */}
-      <h2 className="text-lg font-semibold mb-2">Products</h2>
-      <div className="flex flex-col gap-4">
-        {cart.updatedCart.map((item) => (
-          <CartCard key={item._id} item={item} />
-        ))}
-      </div>
-
-      {/* Totals & Actions */}
-      <div className="mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        {/* Totals Column */}
-        <div className="space-y-2 text-left">
-          <p className="font-semibold text-black text-sm">
-            Total Items: {cart.totalQuantity}
-          </p>
-          <p className="font-semibold text-black text-sm">
-            Total Price: ₦{cart.totalPrice.toLocaleString()}
-          </p>
+      <div className="flex flex-col lg:flex-row gap-6">
+        {/* Left Column: Products */}
+        <div className="flex-1">
+          <h2 className="text-lg font-semibold mb-4">Products</h2>
+          <div className="flex flex-col gap-4">
+            {(cart.updatedCart as any[]).map((item) => (
+              <CartCard key={item._id} item={item} />
+            ))}
+          </div>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto">
-          <button
-            onClick={handleClear}
-            className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
-          >
-            Clear Cart
-          </button>
-          <button
-            onClick={() => router.push("/account/orders")}
-            className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
-          >
-            Proceed to Checkout
-          </button>
+        {/* Right Column: Totals & Actions */}
+        <div className="w-full lg:w-64 flex flex-col gap-4">
+          <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4">
+            <h3 className="font-semibold text-black text-sm">Quantity</h3>
+            <p className="text-black font-semibold text-lg">
+              {cart.totalQuantity}
+            </p>
+
+            <h3 className="font-semibold text-black text-sm">Total Price</h3>
+            <p className="text-black font-semibold text-lg">
+              ₦{cart.totalPrice.toLocaleString()}
+            </p>
+
+            <div className="flex flex-col gap-2 mt-4">
+              <button
+                onClick={handleClear}
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
+              >
+                Clear Cart
+              </button>
+              <button
+                onClick={() => router.push("/account/orders")}
+                className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
+              >
+                Proceed to Checkout
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
