@@ -14,12 +14,14 @@ import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
 
 export default function Favorites() {
-  const { data: favorites, isLoading } = useGetFavoritesQuery();
+  // Default to empty array so .map never fails
+  const { data: favorites = [], isLoading } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
   const dispatch = useAppDispatch();
-const {user} = useAppSelector((state)=> state.auth)
-  if (isLoading) return <p className="p-6">Loading...</p>;
+  const { user } = useAppSelector((state) => state.auth);
+
+  if (isLoading) return <p className="p-6 text-center">Loading...</p>;
 
   const handleRemove = async (productId: string, size: string) => {
     dispatch(toggleLike(productId));
@@ -32,7 +34,7 @@ const {user} = useAppSelector((state)=> state.auth)
     }
   };
 
- const handleAddToCart = async (productId: string, size: string) => {
+  const handleAddToCart = async (productId: string, size: string) => {
     if (!user) {
       toast.error("Please log in to add items to your cart.");
       return;
@@ -53,50 +55,51 @@ const {user} = useAppSelector((state)=> state.auth)
   };
 
   return (
-    <div className="p-4 sm:p-6">
-      <h1 className="text-xl sm:text-2xl font-bold mb-4">Favourites</h1>
+    <div className="p-4 sm:p-6 max-w-xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Favourites</h1>
 
-      {favorites?.length === 0 ? (
-        <p>No liked items yet.</p>
+      {favorites.length === 0 ? (
+        <p className="text-center text-gray-500">No liked items yet.</p>
       ) : (
         <div className="flex flex-col gap-4">
-          {favorites?.map((fav) => (
+          {favorites.map((fav) => (
             <div
               key={`${fav.product._id}-${fav.size}`}
-              className="flex flex-col items-center border p-4 rounded-md hover:shadow-md transition relative"
+              className="relative w-full p-2 bg-white rounded-lg shadow-sm flex flex-col items-center sm:flex-row sm:items-start gap-4 hover:shadow-md transition"
             >
-              {/* Remove button */}
               <button
                 onClick={() => handleRemove(fav.product._id, fav.size)}
-                className="absolute top-2 right-2 text-red-500 hover:text-red-700"
+                className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
                 title="Remove from favorites"
               >
                 <FaHeart size={16} />
               </button>
 
-              {/* Image */}
-              <Image
-                src={fav.product.image}
-                alt={fav.product.name}
-                width={150}
-                height={150}
-                className="object-cover rounded-md"
-              />
+              <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
+                <Image
+                  src={fav.product.image}
+                  alt={fav.product.name}
+                  width={128}
+                  height={128}
+                  className="object-cover w-full h-full"
+                />
+              </div>
 
-              {/* Info stacked vertically */}
-              <div className="flex flex-col items-center mt-3 gap-1 text-center">
-                <p className="text-gray-500 text-sm">
-  {typeof fav.product.brand === "object" ? fav.product.brand.name : fav.product.brand}
-</p>
-                <p className="font-semibold text-sm">{fav.product.name}</p>
-                <p className="text-black font-semi-bold text-sm">₤{fav.product.price}</p>
-                {fav.size && <p className="text-gray-400 text-sm">Size: {fav.size}</p>}
+              <div className="flex flex-col justify-center flex-1 text-sm text-center sm:text-left gap-0.5">
+                <p className="text-gray-400 text-[10px]">
+                  {typeof fav.product.brand === "object"
+                    ? fav.product.brand.name
+                    : fav.product.brand}
+                </p>
+                <p className="text-black font-medium text-[12px]">{fav.product.name}</p>
+                <p className="text-black font-bold text-[12px]">₤{fav.product.price}</p>
+                {fav.size && <p className="text-gray-400 text-[10px]">Size: {fav.size}</p>}
 
                 <button
-                  className="mt-2 bg-blue-400 text-black rounded-3xl px-4 py-1 text-sm hover:opacity-90 transition"
+                  className="mt-2 bg-blue-400 text-black rounded-3xl px-4 py-1 text-[10px] flex items-center gap-1 hover:opacity-90 transition w-max self-center sm:self-start"
                   onClick={() => handleAddToCart(fav.product._id, fav.size)}
                 >
-                  <ShoppingCart className="inline w-4 mr-1" />
+                  <ShoppingCart className="w-3" />
                   Add to Cart
                 </button>
               </div>
