@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import { useGetProductsQuery } from "@/store/products/product-api";
 import Link from "next/link";
-import { setCategory, setSort } from "@/store/products/product-slice"; // make sure you have these actions
+import { setCategory, setSort } from "@/store/products/product-slice";
 
 export default function ProductList() {
   const dispatch = useDispatch();
@@ -27,31 +27,31 @@ export default function ProductList() {
   return (
     <div>
       {/* --- Filters & Sorting --- */}
-      <div className="flex flex-wrap items-center justify-between mb-6">
+      <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
         {/* Category Filter */}
         <div>
-          <label className="mr-2 font-semibold">Category:</label>
+          <label className="mr-2 font-medium text-gray-700">Category:</label>
           <select
             value={category || ""}
             onChange={(e) => dispatch(setCategory(e.target.value))}
-            className="border rounded px-2 py-1"
+            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
           >
             <option value="">All</option>
             <option value="men">Men</option>
             <option value="women">Women</option>
             <option value="kids">Kids</option>
-             <option value="trend">Trend</option>
-             <option value="recommended">Recommended</option>
+            <option value="trend">Trend</option>
+            <option value="recommended">Recommended</option>
           </select>
         </div>
 
         {/* Sort */}
         <div>
-          <label className="mr-2 font-semibold">Sort by:</label>
+          <label className="mr-2 font-medium text-gray-700">Sort by:</label>
           <select
             value={sort || ""}
             onChange={(e) => dispatch(setSort(e.target.value))}
-            className="border rounded px-2 py-1"
+            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
           >
             <option value="">Default</option>
             <option value="price:asc">Price: Low to High</option>
@@ -64,20 +64,28 @@ export default function ProductList() {
       </div>
 
       {/* --- Product Grid --- */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.data.map((product: any) => (
           <Link
             href={`/product/${product._id}`}
             key={product._id}
-            className="border p-4 rounded-lg shadow hover:shadow-lg transition block"
+            className="group border rounded-xl shadow-sm hover:shadow-md bg-white transition-transform transform hover:-translate-y-1 flex flex-col"
           >
-            <img
-              src={product.image}
-              alt={product.name}
-              className="w-full h-48 object-cover rounded"
-            />
-            <h3 className="mt-2 font-semibold">{product.name}</h3>
-            <p className="text-sm text-gray-600">₦{product.price}</p>
+            <div className="w-full aspect-square overflow-hidden rounded-t-xl">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+              />
+            </div>
+            <div className="p-3 flex flex-col flex-grow">
+              <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">
+                {product.name}
+              </h3>
+              <p className="text-sm sm:text-base text-gray-600 mt-1">
+                ₦{product.price}
+              </p>
+            </div>
           </Link>
         ))}
       </div>
