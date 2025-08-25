@@ -1,6 +1,6 @@
 "use client";
 
-import CartCard, { CartItemData } from "./useCartCard";
+import CartCard, { CartItemDisplay } from "./useCartCard";
 import { useGetCartQuery, useClearCartMutation } from "@/store/Features/cart/cart-api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
@@ -41,14 +41,15 @@ export default function CartPage() {
     );
   }
 
-  // Map cart items to only include fields needed
-  const mappedCartItems: CartItemData[] = cart.updatedCart.map((item: any) => ({
-    name: item.product.name,
-    image: item.product.image,
-    brand: item.product.brand,
+  // Map cart items to a "safe" object
+  const displayCartItems: CartItemDisplay[] = cart.updatedCart.map(item => ({
+    productName: item.product.name,
+    productImage: item.product.image,
     price: item.product.price,
     size: item.size,
     quantity: item.quantity,
+    // keep original _id for internal use (not displayed)
+    _originalId: item.product._id,
   }));
 
   return (
@@ -58,15 +59,17 @@ export default function CartPage() {
       </h1>
 
       <div className="flex flex-col lg:flex-row gap-6">
+        {/* Left Column: Products */}
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4">Products</h2>
           <div className="flex flex-col gap-4">
-            {mappedCartItems.map((item, index) => (
-              <CartCard key={index} item={item} />
+            {displayCartItems.map((item, index) => (
+              <CartCard key={index} item={item} originalCart={cart.updatedCart} />
             ))}
           </div>
         </div>
 
+        {/* Right Column: Totals & Actions */}
         <div className="w-full lg:w-64 flex flex-col gap-4">
           <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4">
             <div>
