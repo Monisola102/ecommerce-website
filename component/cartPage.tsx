@@ -53,29 +53,37 @@ export default function CartPage() {
         {user?.name ? `${user.name}'s Cart` : "Your Cart"}
       </h1>
 
+      {/* Product Section */}
+      <h2 className="text-lg font-semibold mb-2">Products</h2>
       <div className="flex flex-col gap-4">
         {cart.updatedCart.map((item) => (
           <CartCard key={item._id} item={item} />
         ))}
       </div>
 
-      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="space-y-2 text-center sm:text-left">
-          <p className="font-semibold text-black">Total Items: {cart.totalQuantity}</p>
-          <p className="font-semibold text-black">
+      {/* Totals & Actions */}
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        {/* Totals Column */}
+        <div className="space-y-2 text-left">
+          <p className="font-semibold text-black text-sm">
+            Total Items: {cart.totalQuantity}
+          </p>
+          <p className="font-semibold text-black text-sm">
             Total Price: ₦{cart.totalPrice.toLocaleString()}
           </p>
         </div>
+
+        {/* Action Buttons */}
         <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto">
           <button
             onClick={handleClear}
-            className="flex-1 sm:flex-none bg-beige-200 text-black px-4 py-2 rounded hover:bg-beige-300 transition font-semibold"
+            className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
           >
             Clear Cart
           </button>
           <button
             onClick={() => router.push("/account/orders")}
-            className="flex-1 sm:flex-none bg-beige-200 text-black px-4 py-2 rounded hover:bg-beige-300 transition font-semibold"
+            className="flex-1 sm:flex-none bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
           >
             Proceed to Checkout
           </button>
