@@ -41,7 +41,6 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
   const dispatch = useAppDispatch();
   const router = useRouter();
-
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();

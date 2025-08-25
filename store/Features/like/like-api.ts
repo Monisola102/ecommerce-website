@@ -36,7 +36,7 @@ interface RemoveFavoriteRequest {
 export const likeApi = createApi({
   reducerPath: "likeApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
+    baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/favorite`,
     credentials: "include",
   }),
   tagTypes: ["Favorites"],
