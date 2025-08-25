@@ -1,17 +1,14 @@
 "use client";
 
-import CartCard from "./useCartCard";
-import {
-  useGetCartQuery,
-  useClearCartMutation,
-} from "@/store/Features/cart/cart-api";
+import CartCard, { CartItem } from "./useCartCard";
+import { useGetCartQuery, useClearCartMutation } from "@/store/Features/cart/cart-api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/store";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { CartItem } from "./useCartCard";
+
 export default function CartPage() {
   const router = useRouter();
   const { data: cart, isLoading, error } = useGetCartQuery();
@@ -22,20 +19,17 @@ export default function CartPage() {
     try {
       await clearCart().unwrap();
       toast.success("Cart cleared");
-    } catch (err) {
+    } catch {
       toast.error("Could not clear cart");
     }
   };
 
-  if (isLoading)
-    return <p className="p-6 text-center text-gray-500">Loading...</p>;
+  if (isLoading) return <p className="p-6 text-center text-gray-500">Loading...</p>;
 
   if (error || !cart?.updatedCart?.length) {
     return (
       <div className="p-6 text-center space-y-4">
-        <p className="text-lg font-semibold text-gray-600">
-          Your cart is empty.
-        </p>
+        <p className="text-lg font-semibold text-gray-600">Your cart is empty.</p>
         <Link
           href="/"
           className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 animate-pulse"
@@ -58,9 +52,9 @@ export default function CartPage() {
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4">Products</h2>
           <div className="flex flex-col gap-4">
-  {(cart.updatedCart as CartItem[]).map((item, index) => (
-  <CartCard key={index} item={item} />
-))}
+            {(cart.updatedCart as CartItem[]).map((item, index) => (
+              <CartCard key={index} item={item} />
+            ))}
           </div>
         </div>
 
@@ -69,15 +63,11 @@ export default function CartPage() {
           <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4">
             <div>
               <h3 className="font-semibold text-black text-sm">Quantity</h3>
-              <p className="text-black font-semibold text-lg">
-                {cart.totalQuantity}
-              </p>
+              <p className="text-black font-semibold text-lg">{cart.totalQuantity}</p>
             </div>
             <div>
               <h3 className="font-semibold text-black text-sm">Total Price</h3>
-              <p className="text-black font-semibold text-lg">
-                ₦{cart.totalPrice.toLocaleString()}
-              </p>
+              <p className="text-black font-semibold text-lg">₦{cart.totalPrice.toLocaleString()}</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-4">

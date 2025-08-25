@@ -41,17 +41,17 @@ export default function CartCard({ item }: { item: CartItem }) {
     try {
       await addToCart({ productId: item.product._id, size: item.size, quantity: 1 }).unwrap();
       dispatch(openCart());
-    } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to add");
+    } catch {
+      toast.error("Failed to add");
     }
   };
 
   const handleSubtract = async () => {
     try {
-      await subtractFromCart({ productId: item.product._id, size: item.size}).unwrap();
+      await subtractFromCart({ productId: item.product._id, size: item.size }).unwrap();
       dispatch(openCart());
-    } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to subtract");
+    } catch {
+      toast.error("Failed to subtract");
     }
   };
 
@@ -67,7 +67,6 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
-
       {/* Remove button */}
       <button
         onClick={handleRemove}
@@ -77,7 +76,7 @@ export default function CartCard({ item }: { item: CartItem }) {
         <FaTrash size={16} />
       </button>
 
-      {/* Image */}
+      {/* Product Image */}
       <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
         <Image
           src={item.product.image}
