@@ -17,21 +17,16 @@ interface SizeType {
   stock: number;
 }
 
-export interface CartItem {
-  _id: string;
-  product: {
-    _id: string;
-    name: string;
-    image: string;
-    brand: string | { name: string };
-    price: number;
-    sizes: SizeType[];
-  };
+export interface CartItemData {
+  name: string;
+  image: string;
+  brand: string | { name: string };
+  price: number;
   size: string;
   quantity: number;
 }
 
-export default function CartCard({ item }: { item: CartItem }) {
+export default function CartCard({ item }: { item: CartItemData }) {
   const dispatch = useAppDispatch();
   const [addToCart] = useAddToCartMutation();
   const [subtractFromCart] = useSubtractFromCartMutation();
@@ -39,7 +34,8 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   const handleAdd = async () => {
     try {
-      await addToCart({ productId: item.product._id, size: item.size, quantity: 1 }).unwrap();
+      await addToCart({ productId: "", size: item.size, quantity: 1 }).unwrap(); 
+      // Use backend logic to handle product reference internally
       dispatch(openCart());
     } catch {
       toast.error("Failed to add");
@@ -48,7 +44,7 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   const handleSubtract = async () => {
     try {
-      await subtractFromCart({ productId: item.product._id, size: item.size }).unwrap();
+      await subtractFromCart({ productId: "", size: item.size }).unwrap();
       dispatch(openCart());
     } catch {
       toast.error("Failed to subtract");
@@ -57,7 +53,7 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   const handleRemove = async () => {
     try {
-      await deleteFromCart({ productId: item.product._id, size: item.size }).unwrap();
+      await deleteFromCart({ productId: "", size: item.size }).unwrap();
       toast.success("Removed from cart");
       dispatch(openCart());
     } catch {
@@ -67,7 +63,6 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
-      {/* Remove button */}
       <button
         onClick={handleRemove}
         className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
@@ -76,27 +71,24 @@ export default function CartCard({ item }: { item: CartItem }) {
         <FaTrash size={16} />
       </button>
 
-      {/* Product Image */}
       <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
         <Image
-          src={item.product.image}
-          alt={item.product.name}
+          src={item.image}
+          alt={item.name}
           width={128}
           height={128}
           className="object-cover w-full h-full"
         />
       </div>
 
-      {/* Product Info */}
       <div className="flex flex-col flex-1 text-center sm:text-left gap-1">
         <p className="text-gray-400 text-[10px]">
-          {typeof item.product.brand === "object" ? item.product.brand.name : item.product.brand}
+          {typeof item.brand === "object" ? item.brand.name : item.brand}
         </p>
-        <p className="font-semibold text-[12px]">{item.product.name}</p>
-        <p className="text-black font-bold text-[12px]">₦{item.product.price}</p>
+        <p className="font-semibold text-[12px]">{item.name}</p>
+        <p className="text-black font-bold text-[12px]">₦{item.price}</p>
         {item.size && <p className="text-gray-400 text-[10px]">Size: {item.size}</p>}
 
-        {/* Quantity controls */}
         <div className="flex flex-col mt-2 gap-1">
           <p className="text-black font-semibold text-[10px]">Quantity</p>
           <div className="flex items-center gap-2 bg-black p-1 rounded w-max">
