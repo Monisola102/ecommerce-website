@@ -25,7 +25,7 @@ export default function ProductList() {
   if (!data?.data?.length) return <p>No products found.</p>;
 
   return (
-    <div>
+    <div className="container mx-auto px-4">
       {/* --- Filters & Sorting --- */}
       <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
         {/* Category Filter */}
@@ -71,15 +71,13 @@ export default function ProductList() {
             key={product._id}
             className="group border border-gray-200 rounded-xl shadow-sm hover:shadow-md bg-white transition-transform transform hover:-translate-y-1 flex flex-col"
           >
-            {/* Image Container */}
-            <div className="w-full aspect-square overflow-hidden rounded-t-xl border-b border-gray-200 bg-gray-50">
+            <div className="w-full aspect-square overflow-hidden rounded-t-xl bg-gray-50">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-contain p-3 group-hover:scale-105 transition duration-300"
+                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
               />
             </div>
-            {/* Product Info */}
             <div className="p-3 flex flex-col flex-grow">
               <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">
                 {product.name}
