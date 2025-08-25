@@ -34,7 +34,7 @@ export default function ProductList() {
           <select
             value={category || ""}
             onChange={(e) => dispatch(setCategory(e.target.value))}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
             <option value="">All</option>
             <option value="men">Men</option>
@@ -51,7 +51,7 @@ export default function ProductList() {
           <select
             value={sort || ""}
             onChange={(e) => dispatch(setSort(e.target.value))}
-            className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-black"
+            className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
           >
             <option value="">Default</option>
             <option value="price:asc">Price: Low to High</option>
@@ -69,15 +69,17 @@ export default function ProductList() {
           <Link
             href={`/product/${product._id}`}
             key={product._id}
-            className="group border rounded-xl shadow-sm hover:shadow-md bg-white transition-transform transform hover:-translate-y-1 flex flex-col"
+            className="group border border-gray-200 rounded-xl shadow-sm hover:shadow-md bg-white transition-transform transform hover:-translate-y-1 flex flex-col"
           >
-            <div className="w-full aspect-square overflow-hidden rounded-t-xl">
+            {/* Image Container */}
+            <div className="w-full aspect-square overflow-hidden rounded-t-xl border-b border-gray-200 bg-gray-50">
               <img
                 src={product.image}
                 alt={product.name}
-                className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                className="w-full h-full object-contain p-3 group-hover:scale-105 transition duration-300"
               />
             </div>
+            {/* Product Info */}
             <div className="p-3 flex flex-col flex-grow">
               <h3 className="font-medium text-gray-900 text-sm sm:text-base truncate">
                 {product.name}
