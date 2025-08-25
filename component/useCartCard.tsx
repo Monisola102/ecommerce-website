@@ -4,7 +4,7 @@ import Image from "next/image";
 import { FaTrash } from "react-icons/fa";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { useAppDispatch } from "@/store/hook";
 import {
   useAddToCartMutation,
   useSubtractFromCartMutation,
@@ -33,7 +33,6 @@ interface CartItem {
 
 export default function CartCard({ item }: { item: CartItem }) {
   const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
   const [addToCart] = useAddToCartMutation();
   const [subtractFromCart] = useSubtractFromCartMutation();
   const [deleteFromCart] = useDeleteFromCartMutation();
@@ -68,8 +67,8 @@ export default function CartCard({ item }: { item: CartItem }) {
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
-      
-      {/* Remove button on top-right */}
+
+      {/* Remove button */}
       <button
         onClick={handleRemove}
         className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
@@ -78,7 +77,7 @@ export default function CartCard({ item }: { item: CartItem }) {
         <FaTrash size={16} />
       </button>
 
-      {/* Product Image */}
+      {/* Image */}
       <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
         <Image
           src={item.product.image}
@@ -95,13 +94,13 @@ export default function CartCard({ item }: { item: CartItem }) {
           {typeof item.product.brand === "object" ? item.product.brand.name : item.product.brand}
         </p>
         <p className="font-semibold text-[12px]">{item.product.name}</p>
-        <p className="text-black font-bold text-[12px]">₤{item.product.price}</p>
+        <p className="text-black font-bold text-[12px]">₦{item.product.price}</p>
         {item.size && <p className="text-gray-400 text-[10px]">Size: {item.size}</p>}
 
-        {/* Quantity controls with black bg */}
-        <div className="flex flex-col items-center sm:items-start mt-2 gap-1">
+        {/* Quantity controls */}
+        <div className="flex flex-col mt-2 gap-1">
           <p className="text-black font-semibold text-[10px]">Quantity</p>
-          <div className="flex items-center gap-2 bg-black p-1 rounded">
+          <div className="flex items-center gap-2 bg-black p-1 rounded w-max">
             <button
               onClick={handleSubtract}
               className="p-1 rounded bg-white hover:bg-gray-100 transition"

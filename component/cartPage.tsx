@@ -59,7 +59,7 @@ export default function CartPage() {
           <h2 className="text-lg font-semibold mb-4">Products</h2>
           <div className="flex flex-col gap-4">
             {(cart.updatedCart as any[]).map((item) => (
-              <CartCard key={item._id} item={item} />
+              <CartCard key={item.product._id + item.size} item={item} />
             ))}
           </div>
         </div>
@@ -67,15 +67,18 @@ export default function CartPage() {
         {/* Right Column: Totals & Actions */}
         <div className="w-full lg:w-64 flex flex-col gap-4">
           <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4">
-            <h3 className="font-semibold text-black text-sm">Quantity</h3>
-            <p className="text-black font-semibold text-lg">
-              {cart.totalQuantity}
-            </p>
-
-            <h3 className="font-semibold text-black text-sm">Total Price</h3>
-            <p className="text-black font-semibold text-lg">
-              ₦{cart.totalPrice.toLocaleString()}
-            </p>
+            <div>
+              <h3 className="font-semibold text-black text-sm">Quantity</h3>
+              <p className="text-black font-semibold text-lg">
+                {cart.totalQuantity}
+              </p>
+            </div>
+            <div>
+              <h3 className="font-semibold text-black text-sm">Total Price</h3>
+              <p className="text-black font-semibold text-lg">
+                ₦{cart.totalPrice.toLocaleString()}
+              </p>
+            </div>
 
             <div className="flex flex-col gap-2 mt-4">
               <button
