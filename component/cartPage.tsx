@@ -27,15 +27,18 @@ export default function CartPage() {
     }
   };
 
-  if (isLoading) return <p className="p-4">Loading...</p>;
+  if (isLoading)
+    return <p className="p-6 text-center text-gray-500">Loading...</p>;
 
   if (error || !cart?.updatedCart?.length) {
     return (
-      <div className="p-4 text-center space-y-4">
-        <p className="text-lg font-medium">Your cart is empty.</p>
+      <div className="p-6 text-center space-y-4">
+        <p className="text-lg font-semibold text-gray-600">
+          Your cart is empty.
+        </p>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white px-5 py-2 rounded-full shadow-lg hover:shadow-2xl transition-all duration-300 animate-pulse"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white px-5 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 animate-pulse"
         >
           <ArrowLeft />
           Go to Home
@@ -45,30 +48,34 @@ export default function CartPage() {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">
-        {user?.name ?`${user.name}'s Cart` : "Your Cart"}
+    <div className="p-4 sm:p-6 max-w-4xl mx-auto">
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+        {user?.name ? `${user.name}'s Cart` : "Your Cart"}
       </h1>
-      <div className="space-y-4">
+
+      <div className="flex flex-col gap-4">
         {cart.updatedCart.map((item) => (
           <CartCard key={item._id} item={item} />
         ))}
       </div>
-      <div className="mt-6 flex justify-between items-center">
-        <div className="space-y-2 text-left">
-          <p>Total Items: {cart.totalQuantity}</p>
-          <p>Total Price: ₦{cart.totalPrice.toLocaleString()}</p>
+
+      <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div className="space-y-2 text-center sm:text-left">
+          <p className="font-semibold text-black">Total Items: {cart.totalQuantity}</p>
+          <p className="font-semibold text-black">
+            Total Price: ₦{cart.totalPrice.toLocaleString()}
+          </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-col sm:flex-row w-full sm:w-auto">
           <button
             onClick={handleClear}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 transition"
+            className="flex-1 sm:flex-none bg-beige-200 text-black px-4 py-2 rounded hover:bg-beige-300 transition font-semibold"
           >
             Clear Cart
           </button>
           <button
             onClick={() => router.push("/account/orders")}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+            className="flex-1 sm:flex-none bg-beige-200 text-black px-4 py-2 rounded hover:bg-beige-300 transition font-semibold"
           >
             Proceed to Checkout
           </button>
