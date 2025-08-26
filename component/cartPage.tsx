@@ -89,7 +89,7 @@ export default function CartPage() {
                 Clear Cart
               </button>
               <button
-                onClick={() => router.push("/account/orders")}
+                onClick={() => router.push("/account/checkouts")}
                 className="bg-black text-white px-4 py-2 rounded hover:bg-gray-800 transition font-semibold"
               >
                 Proceed to Checkout
