@@ -106,6 +106,8 @@ export default function CheckOutPage() {
               <option value="paypal">PayPal</option>
               <option value="ussd">USSD</option>
               <option value="mastercard">MasterCard</option>
+              <option value="visa">Visa</option>
+
             </select>
           </div>
         </div>

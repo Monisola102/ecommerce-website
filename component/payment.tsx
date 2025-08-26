@@ -28,8 +28,6 @@ export default function PaymentsPage() {
 
   const localUser = useSelector((state: RootState) => state.auth.user);
   const payments = paymentsResponse || [];
-  console.log("PaymentsResponse:", paymentsResponse);
-  console.log("Payments array:", payments);
 
   if (userLoading || paymentsLoading) {
     return <p className="text-center mt-6">Loading payments...</p>;
@@ -52,39 +50,54 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Payment History</h1>
+    <div className="p-4 max-w-6xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">Payment History</h1>
 
       {payments.length === 0 ? (
-        <p className="text-gray-600">No payments found.</p>
+        <p className="text-gray-600 text-center">No payments found.</p>
       ) : (
-        <div className="space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {payments.map((payment) => (
             <div
               key={payment._id}
-              className="flex items-center gap-4 border p-4 rounded-lg bg-white shadow"
+              className="bg-white rounded-xl shadow-md p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-xl transition-shadow duration-300"
             >
-              <Image
-                src={getPaymentIcon(payment.paymentMethod)}
-                alt={payment.paymentMethod}
-                width={50}
-                height={50}
-                className="object-contain"
-              />
-              <div>
-                <p>
-                  <strong>Order ID:</strong> {payment.order || "N/A"}
+              <div className="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-gray-100 rounded-lg">
+                <Image
+                  src={getPaymentIcon(payment.paymentMethod)}
+                  alt={payment.paymentMethod}
+                  width={50}
+                  height={50}
+                  className="object-contain"
+                />
+              </div>
+              <div className="flex-1">
+                <p className="font-semibold text-gray-700">
+                  Order ID:{" "}
+                  <span className="font-mono text-gray-500">
+                    {payment.order || "N/A"}
+                  </span>
                 </p>
-                <p>
+                <p className="text-gray-600 mt-1">
                   <strong>Amount:</strong> ₦{payment.amount.toLocaleString()}
                 </p>
-                <p>
+                <p className="text-gray-600 mt-1">
                   <strong>Method:</strong> {payment.paymentMethod}
                 </p>
-                <p>
-                  <strong>Status:</strong> {payment.status}
+                <p className="mt-1">
+                  <span
+                    className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
+                      payment.status.toLowerCase() === "success"
+                        ? "bg-green-100 text-green-700"
+                        : payment.status.toLowerCase() === "pending"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {payment.status}
+                  </span>
                 </p>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-400 mt-2">
                   Date: {new Date(payment.createdAt).toLocaleDateString()}
                 </p>
               </div>

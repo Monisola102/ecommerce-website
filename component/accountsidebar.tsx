@@ -5,6 +5,7 @@ import { useAppDispatch } from "@/store/hook";
 import { LayoutDashboard, ShoppingBag, User, CreditCard, LogOut, Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function AccountSidebar() {
   const dispatch = useAppDispatch();
@@ -13,7 +14,10 @@ export default function AccountSidebar() {
 
   const handleLogout = () => {
     dispatch(clearUser());
+    toast.success("Logout successful!");
+    setTimeout(() => {
     router.push("/");
+  }, 1500); 
   };
 
   return (
@@ -74,7 +78,7 @@ export default function AccountSidebar() {
       {/* Overlay for mobile */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-30 z-40 md:hidden"
+          className="fixed inset-0 backdrop-blur-sm z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
