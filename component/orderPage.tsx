@@ -1,51 +1,64 @@
 "use client";
 
 import { useGetOrdersQuery } from "@/store/Features/order/order-api";
-import { cn } from "@/lib/utils";
 
 export default function OrdersPage() {
   const { data, isLoading, isError } = useGetOrdersQuery();
-console.log("Orders API response:", data);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (isError) return <p>Error loading orders</p>;
+  if (isLoading) return <p className="text-center p-4">Loading orders...</p>;
+  if (isError) return <p className="text-center p-4 text-red-500">Error fetching orders</p>;
 
-  const orders = data?.orders || [];
+  const orders = data?.data ?? [];
 
   return (
-    <div className="p-4 md:p-8">
-      <h1 className="text-2xl font-bold mb-4">My Orders</h1>
+    <div className="p-6 max-w-5xl mx-auto">
+      <h1 className="text-2xl font-bold mb-6">My Orders</h1>
 
       {orders.length === 0 ? (
-        <p>No orders yet.</p>
+        <p className="text-gray-600">You don’t have any orders yet.</p>
       ) : (
-        <div className="space-y-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {orders.map((order: any) => (
             <div
               key={order._id}
-              className="p-4 rounded-xl shadow-sm border flex flex-col md:flex-row justify-between items-start md:items-center"
+              className="bg-white rounded-2xl shadow p-4 border border-gray-100 hover:shadow-lg transition"
             >
-              <div className="flex flex-col gap-1">
-                <p className="font-semibold">
-                  Order #{order._id.slice(-6)} {/* show last 6 chars */}
-                </p>
-                <p className="text-sm text-gray-500">
-                  {new Date(order.createdAt).toLocaleDateString()}
-                </p>
-                <p className="text-sm font-medium">${order.totalPrice}</p>
+              <div className="flex justify-between items-center mb-3">
+                <span className="text-sm font-medium text-gray-500">
+                  #{order._id.slice(-6)}
+                </span>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full ${
+                    order.status === "delivered"
+                      ? "bg-green-100 text-green-600"
+                      : order.status === "pending"
+                      ? "bg-yellow-100 text-yellow-600"
+                      : "bg-red-100 text-red-600"
+                  }`}
+                >
+                  {order.status}
+                </span>
               </div>
 
-              <span
-                className={cn(
-                  "px-3 py-1 rounded-full text-sm font-medium mt-2 md:mt-0",
-                  order.status === "Delivered" && "bg-green-100 text-green-600",
-                  order.status === "Processing" && "bg-yellow-100 text-yellow-600",
-                  order.status === "Pending" && "bg-red-100 text-red-600",
-                  order.status === "Shipped" && "bg-blue-100 text-blue-600"
-                )}
-              >
-                {order.status}
-              </span>
+              <div className="text-sm text-gray-600 space-y-1">
+                <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                <p>Total: ${order.totalAmount}</p>
+                <p>Items: {order.items.length}</p>
+              </div>
+
+              <div className="mt-4 border-t pt-2">
+                {order.items.map((item: any, idx: number) => (
+                  <div
+                    key={idx}
+                    className="flex justify-between text-sm text-gray-700"
+                  >
+                    <span>{item.product?.name || "Product"}</span>
+                    <span>
+                      {item.quantity} × ${item.price}
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
           ))}
         </div>
