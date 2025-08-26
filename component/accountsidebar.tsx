@@ -62,7 +62,7 @@ export default function AccountSidebar() {
             <CreditCard size={18} /> Payments
           </Link>
           <button
-           type="button" 
+          
             onClick={handleLogout}
             className="flex items-center gap-2 text-black hover:underline"
           >

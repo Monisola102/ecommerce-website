@@ -52,7 +52,7 @@ export const orderApi = createApi({
   }),
   tagTypes: ["Order"],
   endpoints: (builder) => ({
-    getOrders: builder.query<OrdersResponse, void>({
+    getOrders: builder.query<Order[], void>({
       query: () => "/my-orders",
       providesTags: ["Order"],
     }),
@@ -66,5 +66,6 @@ export const orderApi = createApi({
     }),
   }),
 });
+
 
 export const { useGetOrdersQuery, useCreateOrderMutation } = orderApi;
