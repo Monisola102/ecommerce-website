@@ -50,17 +50,19 @@ export default function PaymentsPage() {
   }
 
   return (
-    <div className="p-4 max-w-6xl mx-auto">
-      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">Payment History</h1>
+    <div className="p-4 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold mb-8 text-center md:text-left">
+        Payment History
+      </h1>
 
       {payments.length === 0 ? (
         <p className="text-gray-600 text-center">No payments found.</p>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {payments.map((payment) => (
             <div
               key={payment._id}
-              className="bg-white rounded-xl shadow-md p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-xl transition-shadow duration-300"
+              className="bg-white rounded-xl shadow-md p-5 flex flex-col sm:flex-row sm:items-center gap-4 hover:shadow-xl hover:scale-105 transition-all duration-300 ease-in-out"
             >
               <div className="flex-shrink-0 w-20 h-20 flex items-center justify-center bg-gray-100 rounded-lg">
                 <Image
@@ -72,12 +74,6 @@ export default function PaymentsPage() {
                 />
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-gray-700">
-                  Order ID:{" "}
-                  <span className="font-mono text-gray-500">
-                    {payment.order || "N/A"}
-                  </span>
-                </p>
                 <p className="text-gray-600 mt-1">
                   <strong>Amount:</strong> ₦{payment.amount.toLocaleString()}
                 </p>
