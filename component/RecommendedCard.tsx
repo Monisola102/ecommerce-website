@@ -1,10 +1,11 @@
 "use client";
 import Image from "next/image";
+import Link from "next/link";
 import { IoMdHeartEmpty } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
 import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useAppSelector, useAppDispatch } from "@/store/hook";
@@ -21,7 +22,7 @@ interface SizeType {
   stock: number;
 }
 
-interface recommendedInterface {
+interface RecommendedInterface {
   _id: string;
   image: string;
   brand: {
@@ -32,11 +33,8 @@ interface recommendedInterface {
   price: number;
   sizes: SizeType[];
 }
-export default function RecommendedCard({
-  prop,
-}: {
-  prop: recommendedInterface;
-}) {
+
+export default function RecommendedCard({ prop }: { prop: RecommendedInterface }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [loadingCart, setLoadingCart] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
@@ -60,10 +58,7 @@ export default function RecommendedCard({
 
     try {
       if (isLiked) {
-        await removeFavorite({
-          productId: prop._id,
-          size: selectedSize,
-        }).unwrap();
+        await removeFavorite({ productId: prop._id, size: selectedSize }).unwrap();
       } else {
         await addFavorite({ productId: prop._id, size: selectedSize }).unwrap();
       }
@@ -109,6 +104,7 @@ export default function RecommendedCard({
       setLoadingCart(false);
     }
   };
+
   const imageSrc = prop.image?.startsWith("http")
     ? prop.image
     : prop.image
@@ -118,14 +114,17 @@ export default function RecommendedCard({
     : "/fallback.jpg";
 
   return (
-    <div className="container relative w-full max-w-[200px]  p-2 rounded-lg shadow-sm">
+    <div className="container relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
+      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-      <div>
+
+      {/* 📸 Product preview clickable */}
+      <Link href={`/product/${prop._id}`} className="block">
         <Image
           className="w-[170.24px] h-[185px] object-cover"
           src={imageSrc}
@@ -133,9 +132,7 @@ export default function RecommendedCard({
           width={170}
           height={185}
         />
-      </div>
-      <div>
-        <p className="text-gray-400 text-[10px] font-inter">
+        <p className="text-gray-400 text-[10px] font-inter mt-1">
           {prop.brand?.name}
         </p>
         <p className="text-black text-[12px] font-inter">{prop.name}</p>
@@ -147,32 +144,37 @@ export default function RecommendedCard({
           <IoMdStar />
           <IoMdStar />
         </div>
-        <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="" disabled>
-              Select Size
+      </Link>
+
+      {/* 👕 Size dropdown */}
+      <div className="mt-2">
+        <select
+          className="text-[10px] border rounded w-full px-2 py-1"
+          value={selectedSize}
+          onChange={(e) => setSelectedSize(e.target.value)}
+        >
+          <option value="" disabled>
+            Select Size
+          </option>
+          {prop.sizes.map((s, index) => (
+            <option key={index} value={s.size} disabled={s.stock === 0}>
+              Size {s.size}{" "}
+              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
-            {prop.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size}{" "}
-                {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
-        </div>
-        <div className="flex justify-center mt-3">
-          <button
-            className="bg-blue-400  text-black rounded-3xl  px-4 py-2 text-[9px] flex items-center gap-1"
-            onClick={handleAddToCart}
-          >
-            <ShoppingCart className=" w-4" />
-            {loadingCart ? "Adding..." : "Add to Cart"}
-          </button>
-        </div>
+          ))}
+        </select>
+      </div>
+
+      {/* 🛒 Add to Cart button */}
+      <div className="flex justify-center mt-3">
+        <button
+          disabled={loadingCart}
+          className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[9px] flex items-center gap-1 hover:cursor-pointer disabled:opacity-50"
+          onClick={handleAddToCart}
+        >
+          <ShoppingCart className="w-4" />
+          {loadingCart ? "Adding..." : "Add to Cart"}
+        </button>
       </div>
     </div>
   );

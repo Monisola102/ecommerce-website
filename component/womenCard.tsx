@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { IoMdHeartEmpty } from "react-icons/io";
+import Link from "next/link";
+import { IoMdHeartEmpty, IoMdStar } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -107,11 +107,12 @@ export default function WomenCard({ women }: { women: womenInterface }) {
       setLoadingCart(false);
     }
   };
+
   const imageSrc = women.image || "/fallback.jpg";
 
   return (
     <div className="relative w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] p-2 rounded-lg shadow-sm">
-      {/* Like Icon */}
+      {/* ❤️ Like Icon */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-sm sm:text-md cursor-pointer z-10"
         onClick={handleToggleLike}
@@ -119,20 +120,16 @@ export default function WomenCard({ women }: { women: womenInterface }) {
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
 
-      {/* Product Image */}
-      <div>
+      {/* 📸 Product Image + Info wrapped in Link */}
+      <Link href={`/product/${women._id}`} className="block">
         <Image
           className="w-[140px] h-[160px] sm:w-[160px] sm:h-[175px] md:w-[170px] md:h-[185px] object-cover mx-auto"
           src={imageSrc}
           width={170}
           height={185}
-          alt="trendImage"
+          alt={women.name}
         />
-      </div>
-
-      {/* Product Info */}
-      <div>
-        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter">
+        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter mt-1">
           {women.brand?.name}
         </p>
         <p className="text-black text-[11px] sm:text-[12px] font-inter">
@@ -147,7 +144,7 @@ export default function WomenCard({ women }: { women: womenInterface }) {
           </span>
         </div>
 
-        {/* Stars */}
+        {/* ⭐ Stars */}
         <div className="flex text-[9px] sm:text-[10px]">
           <IoMdStar />
           <IoMdStar />
@@ -155,33 +152,35 @@ export default function WomenCard({ women }: { women: womenInterface }) {
           <IoMdStar />
           <IoMdStar />
         </div>
+      </Link>
 
-        {/* Sizes */}
-        <div className="mt-2">
-          <select
-            className="text-[9px] sm:text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="">Select Size</option>
-            {women.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size}{" "}
-                {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
-        </div>
+      {/* 👕 Sizes */}
+      <div className="mt-2">
+        <select
+          className="text-[9px] sm:text-[10px] border rounded w-full px-2 py-1"
+          value={selectedSize}
+          onChange={(e) => setSelectedSize(e.target.value)}
+        >
+          <option value="">Select Size</option>
+          {women.sizes.map((s, index) => (
+            <option key={index} value={s.size} disabled={s.stock === 0}>
+              Size {s.size}{" "}
+              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* Add to Cart */}
-        <div className="flex justify-center mt-3">
-          <button
-            className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white rounded-3xl px-3 sm:px-4 py-1.5 sm:py-2 text-[8px] sm:text-[9px] md:text-[10px] flex items-center gap-1 hover:cursor-pointer"
-            onClick={handleAddToCart}
-          >
-            <ShoppingCart className="w-3 sm:w-4 text-white" /> Add to Cart
-          </button>
-        </div>
+      {/* 🛒 Add to Cart */}
+      <div className="flex justify-center mt-3">
+        <button
+          disabled={loadingCart}
+          className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white rounded-3xl px-3 sm:px-4 py-1.5 sm:py-2 text-[8px] sm:text-[9px] md:text-[10px] flex items-center gap-1 hover:cursor-pointer disabled:opacity-50"
+          onClick={handleAddToCart}
+        >
+          <ShoppingCart className="w-3 sm:w-4 text-white" />{" "}
+          {loadingCart ? "Adding..." : "Add to Cart"}
+        </button>
       </div>
     </div>
   );

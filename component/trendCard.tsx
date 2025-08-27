@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { IoMdHeartEmpty } from "react-icons/io";
+import Link from "next/link";
+import { IoMdHeartEmpty, IoMdStar } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -16,13 +16,14 @@ import {
   useAddFavoriteMutation,
   useRemoveFavoriteMutation,
 } from "@/store/Features/like/like-api";
+import { useGetReviewsQuery } from "@/store/products/product-api";
 
 interface SizeType {
   size: string;
   stock: number;
 }
 
-interface TrendInterface {
+interface trendInterface {
   _id: string;
   image: string;
   brand: {
@@ -32,10 +33,9 @@ interface TrendInterface {
   name: string;
   price: number;
   sizes: SizeType[];
-  ratingAverage?: number; // average rating from product
 }
 
-export default function TrendCard({ trend }: { trend: TrendInterface }) {
+export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [selectedSize, setSelectedSize] = useState("");
   const [loadingCart, setLoadingCart] = useState(false);
   const { user } = useAppSelector((state) => state.auth);
@@ -45,6 +45,14 @@ export default function TrendCard({ trend }: { trend: TrendInterface }) {
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
+
+  // ✅ Fetch reviews
+  const { data: reviews } = useGetReviewsQuery(trend._id);
+  const avgRating =
+    reviews && reviews.length > 0
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) /
+        reviews.length
+      : 0;
 
   const isLiked = likedProductIds.includes(trend._id);
 
@@ -88,7 +96,6 @@ export default function TrendCard({ trend }: { trend: TrendInterface }) {
 
     if (loadingCart) return;
     setLoadingCart(true);
-
     try {
       await addToCart({
         productId: trend._id,
@@ -105,21 +112,9 @@ export default function TrendCard({ trend }: { trend: TrendInterface }) {
     }
   };
 
-  // Generate stars dynamically based on ratingAverage
-  const renderStars = () => {
-    const rating = trend.ratingAverage || 0;
-    const fullStars = Math.floor(rating);
-    const starsArray = Array.from({ length: 5 }, (_, index) => (
-      <IoMdStar
-        key={index}
-        className={`text-[10px] ${index < fullStars ? "text-yellow-500" : "text-gray-300"}`}
-      />
-    ));
-    return starsArray;
-  };
-
   return (
     <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
+      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
@@ -127,7 +122,8 @@ export default function TrendCard({ trend }: { trend: TrendInterface }) {
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
 
-      <div onClick={() => router.push(`/product/${trend._id}`)} className="cursor-pointer">
+      {/* 📸 Clickable Product Image + Name */}
+      <Link href={`/product/${trend._id}`} className="block">
         <Image
           className="w-[170px] h-[185px] object-cover"
           src={trend.image}
@@ -135,52 +131,57 @@ export default function TrendCard({ trend }: { trend: TrendInterface }) {
           height={185}
           alt={trend.name}
         />
+        <p className="text-gray-400 text-[10px] mt-1">{trend.brand?.name}</p>
+        <p className="text-black text-[12px]">{trend.name}</p>
+      </Link>
+
+      {/* 💰 Price */}
+      <div className="flex gap-2 mt-1">
+        <p className="text-black font-bold text-[14px]">{trend.price}&#163;</p>
+        <span className="line-through text-gray-400 text-[12px] italic">
+          110,00&#163;
+        </span>
       </div>
 
+      {/* ⭐ Dynamic Rating */}
+      <div className="flex items-center text-[10px] mt-1">
+        {Array.from({ length: 5 }).map((_, i) => (
+          <IoMdStar
+            key={i}
+            className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
+          />
+        ))}
+        <span className="ml-1 text-gray-500 text-[9px]">
+          ({reviews?.length || 0})
+        </span>
+      </div>
+
+      {/* 👕 Sizes */}
       <div className="mt-2">
-        <p className="text-gray-400 text-[10px]">{trend.brand?.name}</p>
-
-        <p
-          className="text-black text-[12px] cursor-pointer"
-          onClick={() => router.push(`/product/${trend._id}`)}
+        <select
+          className="text-[10px] border rounded w-full px-2 py-1"
+          value={selectedSize}
+          onChange={(e) => setSelectedSize(e.target.value)}
         >
-          {trend.name}
-        </p>
+          <option value="">Select Size</option>
+          {trend.sizes.map((s, index) => (
+            <option key={index} value={s.size} disabled={s.stock === 0}>
+              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        <div className="flex gap-2 mt-1">
-          <p className="text-black font-bold text-[14px]">{trend.price}&#163;</p>
-          <span className="line-through text-gray-400 text-[12px] italic">
-            110,00&#163;
-          </span>
-        </div>
-
-        <div className="flex text-[10px] mt-1">{renderStars()}</div>
-
-        <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="">Select Size</option>
-            {trend.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex justify-center mt-3">
-          <button
-            disabled={loadingCart}
-            className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[9px] flex items-center gap-1 hover:opacity-90 transition disabled:opacity-50"
-            onClick={handleAddToCart}
-          >
-            <ShoppingCart className="w-4" />
-            {loadingCart ? "Adding..." : "Add to Cart"}
-          </button>
-        </div>
+      {/* 🛒 Add to Cart */}
+      <div className="flex justify-center mt-3">
+        <button
+          disabled={loadingCart}
+          className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[9px] flex items-center gap-1 hover:opacity-90 transition disabled:opacity-50"
+          onClick={handleAddToCart}
+        >
+          <ShoppingCart className="w-4" />
+          {loadingCart ? "Adding..." : "Add to Cart"}
+        </button>
       </div>
     </div>
   );
