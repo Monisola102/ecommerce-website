@@ -47,17 +47,13 @@ export default function SpringComp() {
   return (
     <div className="container">
       <h1 className="font-bold text-black text-xl  mb-4 ml-[64px]">
-        SUMMER/SPRING 2021
+        SUMMER/SPRING 2025
       </h1>
       <div className="w-[90%] mx-auto max-h-[370px] overflow-hidden">
         <Slider {...play}>
-         {springs && springs.length > 0 ? (
-  springs?.map((spring, i) => (
+  {springs?.map((spring, i) => (
     <SpringCard key={i} spring={spring} />
-  ))
-) : (
-  <p>No spring products found.</p>
-)}
+))}
         </Slider>
       </div>
     </div>
