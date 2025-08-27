@@ -8,10 +8,21 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <TrendComp />
-      <SpringComp/>
-      <RecommendedComp/>
-      <Learn/>
+       <div className="mb-8">
+        <TrendComp />
+      </div>
+
+      <div className="mb-8">
+        <SpringComp />
+      </div>
+
+      <div className="mb-8">
+        <RecommendedComp />
+      </div>
+
+      <div className="mb-8">
+        <Learn />
+      </div>
     </>
   );
 }
