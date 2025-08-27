@@ -46,6 +46,7 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
 
+  // ✅ Fetch reviews
   const { data: reviews } = useGetReviewsQuery(trend._id);
   const avgRating =
     reviews && reviews.length > 0
@@ -112,10 +113,10 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
   };
 
   return (
-    <div className="relative w-full sm:w-[48%] md:w-[30%] lg:w-[22%] p-3 rounded-lg shadow-sm bg-white hover:shadow-lg transition-all duration-300 cursor-pointer">
+    <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
       {/* ❤️ Like button */}
       <div
-        className="absolute top-2 right-2 bg-white p-1 text-black text-md rounded-full shadow z-10 cursor-pointer hover:bg-gray-100 transition"
+        className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
@@ -123,21 +124,19 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
 
       {/* 📸 Clickable Product Image + Name */}
       <Link href={`/product/${trend._id}`} className="block">
-        <div className="w-full h-44 sm:h-48 md:h-52 lg:h-56 relative rounded overflow-hidden">
-          <Image
-            className="w-full h-full object-cover"
-            src={trend.image}
-            fill
-            alt={trend.name}
-            priority
-          />
-        </div>
-        <p className="text-gray-500 text-[10px] mt-1 truncate">{trend.brand?.name}</p>
-        <p className="text-black text-[12px] font-medium truncate">{trend.name}</p>
+        <Image
+          className="w-[170px] h-[185px] object-cover"
+          src={trend.image}
+          width={170}
+          height={185}
+          alt={trend.name}
+        />
+        <p className="text-gray-400 text-[10px] mt-1">{trend.brand?.name}</p>
+        <p className="text-black text-[12px]">{trend.name}</p>
       </Link>
 
       {/* 💰 Price */}
-      <div className="flex gap-2 mt-1 items-center">
+      <div className="flex gap-2 mt-1">
         <p className="text-black font-bold text-[14px]">{trend.price}&#163;</p>
         <span className="line-through text-gray-400 text-[12px] italic">
           110,00&#163;
@@ -177,7 +176,7 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}
-          className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[10px] flex items-center gap-1 hover:opacity-90 transition duration-300 disabled:opacity-50"
+          className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[9px] flex items-center gap-1 hover:opacity-90 transition disabled:opacity-50"
           onClick={handleAddToCart}
         >
           <ShoppingCart className="w-4" />
