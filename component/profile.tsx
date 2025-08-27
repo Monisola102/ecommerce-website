@@ -3,6 +3,7 @@
 import React, { useEffect } from "react";
 import { useFetchUserQuery } from "@/store/Features/auth/auth-api";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const { data: userResponse, isLoading, isError } = useFetchUserQuery();
@@ -35,6 +36,9 @@ export default function ProfilePage() {
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 md:mb-0">
             My Profile
           </h1>
+          <Link href="/account/edit"> <button className="px-5 py-2 rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
+            Edit Profile
+          </button></Link>
           <button className="px-5 py-2 rounded-full bg-indigo-600 text-white font-medium hover:bg-indigo-700 transition">
             Edit Profile
           </button>

@@ -29,7 +29,12 @@ interface UpdateProfileRequest {
   name?: string;
   email?: string;
   phone?: string;
-  shippingAddress?: string;
+  shippingAddress?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    zip?: string;
+  };
 }
 
 interface Payment {
