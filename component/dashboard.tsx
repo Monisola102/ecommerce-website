@@ -2,11 +2,6 @@
 import React from "react";
 import { useFetchUserDashboardQuery } from "@/store/Features/auth/auth-api";
 
-function formatAddress(address: any) {
-  if (!address) return "Not set";
-  return `${address.street}, ${address.city}, ${address.state}, ${address.zip}`;
-}
-
 export default function DashboardPage() {
   const { data, isLoading, isError } = useFetchUserDashboardQuery();
 
@@ -28,12 +23,6 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Shipping Address */}
-      <div className="bg-white shadow rounded-xl p-6">
-        <h2 className="text-xl font-semibold mb-2">Shipping Address</h2>
-        <p className="text-gray-700">{formatAddress(data.shippingAddress)}</p>
-      </div>
-
       {/* Recent Orders */}
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold">Recent Orders</h2>
@@ -51,7 +40,7 @@ export default function DashboardPage() {
                   Date: {new Date(order.createdAt).toLocaleDateString()}
                 </p>
                 <p className="font-semibold text-gray-700">
-                  Total: ${order.total}
+                  Total: ${order.total.toFixed(2)}
                 </p>
                 <span
                   className={`inline-block px-3 py-1 rounded-full text-sm font-medium ${
