@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeartEmpty, IoMdStar } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
@@ -13,10 +12,8 @@ import { useRouter } from "next/navigation";
 import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { toast } from "react-toastify";
 import { toggleLike } from "@/store/Features/like/like-slice";
-import {
-  useAddFavoriteMutation,
-  useRemoveFavoriteMutation,
-} from "@/store/Features/like/like-api";
+import { useAddFavoriteMutation, useRemoveFavoriteMutation } from "@/store/Features/like/like-api";
+import { useGetReviewsQuery } from "@/store/products/product-api";
 
 interface SizeType {
   size: string;
@@ -37,17 +34,25 @@ interface MenInterface {
 }
 
 export default function MenCard({ men }: { men: MenInterface }) {
-  const [loadingCart, setLoadingCart] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [loadingCart, setLoadingCart] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
   const { user } = useAppSelector((state) => state.auth);
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
   const dispatch = useAppDispatch();
   const router = useRouter();
+
   const [addToCart] = useAddToCartMutation();
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
 
   const isLiked = likedProductIds.includes(men._id);
+
+  // ✅ Fetch reviews
+  const { data: reviews } = useGetReviewsQuery(men._id);
+  const avgRating =
+    reviews && reviews.length > 0
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
+      : 0;
 
   const handleToggleLike = async () => {
     if (!user) {
@@ -59,10 +64,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
 
     try {
       if (isLiked) {
-        await removeFavorite({
-          productId: men._id,
-          size: selectedSize,
-        }).unwrap();
+        await removeFavorite({ productId: men._id, size: selectedSize }).unwrap();
       } else {
         await addFavorite({ productId: men._id, size: selectedSize }).unwrap();
       }
@@ -81,7 +83,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
         size: selectedSize,
       };
       localStorage.setItem("pendingCartItem", JSON.stringify(pendingItem));
-      router.push(`/account?redirect=/cart`);
+      router.push(`/login?redirect=/cart`);
       return;
     }
 
@@ -132,23 +134,18 @@ export default function MenCard({ men }: { men: MenInterface }) {
         <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter">
           {men.brand?.name}
         </p>
-        <p className="text-black text-[11px] sm:text-[12px] font-inter">
-          {men.name}
-        </p>
+        <p className="text-black text-[11px] sm:text-[12px] font-inter">{men.name}</p>
         <div className="flex gap-2">
-          <p className="text-black font-bold text-[12px] sm:text-[14px]">
-            {men.price}&#163;
-          </p>
-          <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">
-            110,00&#163;
-          </span>
+          <p className="text-black font-bold text-[12px] sm:text-[14px]">{men.price}&#163;</p>
+          <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">110,00&#163;</span>
         </div>
-        <div className="flex text-[9px] sm:text-[10px]">
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
+
+        {/* ⭐ Dynamic Rating */}
+        <div className="flex items-center text-[9px] sm:text-[10px] mt-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <IoMdStar key={i} className={i < avgRating ? "text-yellow-500" : "text-gray-300"} />
+          ))}
+          <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews?.length || 0})</span>
         </div>
       </Link>
 
@@ -162,8 +159,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
           <option value="">Select Size</option>
           {men.sizes.map((s, index) => (
             <option key={index} value={s.size} disabled={s.stock === 0}>
-              Size {s.size}{" "}
-              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
           ))}
         </select>
@@ -176,7 +172,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
           onClick={handleAddToCart}
           disabled={loadingCart}
         >
-          <ShoppingCart className="w-3 sm:w-4 text-white" />{" "}
+          <ShoppingCart className="w-3 sm:w-4 text-white" />
           {loadingCart ? "Adding..." : "Add to Cart"}
         </button>
       </div>

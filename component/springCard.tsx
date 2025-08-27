@@ -1,8 +1,9 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeartEmpty, IoMdStar } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -15,6 +16,7 @@ import {
   useAddFavoriteMutation,
   useRemoveFavoriteMutation,
 } from "@/store/Features/like/like-api";
+import { useGetReviewsQuery } from "@/store/products/product-api";
 
 interface SizeType {
   size: string;
@@ -43,6 +45,13 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
   const [addToCart] = useAddToCartMutation();
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
+
+  // ✅ Fetch reviews for this product
+  const { data: reviews } = useGetReviewsQuery(spring._id);
+  const avgRating =
+    reviews && reviews.length > 0
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
+      : 0;
 
   const isLiked = likedProductIds.includes(spring._id);
 
@@ -75,7 +84,12 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
         quantity: 1,
       };
       localStorage.setItem("pendingCartItem", JSON.stringify(pendingItem));
-      router.push(`/account?redirect=/cart`);
+      router.push(`/login?redirect=/cart`);
+      return;
+    }
+
+    if (!selectedSize) {
+      toast.error("Please select a size!");
       return;
     }
 
@@ -121,21 +135,21 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
         <p className="text-gray-400 text-[10px] font-inter mt-1">{spring.brand?.name}</p>
         <p className="text-black text-[12px] font-inter">{spring.name}</p>
         <div className="flex gap-2">
-          <p className="text-black font-bold text-[14px]">
-            {spring.price}&#163;
-          </p>
-          <span className="line-through text-gray-400 text-[12px] italic">
-            110,00&#163;
-          </span>
+          <p className="text-black font-bold text-[14px]">{spring.price}&#163;</p>
+          <span className="line-through text-gray-400 text-[12px] italic">110,00&#163;</span>
         </div>
 
-        {/* ⭐ Stars */}
-        <div className="flex text-[10px]">
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
-          <IoMdStar />
+        {/* ⭐ Dynamic Rating */}
+        <div className="flex items-center text-[10px] mt-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <IoMdStar
+              key={i}
+              className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
+            />
+          ))}
+          <span className="ml-1 text-gray-500 text-[9px]">
+            ({reviews?.length || 0})
+          </span>
         </div>
       </Link>
 
@@ -149,8 +163,7 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           <option value="">Select Size</option>
           {spring.sizes.map((s, index) => (
             <option key={index} value={s.size} disabled={s.stock === 0}>
-              Size {s.size}{" "}
-              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
           ))}
         </select>
@@ -163,8 +176,7 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           className="bg-blue-400 text-black rounded-3xl px-4 py-2 text-[9px] flex items-center gap-1 hover:cursor-pointer disabled:opacity-50"
           onClick={handleAddToCart}
         >
-          <ShoppingCart className="w-4" />{" "}
-          {loadingCart ? "Adding..." : "Add to Cart"}
+          <ShoppingCart className="w-4" /> {loadingCart ? "Adding..." : "Add to Cart"}
         </button>
       </div>
     </div>

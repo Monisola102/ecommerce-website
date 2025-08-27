@@ -2,9 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeartEmpty, IoMdStar } from "react-icons/io";
 import { FaHeart } from "react-icons/fa";
-import { IoMdStar } from "react-icons/io";
 import { ShoppingCart } from "lucide-react";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
@@ -13,10 +12,8 @@ import { useRouter } from "next/navigation";
 import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { toast } from "react-toastify";
 import { toggleLike } from "@/store/Features/like/like-slice";
-import {
-  useAddFavoriteMutation,
-  useRemoveFavoriteMutation,
-} from "@/store/Features/like/like-api";
+import { useAddFavoriteMutation, useRemoveFavoriteMutation } from "@/store/Features/like/like-api";
+import { useGetReviewsQuery } from "@/store/products/product-api";
 
 interface SizeType {
   size: string;
@@ -37,18 +34,26 @@ interface KidsInterface {
 }
 
 export default function KidsCard({ kids }: { kids: KidsInterface }) {
-  const [loadingCart, setLoadingCart] = useState<boolean>(false);
-  const [selectedSize, setSelectedSize] = useState<string>("");
+  const [loadingCart, setLoadingCart] = useState(false);
+  const [selectedSize, setSelectedSize] = useState("");
   const { user } = useAppSelector((state) => state.auth);
   const likedProductIds = useAppSelector((state) => state.like.likedProductIds);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
+
   const [addToCart] = useAddToCartMutation();
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
 
   const isLiked = likedProductIds.includes(kids._id);
+
+  // ✅ Fetch reviews
+  const { data: reviews } = useGetReviewsQuery(kids._id);
+  const avgRating =
+    reviews && reviews.length > 0
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
+      : 0;
 
   const handleToggleLike = async () => {
     if (!user) {
@@ -60,10 +65,7 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
 
     try {
       if (isLiked) {
-        await removeFavorite({
-          productId: kids._id,
-          size: selectedSize,
-        }).unwrap();
+        await removeFavorite({ productId: kids._id, size: selectedSize }).unwrap();
       } else {
         await addFavorite({ productId: kids._id, size: selectedSize }).unwrap();
       }
@@ -76,13 +78,9 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
   const handleAddToCart = async () => {
     if (!user) {
       toast.error("Please log in to add items to your cart.");
-      const pendingItem = {
-        productId: kids._id,
-        size: selectedSize,
-        quantity: 1,
-      };
+      const pendingItem = { productId: kids._id, size: selectedSize, quantity: 1 };
       localStorage.setItem("pendingCartItem", JSON.stringify(pendingItem));
-      router.push(`/account?redirect=/cart`);
+      router.push(`/login?redirect=/cart`);
       return;
     }
 
@@ -94,12 +92,7 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
     if (loadingCart) return;
     setLoadingCart(true);
     try {
-      await addToCart({
-        productId: kids._id,
-        size: selectedSize,
-        quantity: 1,
-      }).unwrap();
-
+      await addToCart({ productId: kids._id, size: selectedSize, quantity: 1 }).unwrap();
       toast.success(`${kids.name} (Size ${selectedSize}) added to cart!`);
       dispatch(openCart());
     } catch (err: any) {
@@ -144,21 +137,19 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
 
           {/* Price */}
           <div className="flex gap-2 items-center">
-            <p className="text-black font-bold text-xs sm:text-sm md:text-base">
-              {kids.price}&#163;
-            </p>
-            <span className="line-through text-gray-400 text-[10px] sm:text-xs italic">
-              110,00&#163;
-            </span>
+            <p className="text-black font-bold text-xs sm:text-sm md:text-base">{kids.price}&#163;</p>
+            <span className="line-through text-gray-400 text-[10px] sm:text-xs italic">110,00&#163;</span>
           </div>
 
-          {/* Stars */}
-          <div className="flex text-[8px] sm:text-[10px] md:text-xs text-yellow-500 mt-1">
-            <IoMdStar />
-            <IoMdStar />
-            <IoMdStar />
-            <IoMdStar />
-            <IoMdStar />
+          {/* ⭐ Dynamic Rating */}
+          <div className="flex items-center mt-1">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <IoMdStar
+                key={i}
+                className={i < avgRating ? "text-yellow-500 text-[8px] sm:text-[10px] md:text-xs" : "text-gray-300 text-[8px] sm:text-[10px] md:text-xs"}
+              />
+            ))}
+            <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px] md:text-xs">({reviews?.length || 0})</span>
           </div>
         </div>
       </Link>
@@ -173,8 +164,7 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
           <option value="">Select Size</option>
           {kids.sizes.map((s, index) => (
             <option key={index} value={s.size} disabled={s.stock === 0}>
-              Size {s.size}{" "}
-              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
           ))}
         </select>

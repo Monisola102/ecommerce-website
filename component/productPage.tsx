@@ -1,3 +1,4 @@
+// /app/product/[id]/ProductDetail.tsx
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
@@ -8,15 +9,15 @@ import { openCart } from "@/store/Features/cart/cart-slice";
 import { toast } from "react-toastify";
 import { useState } from "react";
 import ProductReviews from "./productReviews";
+
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
   const dispatch = useAppDispatch();
-
   const { user } = useAppSelector((state) => state.auth);
+
   const { data, isLoading, error } = useGetProductByIdQuery(id);
   const [addToCart, { isLoading: isAdding }] = useAddToCartMutation();
-
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   if (isLoading) return <p>Loading product...</p>;
@@ -49,7 +50,6 @@ export default function ProductDetail() {
         size: selectedSize,
         quantity: 1,
       }).unwrap();
-
       toast.success(`${product.name} (Size ${selectedSize}) added to cart!`);
       dispatch(openCart());
     } catch (err: any) {
@@ -58,27 +58,34 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-64 object-cover rounded"
-      />
-      <h1 className="text-2xl font-bold mt-4">{product.name}</h1>
-      <p className="text-gray-700 mt-2">₦{product.price}</p>
-      <p className="mt-4 text-sm text-gray-600">{product.description}</p>
-      <div className="mt-4">
-        <p className="font-medium">Select Size:</p>
-        <div className="flex gap-2 mt-2">
+    <div className="max-w-3xl mx-auto p-4 sm:p-6">
+      {/* Product Image */}
+      <div className="relative w-full overflow-hidden rounded-md shadow-md">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-64 sm:h-80 md:h-96 object-cover object-center brightness-105 contrast-110"
+        />
+      </div>
+
+      {/* Product Info */}
+      <h1 className="text-2xl sm:text-3xl font-bold mt-4">{product.name}</h1>
+      <p className="text-gray-700 mt-1 text-lg sm:text-xl">₦{product.price}</p>
+      <p className="mt-2 text-sm sm:text-base text-gray-600">{product.description}</p>
+
+      {/* Size Selector */}
+      <div className="mt-3">
+        <p className="font-medium mb-1">Select Size:</p>
+        <div className="flex flex-wrap gap-2">
           {product.sizes.map((s: any) => (
             <button
               key={s.size}
               onClick={() => setSelectedSize(s.size)}
               disabled={s.stock <= 0}
-              className={`px-4 py-2 border rounded ${
+              className={`px-3 py-1 border rounded-md text-sm sm:text-base transition-colors ${
                 selectedSize === s.size
-                  ? "bg-purple-600 text-white"
-                  : "bg-gray-100"
+                  ? "bg-purple-600 text-white border-purple-600"
+                  : "bg-gray-100 border-gray-300"
               } ${s.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {s.size}
@@ -86,13 +93,17 @@ export default function ProductDetail() {
           ))}
         </div>
       </div>
+
+      {/* Reviews */}
       <div className="mt-6">
         <ProductReviews productId={product._id} />
       </div>
+
+      {/* Add to Cart Button */}
       <button
         onClick={handleAddToCart}
         disabled={isAdding}
-        className="mt-6 w-full bg-purple-600 text-white py-3 rounded-lg hover:bg-purple-700 disabled:opacity-50"
+        className="mt-6 w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 disabled:opacity-50 transition-colors"
       >
         {isAdding ? "Adding..." : "Add to Cart"}
       </button>
