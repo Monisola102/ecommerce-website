@@ -1,112 +1,87 @@
 "use client";
 
 import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
-import { ShoppingCart } from "lucide-react";
-import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { toggleLike } from "@/store/Features/like/like-slice";
-import {
-  useGetFavoritesQuery,
-  useRemoveFavoriteMutation,
-} from "@/store/Features/like/like-api";
+import { useGetFavoritesQuery, useRemoveFavoriteMutation } from "@/store/Features/like/like-api";
 import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
-import { openCart } from "@/store/Features/cart/cart-slice";
+import { toast } from "react-toastify";
+import { useState } from "react";
 
-export default function Favorites() {
-  // Default to empty array so .map never fails
-  const { data: favorites = [], isLoading } = useGetFavoritesQuery();
+export default function FavoritesPage() {
+  const { data: favorites, isLoading } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
-  const dispatch = useAppDispatch();
-  const { user } = useAppSelector((state) => state.auth);
+  const [selectedSizes, setSelectedSizes] = useState<Record<string, string>>({});
 
-  if (isLoading) return <p className="p-6 text-center">Loading...</p>;
+  if (isLoading) return <p className="text-center p-6">Loading favorites...</p>;
+  if (!favorites || favorites.length === 0) return <p className="text-center p-6">No favorites yet.</p>;
 
-  const handleRemove = async (productId: string, size: string) => {
-    dispatch(toggleLike(productId));
-    try {
-      await removeFavorite({ productId, size }).unwrap();
-      toast.success("Removed from favorites");
-    } catch {
-      toast.error("Failed to remove favorite");
-      dispatch(toggleLike(productId));
-    }
-  };
-
-  const handleAddToCart = async (productId: string, size: string) => {
-    if (!user) {
-      toast.error("Please log in to add items to your cart.");
-      return;
-    }
+  const handleAddToCart = async (productId: string) => {
+const size =
+  selectedSizes[productId] ||
+  favorites.find((f: any) => f.product._id === productId)?.product.sizes?.[0]?.size;
 
     if (!size) {
-      toast.error("Please select a size!");
+      toast.error("Please select a size.");
       return;
     }
 
     try {
       await addToCart({ productId, size, quantity: 1 }).unwrap();
       toast.success("Added to cart!");
-      dispatch(openCart());
-    } catch (err: any) {
-      toast.error(err?.data?.message || "Failed to add to cart");
+    } catch {
+      toast.error("Failed to add to cart.");
     }
   };
 
   return (
-    <div className="p-4 sm:p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Favourites</h1>
+    <div className="max-w-5xl mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {favorites.map((fav: any) => (
+        <div key={fav._id} className="border rounded-2xl p-4 shadow-sm hover:shadow-lg transition bg-white">
+          <Image
+            src={fav.image}
+            alt={fav.name}
+            width={300}
+            height={200}
+            className="w-full h-48 object-cover rounded-xl"
+          />
 
-      {favorites.length === 0 ? (
-        <p className="text-center text-gray-500">No liked items yet.</p>
-      ) : (
-        <div className="flex flex-col gap-4">
-          {favorites.map((fav) => (
-            <div
-              key={`${fav.product._id}-${fav.size}`}
-              className="relative w-full p-2 bg-white rounded-lg shadow-sm flex flex-col items-center sm:flex-row sm:items-start gap-4 hover:shadow-md transition"
-            >
-              <button
-                onClick={() => handleRemove(fav.product._id, fav.size)}
-                className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
-                title="Remove from favorites"
+          <div className="mt-3">
+            <h3 className="text-lg font-semibold">{fav.name}</h3>
+            <p className="text-gray-600">${fav.price}</p>
+
+            {/* Size Dropdown */}
+            {fav.sizes && fav.sizes.length > 0 && (
+              <select
+                className="mt-2 w-full border rounded-lg p-2 text-sm"
+                value={selectedSizes[fav._id] || ""}
+                onChange={(e) => setSelectedSizes({ ...selectedSizes, [fav._id]: e.target.value })}
               >
-                <FaHeart size={16} />
-              </button>
+                <option value="">Select size</option>
+                {fav.sizes.map((s: any, idx: number) => (
+                  <option key={idx} value={s.size}>
+                    {s.size} ({s.stock} left)
+                  </option>
+                ))}
+              </select>
+            )}
+          </div>
 
-              <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
-                <Image
-                  src={fav.product.image}
-                  alt={fav.product.name}
-                  width={128}
-                  height={128}
-                  className="object-cover w-full h-full"
-                />
-              </div>
-
-              <div className="flex flex-col justify-center flex-1 text-sm text-center sm:text-left gap-0.5">
-                <p className="text-gray-400 text-[10px]">
-                  {typeof fav.product.brand === "object"
-                    ? fav.product.brand.name
-                    : fav.product.brand}
-                </p>
-                <p className="text-black font-medium text-[12px]">{fav.product.name}</p>
-                <p className="text-black font-bold text-[12px]">₤{fav.product.price}</p>
-                {fav.size && <p className="text-gray-400 text-[10px]">Size: {fav.size}</p>}
-
-                <button
-                  className="mt-2 bg-blue-400 text-black rounded-3xl px-4 py-1 text-[10px] flex items-center gap-1 hover:opacity-90 transition w-max self-center sm:self-start"
-                  onClick={() => handleAddToCart(fav.product._id, fav.size)}
-                >
-                  <ShoppingCart className="w-3" />
-                  Add to Cart
-                </button>
-              </div>
-            </div>
-          ))}
+          <div className="flex justify-between mt-4">
+            <button
+              className="px-3 py-1 text-sm bg-red-500 text-white rounded-lg hover:bg-red-600"
+              onClick={() => removeFavorite(fav._id)}
+            >
+              Remove
+            </button>
+            <button
+              className="px-3 py-1 text-sm bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+              onClick={() => handleAddToCart(fav._id)}
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
-      )}
+      ))}
     </div>
   );
 }
