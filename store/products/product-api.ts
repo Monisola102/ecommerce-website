@@ -51,6 +51,7 @@ export const productsApi = createApi({
   reducerPath: "productsApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/products`,
+    credentials: "include",
   }),
   tagTypes: ["Reviews"], // for invalidatesTags
 
