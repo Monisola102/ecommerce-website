@@ -7,7 +7,7 @@ import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { openCart } from "@/store/Features/cart/cart-slice";
 import { toast } from "react-toastify";
 import { useState } from "react";
-
+import ProductReviews from "./productReviews";
 export default function ProductDetail() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
@@ -20,7 +20,8 @@ export default function ProductDetail() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
 
   if (isLoading) return <p>Loading product...</p>;
-  if (error || !data?.data) return <p className="text-red-500">Product not found.</p>;
+  if (error || !data?.data)
+    return <p className="text-red-500">Product not found.</p>;
 
   const product = data.data;
 
@@ -75,7 +76,9 @@ export default function ProductDetail() {
               onClick={() => setSelectedSize(s.size)}
               disabled={s.stock <= 0}
               className={`px-4 py-2 border rounded ${
-                selectedSize === s.size ? "bg-purple-600 text-white" : "bg-gray-100"
+                selectedSize === s.size
+                  ? "bg-purple-600 text-white"
+                  : "bg-gray-100"
               } ${s.stock <= 0 ? "opacity-50 cursor-not-allowed" : ""}`}
             >
               {s.size}
@@ -83,7 +86,9 @@ export default function ProductDetail() {
           ))}
         </div>
       </div>
-
+      <div className="mt-6">
+        <ProductReviews productId={product._id} />
+      </div>
       <button
         onClick={handleAddToCart}
         disabled={isAdding}
