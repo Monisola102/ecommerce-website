@@ -43,7 +43,7 @@ export default function Learn() {
               className="
                 w-[400px] h-[200px] 
                 sm:w-[380px] sm:h-[220px] 
-                md:w-[500px] md:h-[250px] 
+                md:w-[570px] md:h-[250px] 
                 lg:w-[700px] lg:h-[280px]
               "
             />
