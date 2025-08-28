@@ -1,48 +1,51 @@
-"use client";
-
 import Image from "next/image";
-import { FaArrowDown } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
-export default function HeroSection() {
+export default function Learn() {
   return (
-    <section className="relative w-full h-[80vh] bg-gray-100 flex items-center justify-center">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-r from-gray-200 to-gray-300" />
+    <div className="container mb-[300px]">
+      <div className="flex justify-start mt-[50px]">
+        <div className="relative left-0 p-10 bg-zinc-400 text-white w-[800px] h-[320px]">
+          {/* Text Section */}
+          <div className="w-[300px] flex flex-col">
+            <h6 className="mb-5 font-bold text-[18px] tracking-wider">
+              It's all about you
+            </h6>
+            <p className="font-bold text-[14px]">
+              Try now, pay later. We want that you're really confident and happy
+              with your purchase - you have 30 days before we charge you!
+              Learn more about our policy.
+            </p>
+          </div>
 
-      {/* Main Content */}
-      <div className="relative z-10 text-center">
-        <h1 className="text-4xl md:text-6xl font-bold mb-6">Welcome to My Shop</h1>
-        <p className="text-lg md:text-xl mb-8">
-          Explore our best products and find what suits you.
-        </p>
-        <a
-          href="/support#faq"
-          className="inline-flex flex-col items-center text-blue-600 hover:text-blue-800"
-        >
-          <FaArrowDown className="text-3xl animate-bounce" />
-          <span className="mt-2 text-sm md:text-base">Go to FAQ</span>
-        </a>
+          {/* Button */}
+          <button className="mt-4 bg-inherit border border-white text-white p-2">
+            <FaArrowRight />
+          </button>
+
+          {/* Image Section */}
+          <div
+            className="
+              absolute right-[-350px] top-10
+              hidden sm:block
+              sm:right-[-350px]
+              md:right-[-350px]
+              lg:right-[-350px]
+              
+              [@media(min-width:600px)]:hidden 
+              [@media(min-width:681px)]:block
+            "
+          >
+            <Image
+              width={700}
+              height={280}
+              src="/Frame1.png"
+              alt="learnFrame"
+              className="w-[700px] h-[280px]"
+            />
+          </div>
+        </div>
       </div>
-
-      {/* Hero Image (only hidden between 600px - 680px) */}
-      <div className="absolute bottom-0 left-10">
-        <Image
-          src="/hero-image.png"
-          alt="Hero"
-          width={400} // fixed width
-          height={400} // fixed height
-          className="object-contain"
-        />
-      </div>
-
-      {/* Custom Media Query for hiding image between 600px - 680px */}
-      <style jsx>{`
-        @media (min-width: 600px) and (max-width: 680px) {
-          section div > :global(img) {
-            display: none;
-          }
-        }
-      `}</style>
-    </section>
+    </div>
   );
 }
