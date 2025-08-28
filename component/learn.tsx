@@ -31,9 +31,8 @@ export default function Learn() {
           <div
             className="
               hidden sm:block absolute 
-              right-[-120px] md:right-[-260px] lg:right-[-300px]
+              right-[-120px] md:right-[-230px] lg:right-[-300px]
               top-10 sm:top-14 md:top-18 lg:top-22
-              min-[763px]:right-[-180px]
             "
           >
             <Image
@@ -42,10 +41,11 @@ export default function Learn() {
               width={700}
               height={280}
               className="
-                w-[400px] h-[200px] 
-                sm:w-[500px] sm:h-[240px] 
-                md:w-[600px] md:h-[260px] 
-                lg:w-[700px] lg:h-[280px]
+               w-[400px] h-[200px] 
+    sm:w-[450px] sm:h-[220px] 
+    min-[650px]:w-[480px] min-[650px]:h-[230px]   /* 👈 narrower size */
+    md:w-[600px] md:h-[260px] 
+    lg:w-[700px] lg:h-[280px]
               "
             />
           </div>
