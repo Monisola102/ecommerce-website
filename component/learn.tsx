@@ -3,38 +3,49 @@ import { FaArrowRight } from "react-icons/fa";
 
 export default function Learn() {
   return (
-    <div className="container mb-[300px]">
-      <div className="flex justify-start mt-[50px] relative">
-        {/* Content Box */}
-        <div className="relative left-0 p-6 sm:p-8 md:p-10 bg-zinc-400 text-white 
-                        w-full sm:w-[500px] md:w-[650px] lg:w-[800px] h-auto md:h-[320px] rounded-lg">
-          <div className="max-w-[300px] flex flex-col">
-            <h6 className="mb-5 font-bold text-[16px] md:text-[18px] tracking-wider">
+    <div className="container mb-[200px] sm:mb-[250px] lg:mb-[300px]">
+      <div className="flex justify-start mt-[50px]">
+        <div className="
+          relative left-0 p-6 sm:p-8 lg:p-10 bg-zinc-400 text-white 
+          w-full sm:w-[600px] md:w-[700px] lg:w-[800px] 
+          h-auto lg:h-[320px]
+        ">
+          {/* Text Section */}
+          <div className="w-full sm:w-[300px] flex flex-col">
+            <h6 className="mb-5 font-bold text-[16px] sm:text-[18px] tracking-wider">
               It's all about you
             </h6>
-            <p className="font-bold text-[13px] md:text-[14px] leading-relaxed">
+            <p className="font-bold text-[14px] sm:text-[15px]">
               Try now, pay later. We want that you're really confident and happy
-              with your purchase - you have 30 days before we charge you!
+              with your purchase - you have 30 days before we have to charge you!
               Learn more about our policy.
             </p>
           </div>
 
           {/* Button */}
-          <button className="mt-4 bg-inherit border border-white text-white p-2 rounded-md">
+          <button className="mt-4 bg-inherit border border-white text-white p-2 w-fit">
             <FaArrowRight />
           </button>
 
-          {/* Image (hidden on small) */}
-          <div className="
-            absolute top-10 hidden sm:block 
-            right-[-150px] md:right-[-250px] lg:right-[-350px]
-          ">
+          {/* Image Section */}
+          <div
+            className="
+              hidden sm:block absolute 
+              right-[-150px] md:right-[-250px] lg:right-[-350px]
+              top-16 sm:top-20 md:top-24 lg:top-28
+            "
+          >
             <Image
-              width={700}
-              height={280}
               src="/Frame1.png"
               alt="learnFrame"
-              className="max-w-[250px] md:max-w-[400px] lg:max-w-[700px]"
+              width={700}
+              height={280}
+              className="
+                w-[400px] h-[200px] 
+                sm:w-[500px] sm:h-[240px] 
+                md:w-[600px] md:h-[260px] 
+                lg:w-[700px] lg:h-[280px]
+              "
             />
           </div>
         </div>
