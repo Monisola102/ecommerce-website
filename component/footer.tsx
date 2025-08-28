@@ -3,88 +3,67 @@ import Image from "next/image";
 
 export default function Footer() {
   return (
-    <div className="container">
-      <div className="bg-gray-100 p-[80px] ">
-        <div className="flex justify-between text-white items-center w-[100%]">
-          <div className="flex flex-col gap-2 ">
-            <p className="text-black font-bold text-[10px]">FOOTER1</p>
-            <Link href="/Women" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Kids" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-          </div>
+    <footer className="w-full">
+      {/* Top Footer */}
+      <div className="bg-gray-100 px-6 py-12">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-8">
+          {/* FOOTER1 */}
           <div className="flex flex-col gap-2">
-            <p className="text-black font-bold text-[10px]">FOOTER2</p>
-            <Link href="/Women" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Kids" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
+            <p className="text-black font-bold text-[12px]">FOOTER1</p>
+            <Link href="/Women" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Kids" className="text-gray-500 text-[10px]">Item</Link>
           </div>
+
+          {/* FOOTER2 */}
           <div className="flex flex-col gap-2">
-            <p className="text-black font-bold text-[10px]">FOOTER3</p>
-            <Link href="/Sale" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Kids" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
+            <p className="text-black font-bold text-[12px]">FOOTER2</p>
+            <Link href="/Women" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Kids" className="text-gray-500 text-[10px]">Item</Link>
           </div>
+
+          {/* FOOTER3 */}
           <div className="flex flex-col gap-2">
-            <p className="text-black font-bold text-[10px]">FOOTER4</p>
-            <Link href="/Women" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Kids" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
+            <p className="text-black font-bold text-[12px]">FOOTER3</p>
+            <Link href="/Sale" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Kids" className="text-gray-500 text-[10px]">Item</Link>
           </div>
+
+          {/* FOOTER4 */}
           <div className="flex flex-col gap-2">
-            <p className="text-black font-bold text-[10px]">FOOTER5</p>
-            <Link href="/Sale" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Women" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
+            <p className="text-black font-bold text-[12px]">FOOTER4</p>
+            <Link href="/Women" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Kids" className="text-gray-500 text-[10px]">Item</Link>
           </div>
+
+          {/* FOOTER5 */}
           <div className="flex flex-col gap-2">
-            <p className="text-black font-bold text-[10px]">FOOTER6</p>
-            <Link href="/Kids" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Women" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
-            <Link href="/Men" className="text-gray-400 text-[8px]">
-              Item
-            </Link>
+            <p className="text-black font-bold text-[12px]">FOOTER5</p>
+            <Link href="/Sale" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Women" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
+          </div>
+
+          {/* FOOTER6 */}
+          <div className="flex flex-col gap-2">
+            <p className="text-black font-bold text-[12px]">FOOTER6</p>
+            <Link href="/Kids" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Women" className="text-gray-500 text-[10px]">Item</Link>
+            <Link href="/Men" className="text-gray-500 text-[10px]">Item</Link>
           </div>
         </div>
       </div>
-      <div className="bg-indigo-900 p-[20px]">
+
+      {/* Bottom Footer */}
+      <div className="bg-indigo-900 p-4">
         <div className="flex items-center justify-center">
-          <Image width={20} height={20} src="/symbol.png" alt="symbol" />
+          <Image width={24} height={24} src="/symbol.png" alt="symbol" />
         </div>
       </div>
-    </div>
+    </footer>
   );
 }
