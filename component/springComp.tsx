@@ -42,6 +42,32 @@ export default function SpringComp() {
     autoplay: true,
     autoplaySpeed: 2000,
     pauseOnHover: true,
+     responsive: [
+        {
+          breakpoint: 1280, // below xl
+          settings: {
+            slidesToShow: 4,
+          },
+        },
+        {
+          breakpoint: 1024, // below lg
+          settings: {
+            slidesToShow: 3,
+          },
+        },
+        {
+          breakpoint: 768, // below md
+          settings: {
+            slidesToShow: 2,
+          },
+        },
+        {
+          breakpoint: 480, // below sm
+          settings: {
+            slidesToShow: 1,
+          },
+        },
+      ],
   };
 
   return (
