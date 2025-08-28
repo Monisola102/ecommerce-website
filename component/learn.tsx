@@ -6,9 +6,10 @@ export default function Learn() {
   return (
     <div className="container mb-[300px]">
       <div className="flex justify-start mt-[50px]">
-        <div className="relative left-0 p-10 bg-zinc-400 text-white 
-                        w-full sm:w-[800px] h-auto sm:h-[320px] rounded-lg">
-
+        <div
+          className="relative left-0 p-10 bg-zinc-400 text-white 
+                     w-full sm:w-[800px] h-auto sm:h-[320px] rounded-lg"
+        >
           {/* Text Block */}
           <div className="w-full sm:w-[300px] flex flex-col">
             <h6 className="mb-5 font-bold text-[18px] tracking-wider">
@@ -29,13 +30,16 @@ export default function Learn() {
             </button>
           </Link>
 
-          {/* Image (hidden on mobile, visible on larger screens) */}
-          <div className="absolute right-[-350px] top-10 hidden sm:block">
+          {/* Image (hidden on mobile, responsive on tablet & desktop) */}
+          <div className="absolute top-10 hidden sm:block 
+                          right-[-150px] md:right-[-250px] lg:right-[-350px] 
+                          w-[300px] md:w-[500px] lg:w-[700px]">
             <Image
-              width={700}
-              height={280}
               src="/Frame1.png"
               alt="learnFrame"
+              width={700}
+              height={280}
+              className="w-full h-auto"
             />
           </div>
         </div>
