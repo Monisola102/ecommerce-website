@@ -33,6 +33,7 @@ export default function Learn() {
               hidden sm:block absolute 
               right-[-120px] md:right-[-260px] lg:right-[-300px]
               top-10 sm:top-14 md:top-18 lg:top-22
+              min-[763px]:right-[-180px]
             "
           >
             <Image
