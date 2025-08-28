@@ -6,9 +6,12 @@ export default function Learn() {
     <div className="container mb-[200px] sm:mb-[250px] lg:mb-[300px]">
       <div className="flex justify-start mt-[50px]">
         <div className="
-          relative left-0 p-6 sm:p-8 lg:p-10 bg-zinc-400 text-white 
-          w-full sm:w-[600px] md:w-[700px] lg:w-[800px] 
-          h-auto lg:h-[320px]
+          relative left-0 
+    p-6 sm:p-8 lg:p-10 
+    min-[635px]:left-auto min-[635px]:p-4   /* 👈 shift to edge & reduce padding */
+    bg-zinc-400 text-white 
+    w-full sm:w-[600px] md:w-[700px] lg:w-[800px] 
+    h-auto lg:h-[320px]
         ">
           {/* Text Section */}
           <div className="w-full sm:w-[300px] flex flex-col">
@@ -41,11 +44,10 @@ export default function Learn() {
               width={700}
               height={280}
               className="
-               w-[400px] h-[200px] 
-    sm:w-[450px] sm:h-[220px] 
-    min-[650px]:w-[480px] min-[650px]:h-[230px]   /* 👈 narrower size */
-    md:w-[600px] md:h-[260px] 
-    lg:w-[700px] lg:h-[280px]
+                w-[400px] h-[200px] 
+                sm:w-[500px] sm:h-[240px] 
+                md:w-[600px] md:h-[260px] 
+                lg:w-[700px] lg:h-[280px]
               "
             />
           </div>
