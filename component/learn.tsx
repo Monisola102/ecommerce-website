@@ -32,11 +32,11 @@ export default function Learn() {
             className="
               hidden sm:block absolute 
               right-[-150px] md:right-[-250px] lg:right-[-350px]
-              top-16 sm:top-20 md:top-24 lg:top-28
+              top-10 sm:top-14 md:top-18 lg:top-22
             "
           >
             <Image
-              src="/Frame1.png"
+              src="/frameLearn2.jpg"
               alt="learnFrame"
               width={700}
               height={280}
