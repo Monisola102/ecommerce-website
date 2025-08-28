@@ -8,7 +8,8 @@ export default function Learn() {
       <div className="flex justify-start mt-[50px]">
         <div
           className="relative left-0 p-10 bg-zinc-400 text-white 
-                     w-full sm:w-[800px] h-auto sm:h-[320px] rounded-lg"
+                     w-full sm:w-[800px] h-auto sm:h-[320px] rounded-lg
+                     flex flex-col sm:flex-row justify-between items-center gap-6"
         >
           {/* Text Block */}
           <div className="w-full sm:w-[300px] flex flex-col">
@@ -20,25 +21,23 @@ export default function Learn() {
               with your purchase – you have 30 days before we charge you! Learn
               more about our policy.
             </p>
+
+            {/* Button → Scroll to FAQ inside Support Page */}
+            <Link href="/support#faq">
+              <button className="mt-4 bg-inherit border border-white text-white p-2 flex items-center gap-2">
+                <span>Go to FAQ</span>
+                <FaArrowRight />
+              </button>
+            </Link>
           </div>
 
-          {/* Button → Scroll to FAQ inside Support Page */}
-          <Link href="/support#faq">
-            <button className="mt-4 bg-inherit border border-white text-white p-2 flex items-center gap-2">
-              <span>Go to FAQ</span>
-              <FaArrowRight />
-            </button>
-          </Link>
-
-          {/* Image (hidden on mobile, responsive on tablet & desktop) */}
-          <div className="absolute top-10 hidden sm:block 
-                          right-[-150px] md:right-[-250px] lg:right-[-350px] 
-                          w-[300px] md:w-[500px] lg:w-[700px]">
+          {/* Image Block (inline + responsive) */}
+          <div className="w-[80%] sm:w-[50%] md:w-[60%] lg:w-[700px]">
             <Image
-              src="/Frame1.png"
-              alt="learnFrame"
               width={700}
               height={280}
+              src="/Frame1.png"
+              alt="learnFrame"
               className="w-full h-auto"
             />
           </div>
