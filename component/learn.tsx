@@ -42,8 +42,8 @@ export default function Learn() {
               height={280}
               className="
                 w-[400px] h-[200px] 
-                sm:w-[500px] sm:h-[240px] 
-                md:w-[550px] md:h-[260px] 
+                sm:w-[400px] sm:h-[240px] 
+                md:w-[560px] md:h-[260px] 
                 lg:w-[700px] lg:h-[280px]
               "
             />
