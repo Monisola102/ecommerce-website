@@ -3,7 +3,6 @@
 import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 import { FaPhone } from "react-icons/fa6";
 import { IoMailOutline } from "react-icons/io5";
-import { useState } from "react";
 import Link from "next/link";
 import * as Accordion from "@radix-ui/react-accordion";
 import { ChevronDown } from "lucide-react";
@@ -17,14 +16,14 @@ interface objType {
 }
 
 const SupportCard = ({ s }: { s: objType }) => (
-  <div className="border rounded border-white bg-white p-[30px]">
-    <div className="bg-green-500/60 w-[38px] px-2 py-2 text-black border-none border rounded-md items-center justify-center mb-3">
+  <div className="border rounded border-white bg-white p-[30px] shadow-md">
+    <div className="bg-green-500/60 w-[38px] h-[38px] flex items-center justify-center text-black rounded-md mb-3">
       {s.icon}
     </div>
     <p className="text-black text-[14px] mb-2">{s.para1}</p>
     <p className="text-black text-[14px] mb-3 font-bold">{s.para2}</p>
     <Link
-      className=" bg-green-500/60 shadow-md hover:bg-black  hover:text-green-500 cursor-pointer text-[14px] text-black w-[70%] border-none border rounded p-[10px]"
+      className="bg-green-500/60 shadow-md hover:bg-black hover:text-green-500 text-[14px] text-black w-[70%] block text-center rounded p-[10px] transition"
       href={s.link}
     >
       {s.para3}
@@ -37,7 +36,7 @@ const SupportComp = () => {
     {
       para1: "Live Chat",
       para2:
-        "Get instant help from our support team. Available 24/7 to assist with orders, products, and account issues",
+        "Get instant help from our support team. Available 24/7 to assist with orders, products, and account issues.",
       para3: "Start Chat",
       icon: <IoChatbubbleEllipsesOutline />,
       link: "https://wa.me/2348020937309?text=Hello%2C%20I%20need%20assistance%20with%20my%20order.",
@@ -45,7 +44,7 @@ const SupportComp = () => {
     {
       para1: "Phone Support",
       para2:
-        "Speak directly with our customer service representatives for personalized assistance with your concerns",
+        "Speak directly with our customer service representatives for personalized assistance with your concerns.",
       para3: "Call Now",
       icon: <FaPhone />,
       link: "tel:+2348020937309",
@@ -53,7 +52,7 @@ const SupportComp = () => {
     {
       para1: "Email Support",
       para2:
-        "Send us detailed inquiries and we will respond within 24 hours with comprehend solutions",
+        "Send us detailed inquiries and we will respond within 24 hours with comprehensive solutions.",
       para3: "Send Email",
       icon: <IoMailOutline />,
       link: "mailto:oyewolemonisola102@gmail.com?subject=Support%20Request&body=Hello%2C%20I%20need%20help%20with%20my%20order.%20Please%20get%20back%20to%20me%20as%20soon%20as%20possible.",
@@ -83,11 +82,6 @@ const SupportComp = () => {
     },
   ];
 
-  const [answer, setAnswer] = useState<number | null>(null);
-  const handleAnswer = (index: number) => {
-    setAnswer((prev) => (prev === index ? null : index));
-  };
-
   return (
     <div className="h-auto p-[50px] bg-[url('/support.jpg')] bg-cover bg-center">
       <div className="max-w-[1200px] mx-auto px-4">
@@ -96,9 +90,10 @@ const SupportComp = () => {
         </h1>
         <p className="max-w-[600px] text-center mx-auto text-black mb-7 text-sm sm:text-base">
           We are here to help you with all your shopping needs. Get instant
-          assistance or browse our comprehensive help resources
+          assistance or browse our comprehensive help resources.
         </p>
 
+        {/* Support Cards */}
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {supports.map((prod, index) => (
@@ -107,12 +102,16 @@ const SupportComp = () => {
           </div>
         </div>
 
-        <h1 className="text-center font-bold text-3xl mt-12 text-black">
+        {/* FAQ */}
+        <h1
+          id="faq"
+          className="text-center font-bold text-3xl mt-12 text-black"
+        >
           <span className="text-black">Frequently </span>
           <span className="text-green-400">Asked Questions</span>
         </h1>
 
-        <div className="mt-8 bg-white rounded-lg p-4 sm:p-6">
+        <div className="mt-8 bg-white rounded-lg p-4 sm:p-6 shadow-md">
           <Accordion.Root type="single" collapsible className="w-full">
             {faqs.map((q, i) => (
               <Accordion.Item
@@ -121,7 +120,7 @@ const SupportComp = () => {
                 className="border-b border-green-500/60"
               >
                 <Accordion.Header>
-                  <Accordion.Trigger className="flex justify-between items-center w-full py-4 text-left text-sm sm:text-base font-medium text-black hover:underline">
+                  <Accordion.Trigger className="group flex justify-between items-center w-full py-4 text-left text-sm sm:text-base font-medium text-black hover:underline">
                     {q.question}
                     <ChevronDown className="h-4 w-4 transition-transform duration-200 group-data-[state=open]:rotate-180" />
                   </Accordion.Trigger>

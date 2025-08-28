@@ -45,7 +45,7 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
 
   const isLiked = likedProductIds.includes(prop._id);
 
-  // ✅ Reviews
+  // ✅ Fetch reviews
   const { data: reviews } = useGetReviewsQuery(prop._id);
   const avgRating =
     reviews && reviews.length > 0
@@ -57,6 +57,7 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
       toast.error("Please log in to like products.");
       return;
     }
+
     dispatch(toggleLike(prop._id));
 
     try {
@@ -115,7 +116,7 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
     : "/fallback.jpg";
 
   return (
-    <div className="relative w-full max-w-[200px] h-[350px] p-2 rounded-lg shadow-sm flex flex-col justify-between">
+    <div className="container relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
       {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
@@ -124,55 +125,51 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
 
-      {/* Main content */}
-      <div>
-        <Link href={`/product/${prop._id}`} className="block text-center">
-          <Image
-            className="w-[170px] h-[185px] object-cover mx-auto"
-            src={imageSrc}
-            alt={prop.name}
-            width={170}
-            height={185}
-          />
-          <p className="text-gray-400 text-[10px] font-inter mt-1 truncate">{prop.brand?.name}</p>
-          <p className="text-black text-[12px] font-inter line-clamp-2">{prop.name}</p>
-          <div className="flex justify-center gap-2 mt-1">
-            <p className="text-black font-bold text-[14px]">{prop.price}&#163;</p>
-            <span className="line-through text-gray-400 text-[12px] italic">110,00&#163;</span>
-          </div>
-
-          {/* ⭐ Rating */}
-          <div className="flex items-center justify-center text-[10px] mt-1">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <IoMdStar
-                key={i}
-                className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
-              />
-            ))}
-            <span className="ml-1 text-gray-500 text-[9px]">({reviews?.length || 0})</span>
-          </div>
-        </Link>
-
-        {/* 👕 Size dropdown */}
-        <div className="mt-2">
-          <select
-            className="text-[10px] border rounded w-full px-2 py-1"
-            value={selectedSize}
-            onChange={(e) => setSelectedSize(e.target.value)}
-          >
-            <option value="" disabled>
-              Select Size
-            </option>
-            {prop.sizes.map((s, index) => (
-              <option key={index} value={s.size} disabled={s.stock === 0}>
-                Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
-              </option>
-            ))}
-          </select>
+      {/* 📸 Product preview clickable */}
+      <Link href={`/product/${prop._id}`} className="block">
+        <Image
+          className="w-[170.24px] h-[185px] object-cover"
+          src={imageSrc}
+          alt={prop.name}
+          width={170}
+          height={185}
+        />
+        <p className="text-gray-400 text-[10px] font-inter mt-1">{prop.brand?.name}</p>
+        <p className="text-black text-[12px] font-inter">{prop.name}</p>
+        <div className="flex gap-2">
+          <p className="text-black font-bold text-[14px]">{prop.price}&#163;</p>
+          <span className="line-through text-gray-400 text-[12px] italic">110,00&#163;</span>
         </div>
+
+        {/* ⭐ Dynamic Rating */}
+        <div className="flex items-center text-[10px] mt-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <IoMdStar
+              key={i}
+              className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
+            />
+          ))}
+          <span className="ml-1 text-gray-500 text-[9px]">({reviews?.length || 0})</span>
+        </div>
+      </Link>
+
+      {/* 👕 Size dropdown */}
+      <div className="mt-2">
+        <select
+          className="text-[10px] border rounded w-full px-2 py-1"
+          value={selectedSize}
+          onChange={(e) => setSelectedSize(e.target.value)}
+        >
+          <option value="" disabled>Select Size</option>
+          {prop.sizes.map((s, index) => (
+            <option key={index} value={s.size} disabled={s.stock === 0}>
+              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+            </option>
+          ))}
+        </select>
       </div>
 
-      {/* 🛒 Add to Cart */}
+      {/* 🛒 Add to Cart button */}
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}
