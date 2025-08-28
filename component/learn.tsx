@@ -5,7 +5,10 @@ export default function Learn() {
   return (
     <div className="container mb-[100px] sm:mb-[200px] lg:mb-[300px]">
       <div className="flex justify-start mt-[50px]">
-        <div className="relative left-0 p-6 sm:p-8 lg:p-10 bg-zinc-400 text-white w-full sm:w-[600px] lg:w-[800px] h-auto lg:h-[320px]">
+        <div className="relative left-0 p-6 sm:p-8 lg:p-10 bg-zinc-400 text-white 
+                        w-full sm:w-[600px] lg:w-[900px] xl:w-[1000px] 
+                        h-auto lg:h-[320px] rounded-lg">
+
           {/* Text Section */}
           <div className="w-full sm:w-[300px] flex flex-col">
             <h6 className="mb-5 font-bold text-[16px] sm:text-[18px] tracking-wider">
@@ -23,8 +26,9 @@ export default function Learn() {
             <FaArrowRight />
           </button>
 
-          {/* Image Section */}
-          <div className="relative mt-6 sm:mt-0 sm:absolute sm:right-[-150px] lg:right-[-350px] top-10 w-full sm:w-[400px] lg:w-[700px]">
+          {/* Image Section (hidden on small/medium, visible only from lg and up) */}
+          <div className="hidden lg:block absolute right-[-200px] xl:right-[-350px] top-10 
+                          w-[500px] xl:w-[700px]">
             <Image
               width={700}
               height={280}
