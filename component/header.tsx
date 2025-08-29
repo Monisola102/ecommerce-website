@@ -59,17 +59,37 @@ export default function Header() {
           <Logo />
         </div>
 
-        {/* Middle: Desktop Search + Support */}
-        <div className="hidden md:flex items-center gap-4 relative">
-          <Link
-            href="/support"
-            className="flex items-center gap-1 text-gray-700 hover:text-black transition"
-          >
+        {/* Right: User Actions + Search */}
+        <div className="flex items-center gap-4 relative">
+          {/* Desktop Support */}
+          <div className="hidden md:flex items-center gap-1 text-gray-700 hover:text-black transition">
             <MdOutlineHeadsetMic />
             <p className="text-xs lg:text-sm">Support</p>
-          </Link>
+          </div>
 
-          {!showSearch && (
+          {/* Search */}
+          {showSearch ? (
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                handleSearch();
+              }}
+              className="flex items-center border border-gray-300 rounded-full px-2 py-1 w-40 sm:w-48 lg:w-64"
+            >
+              <input
+                type="text"
+                id="search-input"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Search..."
+                className="flex-1 text-xs lg:text-sm focus:outline-none"
+                onKeyDown={handleKeyPress}
+              />
+              <button type="submit" aria-label="Search">
+                <IoSearchOutline size={18} className="text-gray-700" />
+              </button>
+            </form>
+          ) : (
             <button
               onClick={() => setShowSearch(true)}
               className="text-gray-700 hover:text-black"
@@ -78,47 +98,6 @@ export default function Header() {
               <IoSearchOutline size={20} />
             </button>
           )}
-
-          {showSearch && (
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                handleSearch();
-              }}
-              className="flex items-center bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 p-1 rounded-full shadow-md w-48 lg:w-64"
-            >
-              <input
-                type="text"
-                id="search-input"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-                placeholder="Search products..."
-                className="rounded-full px-3 py-1 w-full text-xs lg:text-sm focus:outline-none"
-                onKeyDown={handleKeyPress}
-              />
-              <button
-                type="submit"
-                className="ml-2 text-white px-2"
-                aria-label="Search"
-              >
-                <IoSearchOutline size={18} color="black" />
-              </button>
-            </form>
-          )}
-        </div>
-
-        {/* Right: User Actions (Now visible on all screens) */}
-        <div className="flex items-center gap-4">
-          {/* Mobile Search Icon */}
-          <div className="md:hidden">
-            <button
-              onClick={() => router.push("/search")}
-              className="text-gray-700 hover:text-black"
-              aria-label="Go to search"
-            >
-              <IoSearchOutline size={20} />
-            </button>
-          </div>
 
           {/* Favorites */}
           <Link href="/favorites" className="relative inline-block">
@@ -155,16 +134,16 @@ export default function Header() {
 
       {/* Main Nav */}
       <nav className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base">
-        <Link href="/" className="font-semibold hover:opacity-70">HOME</Link>
-        <Link href="/Women" className="hover:opacity-70">WOMEN</Link>
-        <Link href="/Men" className="hover:opacity-70">MEN</Link>
-        <Link href="/Kids" className="hover:opacity-70">KIDS</Link>
+        <Link href="/" className="font-semibold hover:text-pink-600 transition">HOME</Link>
+        <Link href="/Women" className="hover:text-pink-600 transition">WOMEN</Link>
+        <Link href="/Men" className="hover:text-pink-600 transition">MEN</Link>
+        <Link href="/Kids" className="hover:text-pink-600 transition">KIDS</Link>
       </nav>
 
       {/* Sub Nav */}
       <div className="hidden md:flex justify-start items-center mt-1 text-xs lg:text-sm space-x-4">
-        <Link href="/sale" className="hover:opacity-70">SALE</Link>
-        <Link href="/brands" className="hover:opacity-70">BRANDS</Link>
+        <Link href="/sale" className="hover:text-pink-600 transition">SALE</Link>
+        <Link href="/brands" className="hover:text-pink-600 transition">BRANDS</Link>
       </div>
     </header>
   );

@@ -2,12 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { AlignLeft, X, Mail, Phone } from "lucide-react";
-import { FaRegUser } from "react-icons/fa6";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { AiOutlineShopping } from "react-icons/ai";
-import { IoSearchOutline } from "react-icons/io5";
 import { useOutsideClick } from "@/hooks";
 
 interface MobileMenuProps {
@@ -16,14 +11,7 @@ interface MobileMenuProps {
   favoritesCount: number;
 }
 
-const SideMenu = ({
-  isOpen,
-  onClose,
-  user,
-  cartCount,
-  favoritesCount,
-}: MobileMenuProps & { isOpen: boolean; onClose: () => void }) => {
-  const router = useRouter();
+const SideMenu = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
   const sideBarRef = useOutsideClick<HTMLDivElement>(onClose);
 
   return (
@@ -59,74 +47,14 @@ const SideMenu = ({
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
+            <Link href="/" onClick={onClose} className="hover:text-yellow-200 transition">HOME</Link>
             <Link href="/Women" onClick={onClose} className="hover:text-yellow-200 transition">WOMEN</Link>
             <Link href="/Men" onClick={onClose} className="hover:text-yellow-200 transition">MEN</Link>
             <Link href="/Kids" onClick={onClose} className="hover:text-yellow-200 transition">KIDS</Link>
             <Link href="/Sale" onClick={onClose} className="hover:text-yellow-200 transition">SALE</Link>
-            <Link href="/support" onClick={onClose} className="hover:text-yellow-200 transition">SUPPORT</Link>
             <Link href="/Brands" onClick={onClose} className="hover:text-yellow-200 transition">BRANDS</Link>
+            <Link href="/Support" onClick={onClose} className="hover:text-yellow-200 transition">SUPPORT</Link>
           </nav>
-
-          {/* User / Cart / Favorites / Search */}
-          <div className="flex flex-col gap-4 mt-6">
-            <Link
-              href={user ? "/account" : "/login"}
-              onClick={onClose}
-              className="flex items-center gap-2 text-white hover:text-yellow-200 transition"
-            >
-              <FaRegUser /> {user ? "Account" : "Login"}
-            </Link>
-
-            <Link
-              href="/favorites"
-              onClick={onClose}
-              className="flex items-center gap-2 relative text-white hover:text-yellow-200 transition"
-            >
-              <IoMdHeartEmpty />
-              {favoritesCount > 0 && (
-                <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                  {favoritesCount}
-                </span>
-              )}
-              Favorites
-            </Link>
-
-            <Link
-              href="/cart"
-              onClick={onClose}
-              className="flex items-center gap-2 relative text-white hover:text-yellow-200 transition"
-            >
-              <AiOutlineShopping />
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-                  {cartCount}
-                </span>
-              )}
-              Cart
-            </Link>
-
-            {/* Search Input */}
-            <div className="flex items-center gap-2 mt-2 bg-white rounded px-2 py-1">
-              <IoSearchOutline className="text-gray-700" />
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="flex-1 text-sm focus:outline-none"
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") {
-                    const target = e.target as HTMLInputElement;
-                    if (target.value.trim()) {
-                      router.push(
-                        `/search?query=${encodeURIComponent(target.value.trim())}`
-                      );
-                      target.value = "";
-                      onClose();
-                    }
-                  }
-                }}
-              />
-            </div>
-          </div>
 
           {/* Spacer */}
           <div className="flex-grow" />
@@ -137,7 +65,7 @@ const SideMenu = ({
               href="mailto:Oyewolemonisola102@gmail.com"
               className="flex items-center gap-2 hover:underline"
             >
-              <Mail size={16} />Oyewolemonisola102@gmail.com
+              <Mail size={16} /> Oyewolemonisola102@gmail.com
             </a>
             <a
               href="tel:+2348020937309"
@@ -161,13 +89,7 @@ const MobileMenu = ({ user, cartCount, favoritesCount }: MobileMenuProps) => {
         <AlignLeft className="md:hidden hover:text-pink-600 cursor-pointer" />
       </button>
 
-      <SideMenu
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        user={user}
-        cartCount={cartCount}
-        favoritesCount={favoritesCount}
-      />
+      <SideMenu isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
     </>
   );
 };
