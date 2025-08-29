@@ -35,9 +35,7 @@ export default function Header() {
   };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSearch();
-    }
+    if (e.key === "Enter") handleSearch();
   };
 
   useEffect(() => {
@@ -53,11 +51,15 @@ export default function Header() {
       <div className="flex justify-between items-center">
         {/* Left: MobileMenu + Logo */}
         <div className="flex items-center gap-2 md:gap-4">
-          <MobileMenu />
+          <MobileMenu
+            user={user}
+            cartCount={cartCount}
+            favoritesCount={favoritesCount}
+          />
           <Logo />
         </div>
 
-        {/* Middle: Search + Support (desktop only) */}
+        {/* Middle: Desktop Search + Support */}
         <div className="hidden md:flex items-center gap-4 relative">
           <Link
             href="/support"
@@ -71,7 +73,7 @@ export default function Header() {
             <button
               onClick={() => setShowSearch(true)}
               className="text-gray-700 hover:text-black"
-              title="Search"
+              aria-label="Open search"
             >
               <IoSearchOutline size={20} />
             </button>
@@ -94,18 +96,14 @@ export default function Header() {
                 className="rounded-full px-3 py-1 w-full text-xs lg:text-sm focus:outline-none"
                 onKeyDown={handleKeyPress}
               />
-              <button
-                type="submit"
-                className="ml-2 text-white px-2"
-                title="Search"
-              >
+              <button type="submit" className="ml-2 text-white px-2" aria-label="Search">
                 <IoSearchOutline size={18} />
               </button>
             </form>
           )}
         </div>
 
-        {/* Right: User Actions */}
+        {/* Right: Desktop User Actions */}
         <div className="hidden md:flex items-center gap-4">
           <Link href="/favorites" className="relative inline-block">
             <IoMdHeartEmpty size={20} />
@@ -138,34 +136,17 @@ export default function Header() {
       </div>
 
       {/* Main Nav */}
-      <nav
-        aria-label="main-navigation"
-        className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base"
-      >
-        <Link href="/" className="font-semibold hover:opacity-70">
-          HOME
-        </Link>
-        <Link href="/Women" className="hover:opacity-70">
-          WOMEN
-        </Link>
-        <Link href="/Men" className="hover:opacity-70">
-          MEN
-        </Link>
-        <Link href="/Kids" className="hover:opacity-70">
-          KIDS
-        </Link>
+      <nav className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base">
+        <Link href="/" className="font-semibold hover:opacity-70">HOME</Link>
+        <Link href="/women" className="hover:opacity-70">WOMEN</Link>
+        <Link href="/men" className="hover:opacity-70">MEN</Link>
+        <Link href="/kids" className="hover:opacity-70">KIDS</Link>
       </nav>
 
       {/* Sub Nav */}
-      <div className="hidden md:flex justify-between items-center">
-        <nav className="flex space-x-4 mt-1 text-xs lg:text-sm">
-          <Link href="/Sale" className="hover:opacity-70">
-            SALE
-          </Link>
-          <Link href="/Brands" className="hover:opacity-70">
-            BRANDS
-          </Link>
-        </nav>
+      <div className="hidden md:flex justify-start items-center mt-1 text-xs lg:text-sm space-x-4">
+        <Link href="/sale" className="hover:opacity-70">SALE</Link>
+        <Link href="/brands" className="hover:opacity-70">BRANDS</Link>
       </div>
     </header>
   );

@@ -1,7 +1,13 @@
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
+import { useRouter } from 'next/router';
 
 export default function Learn() {
+    const router = useRouter();
+const handleClick = () => {
+router.push('/support');
+
+}
   return (
     <div className="container mb-[200px] sm:mb-[250px] lg:mb-[300px]">
       <div className="flex justify-start mt-[50px]">
@@ -23,7 +29,7 @@ export default function Learn() {
           </div>
 
           {/* Button */}
-          <button className="mt-4 bg-inherit border border-white text-white p-2 w-fit">
+          <button onClick={handleClick} className="mt-4 bg-inherit border border-white text-white p-2 w-fit">
             <FaArrowRight />
           </button>
 
