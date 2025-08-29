@@ -4,11 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlignLeft, X, Mail, Phone } from "lucide-react";
-import { FaRegUser } from "react-icons/fa6";
-import { IoMdHeartEmpty } from "react-icons/io";
-import { AiOutlineShopping } from "react-icons/ai";
-import { IoSearchOutline } from "react-icons/io5";
 import { useOutsideClick } from "@/hooks";
+import { IoSearchOutline } from "react-icons/io5";
 
 interface MobileMenuProps {
   user: any | null;
@@ -25,6 +22,15 @@ const SideMenu = ({
 }: MobileMenuProps & { isOpen: boolean; onClose: () => void }) => {
   const router = useRouter();
   const sideBarRef = useOutsideClick<HTMLDivElement>(onClose);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = () => {
+    if (searchTerm.trim()) {
+      router.push(`/search?query=${encodeURIComponent(searchTerm.trim())}`);
+      setSearchTerm("");
+      onClose();
+    }
+  };
 
   return (
     <div className="md:hidden">
@@ -59,34 +65,67 @@ const SideMenu = ({
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
-            <Link href="/Women" onClick={onClose}>WOMEN</Link>
-            <Link href="/Men" onClick={onClose}>MEN</Link>
-            <Link href="/Kids" onClick={onClose}>KIDS</Link>
-            <Link href="/Sale" onClick={onClose}>SALE</Link>
-            <Link href="/support" onClick={onClose}>SUPPORT</Link>
-            <Link href="/Brands" onClick={onClose}>BRANDS</Link>
+            <Link
+              href="/Women"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              WOMEN
+            </Link>
+            <Link
+              href="/Men"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              MEN
+            </Link>
+            <Link
+              href="/Kids"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              KIDS
+            </Link>
+            <Link
+              href="/Sale"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              SALE
+            </Link>
+            <Link
+              href="/support"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              SUPPORT
+            </Link>
+            <Link
+              href="/Brands"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              BRANDS
+            </Link>
           </nav>
 
           {/* Search Input (mobile only) */}
           <div className="flex items-center gap-2 mt-6 bg-white rounded px-2 py-1">
-            <IoSearchOutline className="text-gray-700" />
             <input
               type="text"
               placeholder="Search products..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               className="flex-1 text-sm focus:outline-none"
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  const target = e.target as HTMLInputElement;
-                  if (target.value.trim()) {
-                    router.push(
-                      `/search?query=${encodeURIComponent(target.value.trim())}`
-                    );
-                    target.value = "";
-                    onClose();
-                  }
-                }
-              }}
             />
+            <button
+              onClick={handleSearch}
+              className="p-1 hover:bg-gray-200 rounded"
+              aria-label="Search"
+            >
+              <IoSearchOutline className="text-gray-700" size={18} />
+            </button>
           </div>
 
           {/* Spacer */}
@@ -96,13 +135,13 @@ const SideMenu = ({
           <div className="mt-auto pt-6 border-t border-white/40 text-white text-sm space-y-3">
             <a
               href="mailto:Oyewolemonisola102@gmail.com"
-              className="flex items-center gap-2 hover:underline"
+              className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
             >
               <Mail size={16} /> Oyewolemonisola102@gmail.com
             </a>
             <a
               href="tel:+2348020937309"
-              className="flex items-center gap-2 hover:underline"
+              className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
             >
               <Phone size={16} /> +234 8020937309
             </a>
