@@ -34,9 +34,12 @@ export default function CartCard({ item, originalCart }: Props) {
   const [deleteFromCart] = useDeleteFromCartMutation();
 
   // Find the original cart item to get the _id for mutations
-  const originalItem = originalCart.find(
-  ci => ci._id === item._originalId
-);
+const originalItem = originalCart.find(
+    ci =>
+      ci.product._id === item._originalId &&
+      ci.size.toLowerCase() === item.size.toLowerCase()
+  );
+
 
   const handleAdd = async () => {
     try {
@@ -55,29 +58,22 @@ export default function CartCard({ item, originalCart }: Props) {
       toast.error("Failed to subtract");
     }
   };
+const handleRemove = async () => {
+    if (!originalItem) return toast.error("Item not found in cart");
 
-  const handleRemove = async () => {
-  if (!originalItem) {
-    console.error("Original item not found in cart", item);
-    return toast.error("Item not found in cart");
-  }
+    try {
+      await deleteFromCart({
+        productId: originalItem.product._id,
+        size: originalItem.size, // pass exact size from backend
+      }).unwrap();
 
-  try {
-    console.log("Deleting item:", originalItem.product._id, item.size);
-
-    await deleteFromCart({
-      productId: originalItem.product._id,
-      size: item.size,
-    }).unwrap();
-
-    toast.success("Removed from cart");
-    dispatch(openCart());
-  } catch (err) {
-    console.error("Delete error:", err);
-    toast.error("Failed to remove item");
-  }
-};
-
+      toast.success("Removed from cart");
+      dispatch(openCart());
+    } catch (err) {
+      console.error("Delete error:", err);
+      toast.error("Failed to remove item");
+    }
+  };
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
