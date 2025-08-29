@@ -2,15 +2,9 @@ import Image from "next/image";
 
 const Logo = () => {
   return (
-    <Image
-      src="/shoeShop.png"
-      alt="logo"
-      width={80}
-      height={40}
-      className="w-32 md:w-40 lg:w-48 h-auto"
-      priority
-    />
+    <>
+      <Image src="/shoeShop.png" alt="logo" width={60} height={35} priority/>
+    </>
   );
 };
-
-export default Logo;
+ export default Logo;
