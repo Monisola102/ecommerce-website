@@ -132,16 +132,16 @@ const SideMenu = ({
           {/* Contact Info */}
           <div className="mt-auto pt-6 border-t border-white/40 text-white text-sm space-y-3">
             <a
-              href="mailto:support@example.com"
+              href="mailto:Oyewolemonisola102@gmail.com"
               className="flex items-center gap-2 hover:underline"
             >
-              <Mail size={16} /> support@example.com
+              <Mail size={16} />Oyewolemonisola102@gmail.com
             </a>
             <a
-              href="tel:+2348001234567"
+              href="tel:+2348020937309"
               className="flex items-center gap-2 hover:underline"
             >
-              <Phone size={16} /> +234 800 123 4567
+              <Phone size={16} /> +234 8020937309
             </a>
           </div>
         </div>
