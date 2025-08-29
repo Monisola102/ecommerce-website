@@ -6,6 +6,12 @@ import "slick-carousel/slick/slick-theme.css";
 import AuthCartSync from "@/component/AuthCartSync";
 import FavoritesSync from "@/component/FavoriteSync";
 import { Suspense } from "react";
+import { Poppins } from "next/font/google";
+
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // choose weights you want
+});
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={poppins.className}>
       <body className="font-poppins antialiased">
         <Providers>
           <Suspense fallback={<div>Loading...</div>}>
