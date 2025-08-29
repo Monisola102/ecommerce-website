@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { AlignLeft, X, Mail, Phone } from "lucide-react";
+import { AlignLeft, X, MailIcon, Phone } from "lucide-react";
 import { useOutsideClick } from "@/hooks";
 import { IoSearchOutline } from "react-icons/io5";
 
@@ -141,7 +141,7 @@ const SideMenu = ({
               href="mailto:Oyewolemonisola102@gmail.com"
               className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
             >
-              <Mail size={16} className="text-white"/> Oyewolemonisola102@gmail.com
+              <MailIcon size={16} className="text-white"/> Oyewolemonisola102@gmail.com
             </a>
             <a
               href="tel:+2348020937309"
