@@ -97,7 +97,7 @@ export default function Header() {
                 onKeyDown={handleKeyPress}
               />
               <button type="submit" className="ml-2 text-white px-2" aria-label="Search">
-                <IoSearchOutline size={18} />
+                <IoSearchOutline size={18} color="black" />
               </button>
             </form>
           )}
