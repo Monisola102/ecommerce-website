@@ -138,9 +138,9 @@ export default function Header() {
       {/* Main Nav */}
       <nav className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base">
         <Link href="/" className="font-semibold hover:opacity-70">HOME</Link>
-        <Link href="/women" className="hover:opacity-70">WOMEN</Link>
-        <Link href="/men" className="hover:opacity-70">MEN</Link>
-        <Link href="/kids" className="hover:opacity-70">KIDS</Link>
+        <Link href="/Women" className="hover:opacity-70">WOMEN</Link>
+        <Link href="/Men" className="hover:opacity-70">MEN</Link>
+        <Link href="/Kids" className="hover:opacity-70">KIDS</Link>
       </nav>
 
       {/* Sub Nav */}
