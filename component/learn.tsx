@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { FaArrowRight } from "react-icons/fa";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/navigation";
 
 export default function Learn() {
     const router = useRouter();
