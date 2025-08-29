@@ -136,20 +136,16 @@ const SideMenu = ({
           <div className="flex-grow" />
 
           {/* Contact Info */}
-          <div className="mt-auto pt-6 border-t border-white/40 text-white text-sm space-y-3">
-            <a
-              href="mailto:Oyewolemonisola102@gmail.com"
-              className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
-            >
-              <MailIcon size={16} className="text-white"/> Oyewolemonisola102@gmail.com
-            </a>
-            <a
-              href="tel:+2348020937309"
-              className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
-            >
-              <Phone size={16} className="text-white" /> +234 8020937309
-            </a>
-          </div>
+      <div className="mt-10 space-y-4 text-sm">
+              <div className="flex items-center space-x-2">
+                <MailIcon size={16} className="text-white" /> {/* ✅ fixed */}
+                <span>Oyewolemonisola102@gmail.com</span>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Phone size={16} className="text-white" />
+                <span>+234 901 234 5678</span>
+              </div>
+            </div>
         </div>
       </div>
     </div>
