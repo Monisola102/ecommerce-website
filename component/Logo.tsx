@@ -5,8 +5,8 @@ const Logo = () => {
     <Image
       src="/shoeShop.png"
       alt="logo"
-      width={150}
-      height={50}
+      width={80}
+      height={40}
       className="w-32 md:w-40 lg:w-48 h-auto"
       priority
     />
