@@ -125,7 +125,7 @@ export default function WomenPage() {
         </h1>
 
         {/* Product Slider */}
-        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-visible pb-4">
+        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-visible mb-5">
           {loading ? (
             <p className="text-center">Loading products...</p>
           ) : women.length > 0 ? (
