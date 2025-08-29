@@ -122,7 +122,7 @@ export default function KidsPage() {
         </h1>
 
         {/* Product Slider */}
-        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-hidden">
+        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-visible mb-5">
           <Slider {...trendSliderSettings}>
             {products.map((product) => (
               <KidsCard key={product._id} kids={product} />

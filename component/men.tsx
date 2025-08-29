@@ -120,7 +120,7 @@ export default function MenPage() {
           AVAILABLE
         </h1>
 
-        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-hidden">
+        <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-visible mb-5">
           <Slider {...trendSliderSettings}>
             {products.map((product) => (
               <MenCard key={product._id} men={product} />

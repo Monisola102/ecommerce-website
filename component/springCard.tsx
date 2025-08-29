@@ -114,7 +114,7 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
   const imageSrc = spring.image || "/fallback.jpg";
 
   return (
-    <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
+    <div className="relative w-full max-w-[240px] p-2 rounded-lg shadow-sm">
       {/* ❤️ Like Icon */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
@@ -128,8 +128,8 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
         <Image
           className="w-full h-[185px] object-cover"
           src={imageSrc}
-          width={170}
-          height={185}
+          width={200}
+          height={220}
           alt={spring.name}
         />
         <p className="text-gray-400 text-[10px] font-inter mt-1">{spring.brand?.name}</p>
