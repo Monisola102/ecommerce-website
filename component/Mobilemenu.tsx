@@ -16,9 +16,6 @@ interface MobileMenuProps {
 const SideMenu = ({
   isOpen,
   onClose,
-  user,
-  cartCount,
-  favoritesCount,
 }: MobileMenuProps & { isOpen: boolean; onClose: () => void }) => {
   const router = useRouter();
   const sideBarRef = useOutsideClick<HTMLDivElement>(onClose);
@@ -65,6 +62,13 @@ const SideMenu = ({
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
+                        <Link
+              href="/"
+              onClick={onClose}
+              className="hover:translate-x-1 transition-transform duration-200"
+            >
+              HOME
+            </Link>
             <Link
               href="/Women"
               onClick={onClose}
