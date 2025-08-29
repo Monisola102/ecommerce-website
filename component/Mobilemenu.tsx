@@ -64,6 +64,7 @@ const SideMenu = ({
             <Link href="/Kids" onClick={onClose}>KIDS</Link>
             <Link href="/Sale" onClick={onClose}>SALE</Link>
             <Link href="/support" onClick={onClose}>SUPPORT</Link>
+            <Link href="/Brands" onClick={onClose}>BRANDS</Link>
           </nav>
 
           {/* User / Cart / Favorites / Search */}
