@@ -143,7 +143,7 @@ const SideMenu = ({
   rel="noopener noreferrer"
   className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
 >
-  <Mail size={16} className="text-white" /> Oyewolemonisola102@gmail.com
+  <Mail size={16} color="text-white" /> Oyewolemonisola102@gmail.com
 </a>
             <a
               href="tel:+2348020937309"

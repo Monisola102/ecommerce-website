@@ -78,7 +78,7 @@ export default function CartPage() {
             </div>
             <div>
               <h3 className="font-semibold text-black text-sm">Total Price</h3>
-              <p className="text-black font-semibold text-lg">₦{cart.totalPrice.toLocaleString()}</p>
+              <p className="text-black font-semibold text-lg">{cart.totalPrice.toLocaleString()}&#163;</p>
             </div>
 
             <div className="flex flex-col gap-2 mt-4">

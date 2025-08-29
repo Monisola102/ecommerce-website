@@ -35,8 +35,8 @@ export default function CartCard({ item, originalCart }: Props) {
 
   // Find the original cart item to get the _id for mutations
   const originalItem = originalCart.find(
-    ci => ci.size === item.size && ci.product.name === item.productName
-  );
+  ci => ci._id === item._originalId
+);
 
   const handleAdd = async () => {
     try {
