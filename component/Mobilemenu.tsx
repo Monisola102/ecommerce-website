@@ -59,12 +59,12 @@ const SideMenu = ({
 
           {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
-            <Link href="/Women" onClick={onClose}>WOMEN</Link>
-            <Link href="/Men" onClick={onClose}>MEN</Link>
-            <Link href="/Kids" onClick={onClose}>KIDS</Link>
-            <Link href="/Sale" onClick={onClose}>SALE</Link>
-            <Link href="/support" onClick={onClose}>SUPPORT</Link>
-            <Link href="/Brands" onClick={onClose}>BRANDS</Link>
+            <Link href="/Women" onClick={onClose} className="hover:text-yellow-200 transition">WOMEN</Link>
+            <Link href="/Men" onClick={onClose} className="hover:text-yellow-200 transition">MEN</Link>
+            <Link href="/Kids" onClick={onClose} className="hover:text-yellow-200 transition">KIDS</Link>
+            <Link href="/Sale" onClick={onClose} className="hover:text-yellow-200 transition">SALE</Link>
+            <Link href="/support" onClick={onClose} className="hover:text-yellow-200 transition">SUPPORT</Link>
+            <Link href="/Brands" onClick={onClose} className="hover:text-yellow-200 transition">BRANDS</Link>
           </nav>
 
           {/* User / Cart / Favorites / Search */}
@@ -72,7 +72,7 @@ const SideMenu = ({
             <Link
               href={user ? "/account" : "/login"}
               onClick={onClose}
-              className="flex items-center gap-2 text-white"
+              className="flex items-center gap-2 text-white hover:text-yellow-200 transition"
             >
               <FaRegUser /> {user ? "Account" : "Login"}
             </Link>
@@ -80,7 +80,7 @@ const SideMenu = ({
             <Link
               href="/favorites"
               onClick={onClose}
-              className="flex items-center gap-2 relative text-white"
+              className="flex items-center gap-2 relative text-white hover:text-yellow-200 transition"
             >
               <IoMdHeartEmpty />
               {favoritesCount > 0 && (
@@ -94,7 +94,7 @@ const SideMenu = ({
             <Link
               href="/cart"
               onClick={onClose}
-              className="flex items-center gap-2 relative text-white"
+              className="flex items-center gap-2 relative text-white hover:text-yellow-200 transition"
             >
               <AiOutlineShopping />
               {cartCount > 0 && (
@@ -116,7 +116,9 @@ const SideMenu = ({
                   if (e.key === "Enter") {
                     const target = e.target as HTMLInputElement;
                     if (target.value.trim()) {
-                      router.push(`/search?query=${encodeURIComponent(target.value.trim())}`);
+                      router.push(
+                        `/search?query=${encodeURIComponent(target.value.trim())}`
+                      );
                       target.value = "";
                       onClose();
                     }

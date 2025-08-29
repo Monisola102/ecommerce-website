@@ -96,15 +96,31 @@ export default function Header() {
                 className="rounded-full px-3 py-1 w-full text-xs lg:text-sm focus:outline-none"
                 onKeyDown={handleKeyPress}
               />
-              <button type="submit" className="ml-2 text-white px-2" aria-label="Search">
+              <button
+                type="submit"
+                className="ml-2 text-white px-2"
+                aria-label="Search"
+              >
                 <IoSearchOutline size={18} color="black" />
               </button>
             </form>
           )}
         </div>
 
-        {/* Right: Desktop User Actions */}
-        <div className="hidden md:flex items-center gap-4">
+        {/* Right: User Actions (Now visible on all screens) */}
+        <div className="flex items-center gap-4">
+          {/* Mobile Search Icon */}
+          <div className="md:hidden">
+            <button
+              onClick={() => router.push("/search")}
+              className="text-gray-700 hover:text-black"
+              aria-label="Go to search"
+            >
+              <IoSearchOutline size={20} />
+            </button>
+          </div>
+
+          {/* Favorites */}
           <Link href="/favorites" className="relative inline-block">
             <IoMdHeartEmpty size={20} />
             {favoritesCount > 0 && (
@@ -114,6 +130,7 @@ export default function Header() {
             )}
           </Link>
 
+          {/* User */}
           {user ? (
             <Link href="/account">
               <FaRegUser size={18} />
@@ -124,6 +141,7 @@ export default function Header() {
             </Link>
           )}
 
+          {/* Cart */}
           <Link href="/cart" className="relative inline-block">
             <AiOutlineShopping size={20} />
             {cartCount > 0 && (
