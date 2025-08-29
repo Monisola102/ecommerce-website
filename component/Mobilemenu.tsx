@@ -141,13 +141,13 @@ const SideMenu = ({
               href="mailto:Oyewolemonisola102@gmail.com"
               className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
             >
-              <Mail size={16} color="white"/> Oyewolemonisola102@gmail.com
+              <Mail size={16} className="text-white"/> Oyewolemonisola102@gmail.com
             </a>
             <a
               href="tel:+2348020937309"
               className="flex items-center gap-2 hover:translate-x-1 transition-transform duration-200"
             >
-              <Phone size={16} color="white" /> +234 8020937309
+              <Phone size={16} className="text-white" /> +234 8020937309
             </a>
           </div>
         </div>
