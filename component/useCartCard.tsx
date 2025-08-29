@@ -57,14 +57,27 @@ export default function CartCard({ item, originalCart }: Props) {
   };
 
   const handleRemove = async () => {
-    try {
-      await deleteFromCart({ productId: originalItem.product._id, size: item.size }).unwrap();
-      toast.success("Removed from cart");
-      dispatch(openCart());
-    } catch {
-      toast.error("Failed to remove item");
-    }
-  };
+  if (!originalItem) {
+    console.error("Original item not found in cart", item);
+    return toast.error("Item not found in cart");
+  }
+
+  try {
+    console.log("Deleting item:", originalItem.product._id, item.size);
+
+    await deleteFromCart({
+      productId: originalItem.product._id,
+      size: item.size,
+    }).unwrap();
+
+    toast.success("Removed from cart");
+    dispatch(openCart());
+  } catch (err) {
+    console.error("Delete error:", err);
+    toast.error("Failed to remove item");
+  }
+};
+
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
