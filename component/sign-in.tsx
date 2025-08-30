@@ -8,6 +8,7 @@ import { useSignupMutation } from "@/store/Features/auth/auth-api";
 import { setUser } from "@/store/Features/auth/auth-slice";
 import Link from "next/link";
 import Image from "next/image";
+import { Eye, EyeOff } from "lucide-react";
 
 interface FormState {
   name: string;
@@ -23,6 +24,9 @@ export default function SignUpUser() {
     password: "",
     confirmPassword: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -48,12 +52,12 @@ export default function SignUpUser() {
       }).unwrap();
 
       dispatch(setUser(user));
-      toast.success(`Welcome, ${user.name}!`);
+      toast.success(`Welcome, ${user.name}! 🎉`);
 
       setTimeout(() => {
         if (user.role === "admin") router.push("/admin");
         else router.push("/");
-      }, 1500);
+      }, 1200);
     } catch (error: any) {
       toast.error(error?.data?.message || "Signup failed");
     }
@@ -67,7 +71,7 @@ export default function SignUpUser() {
           <div className="h-full w-full min-h-[500px] bg-[url('/reg4pic.jpg')] bg-cover bg-center" />
         </div>
 
-        {/* SignUp Form */}
+        {/* Signup Form */}
         <div className="flex flex-col justify-center px-6 py-12 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
@@ -84,6 +88,7 @@ export default function SignUpUser() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Name
@@ -99,6 +104,7 @@ export default function SignUpUser() {
                 />
               </div>
 
+              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Email
@@ -114,36 +120,57 @@ export default function SignUpUser() {
                 />
               </div>
 
+              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Password
                 </label>
-                <input
-                  type="password"
-                  name="password"
-                  value={form.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    value={form.password}
+                    onChange={handleChange}
+                    placeholder="Enter your password"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                  >
+                    {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
 
+              {/* Confirm Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Confirm Password
                 </label>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={form.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your password"
-                  required
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
-                />
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? "text" : "password"}
+                    name="confirmPassword"
+                    value={form.confirmPassword}
+                    onChange={handleChange}
+                    placeholder="Confirm your password"
+                    required
+                    className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-500"
+                  >
+                    {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
               </div>
 
+              {/* Button */}
               <button
                 type="submit"
                 disabled={isLoading}

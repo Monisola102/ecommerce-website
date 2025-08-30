@@ -76,6 +76,7 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
+     transformResponse: (response: { message: string; user: User }) => response.user,
       invalidatesTags: ["User"], 
     }),
 
@@ -85,6 +86,7 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
+      transformResponse: (response: { message: string; user: User }) => response.user,
       invalidatesTags: ["User"],
     }),
 
