@@ -100,7 +100,7 @@ const handleRemove = async () => {
       {/* Product Info */}
       <div className="flex flex-col flex-1 text-center sm:text-left gap-1">
         <p className="font-semibold text-[12px]">{item.productName}</p>
-        <p className="text-black font-bold text-[12px]">₦{item.price}</p>
+        <p className="text-black font-bold text-[12px]">{item.price} &#163;</p>
         {item.size && <p className="text-gray-400 text-[10px]">Size: {item.size}</p>}
 
         {/* Quantity controls */}
