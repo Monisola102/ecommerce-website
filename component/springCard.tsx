@@ -128,8 +128,8 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
         <Image
           className="w-full h-[185px] object-cover"
           src={imageSrc}
-          width={200}
-          height={220}
+          width={250}
+          height={240}
           alt={spring.name}
         />
         <p className="text-gray-400 text-[10px] font-inter mt-1">{spring.brand?.name}</p>

@@ -5,6 +5,7 @@ import RecommendedCard from "./RecommendedCard";
 
 export default function RecommendedComp() {
  const [recommended, setRecommended] = useState([]);
+  const [loading, setLoading] = useState(true); // <-- loading state
 
   useEffect(() => {
     const fetchRecommended = async () => {
@@ -23,6 +24,8 @@ export default function RecommendedComp() {
         setRecommended(data.data);
       } catch (error) {
         console.error("Error fetching trends:", error);
+      }finally {
+        setLoading(false); // <-- stop loading regardless of success/failure
       }
     };
 
@@ -65,7 +68,15 @@ export default function RecommendedComp() {
         },
       ],
   };
-
+if (loading) {
+    // <-- simple placeholder while backend wakes up
+    return (
+      <div className="flex justify-center items-center h-[370px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+        <p className="ml-3 text-black">Loading recommended...</p>
+      </div>
+    );
+  }
   return (
     <div className="container">
       <h1 className="font-bold text-black text-xl mt-5 mb-4 ml-[64px] ">

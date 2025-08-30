@@ -6,6 +6,7 @@ import Slider from "react-slick";
 
 export default function TrendComp() {
   const [trends, setTrends] = useState([]);
+  const [loading, setLoading] = useState(true); // <-- loading state
 
   useEffect(() => {
     const fetchTrends = async () => {
@@ -24,6 +25,8 @@ export default function TrendComp() {
         setTrends(data.data);
       } catch (error) {
         console.error("Error fetching trends:", error);
+      }finally {
+        setLoading(false); // <-- stop loading regardless of success/failure
       }
     };
 
@@ -66,7 +69,15 @@ export default function TrendComp() {
     },
   ],
   };
-
+if (loading) {
+    // <-- simple placeholder while backend wakes up
+    return (
+      <div className="flex justify-center items-center h-[370px]">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+        <p className="ml-3 text-black">Loading trends...</p>
+      </div>
+    );
+  }
   return (
     <div className="container">
       <h1 className="font-bold text-black text-xl mt-[45px] mb-4 ml-[64px]">
