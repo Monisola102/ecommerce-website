@@ -83,7 +83,7 @@ export default function KidsPage() {
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
             <div key={i} className="relative w-full">
-              <div className="relative w-full h-[50vh] sm:h-[60vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] 2xl:h-[100vh] min-h-[400px]">
+              <div className="relative w-full h-[50vh] sm:h-[45vh] md:h-[70vh] lg:h-[80vh] xl:h-[90vh] 2xl:h-[100vh] min-h-[400px]">
                 <Image
                   src={img}
                   alt={`Hero ${i}`}
