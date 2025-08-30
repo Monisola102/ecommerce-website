@@ -42,16 +42,16 @@ export default function Login() {
         <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:px-10 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900">
-                Login
-              </h2>
-              <Image
-                src="/shoeShop.png"
-                alt="Logo"
-                width={38}
-                height={38}
-                className="rounded-full"
-              />
+              <h2 className="text-3xl font-bold mb-6 flex items-center justify-center gap-2">
+  Login
+  <Image
+    src="/images/log.png"
+    alt="logo"
+    width={28}   // ✅ smaller size
+    height={28}  // ✅ smaller size
+    className="rounded-full"
+  />
+</h2> 
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">

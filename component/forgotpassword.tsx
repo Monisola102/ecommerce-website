@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { useForgotPasswordMutation } from "@/store/Features/auth/auth-api";
-import Image from "next/image";
+import { BsQuestionDiamond } from "react-icons/bs";
+
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -31,18 +32,11 @@ export default function ForgotPassword() {
         <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:px-10 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
-              <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900">
-                Forgot Password
-              </h2>
-              <Image
-                src="/shoeShop.png"
-                alt="Logo"
-                width={38}
-                height={38}
-                className="rounded-full"
-              />
-            </div>
-
+  <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900">
+    Forgot Password
+  </h2>
+  <BsQuestionDiamond  className="w-8 h-8 text-purple-500" />
+</div>
             <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               <div>
                 <label htmlFor="email" className="block text-sm sm:text-base font-medium text-gray-900">
