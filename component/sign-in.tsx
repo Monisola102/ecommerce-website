@@ -71,19 +71,23 @@ export default function SignUpUser() {
         <div className="flex flex-col justify-center px-6 py-12 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
-              <h2 className="text-2xl font-bold text-center text-gray-900">Create Account</h2>
-              <Image
-                src="/shoeShop.png"
-                alt="Logo"
-                width={38}
-                height={38}
-                className="rounded-full mb-2"
-              />
+              <h2 className="text-3xl font-bold mb-6 flex items-center justify-center gap-2">
+                Create Account
+                <Image
+                  src="/shoeShop.png"
+                  alt="Logo"
+                  width={28}
+                  height={28}
+                  className="rounded-full"
+                />
+              </h2>
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-900">Name</label>
+                <label className="block text-sm font-medium text-gray-900">
+                  Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -96,7 +100,9 @@ export default function SignUpUser() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900">Email</label>
+                <label className="block text-sm font-medium text-gray-900">
+                  Email
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -109,7 +115,9 @@ export default function SignUpUser() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900">Password</label>
+                <label className="block text-sm font-medium text-gray-900">
+                  Password
+                </label>
                 <input
                   type="password"
                   name="password"
@@ -122,7 +130,9 @@ export default function SignUpUser() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-900">Confirm Password</label>
+                <label className="block text-sm font-medium text-gray-900">
+                  Confirm Password
+                </label>
                 <input
                   type="password"
                   name="confirmPassword"

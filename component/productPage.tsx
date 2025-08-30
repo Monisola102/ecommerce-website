@@ -1,4 +1,4 @@
-// /app/product/[id]/ProductDetail.tsx
+
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
@@ -70,7 +70,7 @@ export default function ProductDetail() {
 
       {/* Product Info */}
       <h1 className="text-2xl sm:text-3xl font-bold mt-4">{product.name}</h1>
-      <p className="text-gray-700 mt-1 text-lg sm:text-xl">₦{product.price}</p>
+      <p className="text-black font-semibold mt-1 text-lg sm:text-xl">{product.price}&#163;</p>
       <p className="mt-2 text-sm sm:text-base text-gray-600">{product.description}</p>
 
       {/* Size Selector */}
@@ -100,13 +100,13 @@ export default function ProductDetail() {
       </div>
 
       {/* Add to Cart Button */}
-      <button
-        onClick={handleAddToCart}
-        disabled={isAdding}
-        className="mt-6 w-full bg-purple-600 text-white py-3 rounded-md hover:bg-purple-700 disabled:opacity-50 transition-colors"
-      >
-        {isAdding ? "Adding..." : "Add to Cart"}
-      </button>
+   <button
+  onClick={handleAddToCart}
+  disabled={isAdding}
+  className="mt-6 w-full bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold py-3 rounded-md hover:opacity-90 disabled:opacity-50 transition"
+>
+  {isAdding ? "Adding..." : "Add to Cart"}
+</button>
     </div>
   );
 }
