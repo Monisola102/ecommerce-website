@@ -19,6 +19,9 @@ export const metadata: Metadata = {
     default: "The Shoe Shop",
   },
   description: "your one stop shop store for all your needs",
+   icons: {
+    icon: "/favicon.ico.png",
+  },
 };
 
 export default function RootLayout({
