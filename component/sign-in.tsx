@@ -52,7 +52,7 @@ export default function SignUpUser() {
       }).unwrap();
 
       dispatch(setUser(user));
-      toast.success(`Welcome, ${user.name}! 🎉`);
+      toast.success(`Welcome, ${user.name}{"\u2764\uFE0F"}! `);
 
       setTimeout(() => {
         if (user.role === "admin") router.push("/admin");

@@ -7,14 +7,17 @@ import { useAppDispatch } from "@/store/hook";
 import { useLoginMutation } from "@/store/Features/auth/auth-api";
 import { setUser } from "@/store/Features/auth/auth-slice";
 import Image from "next/image";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get("redirect");
   const dispatch = useAppDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -55,6 +58,7 @@ export default function Login() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
+              {/* Email */}
               <div>
                 <label
                   htmlFor="email"
@@ -74,6 +78,7 @@ export default function Login() {
                 />
               </div>
 
+              {/* Password with Eye Toggle */}
               <div>
                 <label
                   htmlFor="password"
@@ -81,17 +86,28 @@ export default function Login() {
                 >
                   Password
                 </label>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                  placeholder="Enter your password"
-                  className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
+                <div className="relative">
+                  <input
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    placeholder="Enter your password"
+                    className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-900"
+                  >
+                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                  </button>
+                </div>
               </div>
+
+              {/* Forgot Password */}
               <div className="text-right">
                 <Link
                   href="/account/forgot-password"
@@ -100,6 +116,8 @@ export default function Login() {
                   Forgot Password?
                 </Link>
               </div>
+
+              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isLoading}
@@ -109,6 +127,7 @@ export default function Login() {
               </button>
             </form>
 
+            {/* Redirect */}
             <p className="mt-6 text-center text-sm sm:text-base text-black">
               Don't have an account?{" "}
               <Link href="/sign-in" className="hover:underline text-purple-400">
