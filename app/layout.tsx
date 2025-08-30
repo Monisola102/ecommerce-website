@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   },
   description: "your one stop shop store for all your needs",
    icons: {
-    icon: "/faveIcon.ico",
+    icon: "/favicon.ico",
   },
 };
 
