@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/store/hook";
-import { useLoginMutation } from "@/store/Features/auth/auth-api"; 
-import { setUser } from "@/store/Features/auth/auth-slice"; 
+import { useLoginMutation } from "@/store/Features/auth/auth-api";
+import { setUser } from "@/store/Features/auth/auth-slice";
 import Image from "next/image";
 
 export default function Login() {
@@ -15,13 +15,13 @@ export default function Login() {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [login, { isLoading }] = useLoginMutation(); 
+  const [login, { isLoading }] = useLoginMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     try {
-      const user = await login({ email, password }).unwrap(); 
+      const user = await login({ email, password }).unwrap();
       dispatch(setUser(user));
       toast.success("Login successful!");
       router.replace(redirectUrl || "/");
@@ -33,7 +33,6 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-7xl flex flex-col lg:flex-row shadow-lg rounded-lg overflow-hidden">
-        
         {/* Left Image */}
         <div className="hidden lg:block lg:w-1/2">
           <div className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-full w-full bg-[url('/reg4pic.jpg')] bg-cover bg-center" />
@@ -44,7 +43,7 @@ export default function Login() {
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
               <h2 className="text-2xl sm:text-3xl font-bold text-center text-gray-900">
-                Login 
+                Login
               </h2>
               <Image
                 src="/shoeShop.png"
@@ -57,7 +56,10 @@ export default function Login() {
 
             <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
               <div>
-                <label htmlFor="email" className="block text-sm sm:text-base font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-sm sm:text-base font-medium text-gray-900"
+                >
                   Email
                 </label>
                 <input
@@ -73,7 +75,10 @@ export default function Login() {
               </div>
 
               <div>
-                <label htmlFor="password" className="block text-sm sm:text-base font-medium text-gray-900">
+                <label
+                  htmlFor="password"
+                  className="block text-sm sm:text-base font-medium text-gray-900"
+                >
                   Password
                 </label>
                 <input
@@ -87,7 +92,14 @@ export default function Login() {
                   className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
+              <div className="text-right">
+                <Link
+                  href="/auth/forgot-password"
+                  className="text-sm text-purple-500 hover:underline"
+                >
+                  Forgot Password?
+                </Link>
+              </div>
               <button
                 type="submit"
                 disabled={isLoading}

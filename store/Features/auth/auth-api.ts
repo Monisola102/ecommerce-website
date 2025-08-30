@@ -131,7 +131,26 @@ export const authApi = createApi({
       }),
       invalidatesTags: ["Payments"],
     }),
-
+ forgotPassword: builder.mutation<
+      { message: string },         // response type
+      { email: string }            // request body
+    >({
+      query: (body) => ({
+        url: "/forgot-password",
+        method: "POST",
+        body,
+      }),
+    }),
+     resetPassword: builder.mutation<
+      { message: string },
+      { token: string; password: string }
+    >({
+      query: (body) => ({
+        url: "/reset-password",
+        method: "POST",
+        body,
+      }),
+    }),
     fetchUserDashboard:builder.query<UserDashboardResponse,void>({
  query: () => ({
         url: "/dashboard",
@@ -153,5 +172,7 @@ export const {
   useUpdateUserProfileMutation,
   useGetUserPaymentsQuery,
   useFetchUserDashboardQuery,
-  useCreatePaymentMutation
+  useCreatePaymentMutation,
+   useForgotPasswordMutation,
+  useResetPasswordMutation, 
 } = authApi;
