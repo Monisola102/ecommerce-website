@@ -40,7 +40,7 @@ export default function OrdersPage() {
 
               <div className="text-sm text-gray-600 space-y-1">
                 <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
-                <p>Total: {order.totalPrice.toFixed(2)}&#163;</p>
+                <p>Total: {order.totalPrice.toFixed(2)}</p>
                 <p>Items: {order.items.length}</p>
               </div>
 
@@ -52,7 +52,7 @@ export default function OrdersPage() {
                   >
                     <span>{item.product.name}</span>
                     <span>
-                      {item.quantity} × ${item.priceAtOrderTime.toFixed(2)}
+                      {item.quantity} × {item.priceAtOrderTime.toFixed(2)}
                     </span>
                   </div>
                 ))}

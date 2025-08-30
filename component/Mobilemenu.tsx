@@ -114,23 +114,23 @@ const SideMenu = ({
           </nav>
 
           {/* Search Input (mobile only) */}
-          <div className="flex items-center gap-2 mt-6 bg-white rounded px-2 py-1">
-            <input
-              type="text"
-              placeholder="Search products..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
-              className="flex-1 text-sm focus:outline-none"
-            />
-            <button
-              onClick={handleSearch}
-              className="p-1 hover:bg-gray-200 rounded"
-              aria-label="Search"
-            >
-              <IoSearchOutline className="text-gray-700" size={18} />
-            </button>
-          </div>
+       <div className="flex items-center gap-2 mt-6 bg-white rounded px-2 py-1">
+  <input
+    type="text"
+    placeholder="Search products..."
+    value={searchTerm}
+    onChange={(e) => setSearchTerm(e.target.value)}
+    onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+    className="flex-1 text-sm focus:outline-none min-w-0"
+  />
+  <button
+    onClick={handleSearch}
+    className="p-2 flex-shrink-0"
+    aria-label="Search"
+  >
+    <IoSearchOutline className="text-gray-700" size={18} />
+  </button>
+</div>
 
           {/* Spacer */}
           <div className="flex-grow" />
