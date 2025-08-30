@@ -86,7 +86,7 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
-     transformResponse: (response: { message: string; user: User; token: string }) => response.user,
+      transformResponse: (response: { message: string; user: User; token: string }) => response.user,
       invalidatesTags: ["User"],
     }),
 
@@ -112,7 +112,7 @@ export const authApi = createApi({
         method: "PATCH",
         body,
       }),
-      transformResponse: (response: { message: string; user: User; token: string }) => response.user,
+      
       invalidatesTags: ["User"],
     }),
     getUserPayments: builder.query<Payment[], void>({
