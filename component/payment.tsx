@@ -19,26 +19,17 @@ function getPaymentIcon(method: string): string {
 }
 
 export default function PaymentsPage() {
-  const { data: userResponse, isLoading: userLoading } = useFetchUserQuery();
+  const { isLoading: userLoading } = useFetchUserQuery();
   const {
     data: paymentsResponse,
     isLoading: paymentsLoading,
     error: paymentsError,
   } = useGetUserPaymentsQuery();
 
-  const localUser = useSelector((state: RootState) => state.auth.user);
   const payments = paymentsResponse || [];
 
   if (userLoading || paymentsLoading) {
     return <p className="text-center mt-6">Loading payments...</p>;
-  }
-
-  if (!userResponse?.data || !localUser) {
-    return (
-      <p className="text-center mt-6 text-red-600">
-        Please log in to view your payment history.
-      </p>
-    );
   }
 
   if (paymentsError) {

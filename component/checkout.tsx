@@ -1,16 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import { useCreateOrderMutation } from "@/store/Features/order/order-api";
 import { useGetCartQuery } from "@/store/Features/cart/cart-api";
-import { useAppSelector } from "@/store/hook";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 export default function CheckOutPage() {
   const router = useRouter();
-  const user = useAppSelector((state) => state.auth.user);
-
   const { data: cartData, isLoading: cartLoading } = useGetCartQuery();
   const [createOrder, { isLoading: orderLoading }] = useCreateOrderMutation();
 
@@ -23,13 +20,6 @@ export default function CheckOutPage() {
   });
 
   const [paymentMethod, setPaymentMethod] = useState("");
-
-  useEffect(() => {
-    if (!user) {
-      toast.error("Please login to proceed with checkout");
-      router.push("/login");
-    }
-  }, [user, router]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setShippingAddress({ ...shippingAddress, [e.target.name]: e.target.value });

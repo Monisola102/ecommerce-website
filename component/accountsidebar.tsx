@@ -11,10 +11,8 @@ export default function AccountSidebar() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const handleLogout = () => {
-   setIsLoggingOut(true); // suppress other toasts
     dispatch(clearUser());
     toast.success("Logout successful!");
     setTimeout(() => {
