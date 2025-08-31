@@ -27,6 +27,7 @@ export default function Login() {
       const user = await login({ email, password }).unwrap();
       dispatch(setUser(user));
       toast.success("Login successful!");
+      console.log("All accessible cookies:", document.cookie);
       router.replace(redirectUrl || "/");
     } catch (err: any) {
       toast.error(err?.data?.message || "Login failed");

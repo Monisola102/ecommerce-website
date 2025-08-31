@@ -67,6 +67,10 @@ export const authApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl:`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   tagTypes: ["User", "Payments"], 
   endpoints: (builder) => ({

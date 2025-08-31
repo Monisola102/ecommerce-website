@@ -41,6 +41,10 @@ export const cartApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/carts`,
     credentials: "include",
+    prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
+      return headers;
+    },
   }),
   tagTypes: ["Cart"],
   endpoints: (builder) => ({
