@@ -158,7 +158,6 @@ export const authApi = createApi({
  query: () => ({
         url: "/dashboard",
         method: "GET",
-        credentials: "include",
       }),
       providesTags: ["User"],
 
