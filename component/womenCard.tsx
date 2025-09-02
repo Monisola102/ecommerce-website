@@ -44,8 +44,6 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const isLiked = likedProductIds.includes(women._id);
-
-  // ✅ Fetch reviews
   const { data: reviews } = useGetReviewsQuery(women._id);
   const avgRating =
     reviews && reviews.length > 0
@@ -102,15 +100,12 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
 
   return (
     <div className="relative w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] p-2 rounded-lg shadow-sm">
-      {/* ❤️ Like Icon */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-sm sm:text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-
-      {/* 📸 Product Image + Info */}
       <Link href={`/product/${women._id}`} className="block">
         <Image
           className="w-[140px] h-[160px] sm:w-[160px] sm:h-[175px] md:w-[170px] md:h-[185px] object-cover mx-auto"
@@ -125,8 +120,6 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           <p className="text-black font-bold text-[12px] sm:text-[14px]">{women.price}&#163;</p>
           <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">110,00&#163;</span>
         </div>
-
-        {/* ⭐ Dynamic Rating */}
         <div className="flex items-center mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar
@@ -137,8 +130,6 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews?.length || 0})</span>
         </div>
       </Link>
-
-      {/* 👕 Size Selector */}
       <div className="mt-2">
         <select
           className="text-[9px] sm:text-[10px] border rounded w-full px-2 py-1"
@@ -153,8 +144,6 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           ))}
         </select>
       </div>
-
-      {/* 🛒 Add to Cart */}
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}

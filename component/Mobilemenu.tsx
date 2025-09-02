@@ -50,7 +50,6 @@ const SideMenu = ({
                      bg-gradient-to-b from-pink-300 to-pink-500
                      shadow-lg"
         >
-          {/* Close Button */}
           <div className="flex justify-end mb-6">
             <button
               onClick={onClose}
@@ -59,8 +58,6 @@ const SideMenu = ({
               <X color="white" />
             </button>
           </div>
-
-          {/* Navigation Links */}
           <nav className="flex flex-col gap-4 text-white font-semibold text-base">
                         <Link
               href="/"
@@ -112,8 +109,6 @@ const SideMenu = ({
               BRANDS
             </Link>
           </nav>
-
-          {/* Search Input (mobile only) */}
        <div className="flex items-center gap-2 mt-6 bg-white rounded px-2 py-1">
   <input
     type="text"
@@ -131,11 +126,7 @@ const SideMenu = ({
     <IoSearchOutline className="text-gray-700" size={18} />
   </button>
 </div>
-
-          {/* Spacer */}
           <div className="flex-grow" />
-
-          {/* Contact Info */}
           <div className="mt-auto pt-6 border-t border-white/40 text-white text-sm space-y-3">
          <a
   href="https://mail.google.com/mail/?view=cm&fs=1&to=Oyewolemonisola102@gmail.com"

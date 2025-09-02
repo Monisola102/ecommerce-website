@@ -11,20 +11,18 @@ import {
   useDeleteFromCartMutation
 } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
-
-// Only the fields to display
 export interface CartItemDisplay {
   productName: string;
   productImage: string;
   price: number;
   size: string;
   quantity: number;
-  _originalId: string; // internal use only
+  _originalId: string; 
 }
 
 interface Props {
   item: CartItemDisplay;
-  originalCart: any[]; // full cart from backend
+  originalCart: any[]; 
 }
 
 export default function CartCard({ item, originalCart }: Props) {
@@ -32,8 +30,6 @@ export default function CartCard({ item, originalCart }: Props) {
   const [addToCart] = useAddToCartMutation();
   const [subtractFromCart] = useSubtractFromCartMutation();
   const [deleteFromCart] = useDeleteFromCartMutation();
-
-  // Find the original cart item to get the _id for mutations
 const originalItem = originalCart.find(
     ci =>
       ci.product._id === item._originalId &&
@@ -64,7 +60,7 @@ const handleRemove = async () => {
     try {
       await deleteFromCart({
         productId: originalItem.product._id,
-        size: originalItem.size, // pass exact size from backend
+        size: originalItem.size, // passed exact size from backend
       }).unwrap();
 
       toast.success("Removed from cart");
@@ -77,7 +73,6 @@ const handleRemove = async () => {
 
   return (
     <div className="relative w-full p-3 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col sm:flex-row items-center gap-4">
-      {/* Remove button */}
       <button
         onClick={handleRemove}
         className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
@@ -85,8 +80,6 @@ const handleRemove = async () => {
       >
         <FaTrash size={16} />
       </button>
-
-      {/* Product Image */}
       <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
         <Image
           src={item.productImage}
@@ -96,14 +89,10 @@ const handleRemove = async () => {
           className="object-cover w-full h-full"
         />
       </div>
-
-      {/* Product Info */}
       <div className="flex flex-col flex-1 text-center sm:text-left gap-1">
         <p className="font-semibold text-[12px]">{item.productName}</p>
         <p className="text-black font-bold text-[12px]">{item.price} &#163;</p>
         {item.size && <p className="text-gray-400 text-[10px]">Size: {item.size}</p>}
-
-        {/* Quantity controls */}
         <div className="flex flex-col mt-2 gap-1">
           <p className="text-black font-semibold text-[10px]">Quantity</p>
           <div className="flex items-center gap-2 bg-black p-1 rounded w-max">

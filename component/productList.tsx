@@ -26,9 +26,7 @@ export default function ProductList() {
 
   return (
     <div className="container mx-auto px-4">
-      {/* --- Filters & Sorting --- */}
       <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
-        {/* Category Filter */}
         <div>
           <label className="mr-2 font-medium text-gray-700">Category:</label>
           <select
@@ -62,8 +60,6 @@ export default function ProductList() {
           </select>
         </div>
       </div>
-
-      {/* --- Product Grid --- */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
         {data.data.map((product: any) => (
           <Link

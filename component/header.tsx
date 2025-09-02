@@ -47,9 +47,7 @@ export default function Header() {
 
   return (
     <header className="container py-2 px-4 sm:px-6 lg:px-10 relative">
-      {/* Top Row */}
       <div className="flex justify-between items-center">
-        {/* Left: MobileMenu + Logo */}
         <div className="flex items-center gap-2 md:gap-4">
           <MobileMenu
             user={user}
@@ -58,8 +56,6 @@ export default function Header() {
           />
           <Logo />
         </div>
-
-        {/* Middle: Tablet/Desktop Search + Support */}
         <div className="hidden md:flex items-center gap-4 relative">
           <Link
             href="/support"
@@ -68,8 +64,6 @@ export default function Header() {
             <MdOutlineHeadsetMic />
             <p className="text-xs lg:text-sm">Support</p>
           </Link>
-
-          {/* Search (only tablet & desktop) */}
           {!showSearch && (
             <button
               onClick={() => setShowSearch(true)}
@@ -107,10 +101,7 @@ export default function Header() {
             </form>
           )}
         </div>
-
-        {/* Right: User Actions (visible on all screens) */}
         <div className="flex items-center gap-4">
-          {/* Favorites */}
           <Link href="/favorites" className="relative inline-block">
             <IoMdHeartEmpty size={20} />
             {favoritesCount > 0 && (
@@ -119,8 +110,6 @@ export default function Header() {
               </span>
             )}
           </Link>
-
-          {/* User */}
           {user ? (
             <Link href="/account">
               <FaRegUser size={18} />
@@ -130,8 +119,6 @@ export default function Header() {
               Log In
             </Link>
           )}
-
-          {/* Cart */}
           <Link href="/cart" className="relative inline-block">
             <AiOutlineShopping size={20} />
             {cartCount > 0 && (
@@ -142,16 +129,12 @@ export default function Header() {
           </Link>
         </div>
       </div>
-
-      {/* Main Nav */}
       <nav className="hidden md:flex items-center space-x-4 border-b border-gray-200 mt-3 text-sm lg:text-base">
         <Link href="/" className="font-semibold hover:opacity-70">HOME</Link>
         <Link href="/Women" className="hover:opacity-70">WOMEN</Link>
         <Link href="/Men" className="hover:opacity-70">MEN</Link>
         <Link href="/Kids" className="hover:opacity-70">KIDS</Link>
       </nav>
-
-      {/* Sub Nav */}
       <div className="hidden md:flex justify-start items-center mt-1 text-xs lg:text-sm space-x-4">
         <Link href="/sale" className="hover:opacity-70">SALE</Link>
         <Link href="/brands" className="hover:opacity-70">BRANDS</Link>

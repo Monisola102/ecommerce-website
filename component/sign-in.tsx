@@ -66,12 +66,9 @@ export default function SignUpUser() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-7xl flex flex-col lg:flex-row shadow-lg rounded-lg overflow-hidden">
-        {/* Left image */}
         <div className="hidden lg:block lg:w-1/2">
           <div className="h-full w-full min-h-[500px] bg-[url('/reg4pic.jpg')] bg-cover bg-center" />
         </div>
-
-        {/* Signup Form */}
         <div className="flex flex-col justify-center px-6 py-12 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
@@ -88,7 +85,6 @@ export default function SignUpUser() {
             </div>
 
             <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Name
@@ -103,8 +99,6 @@ export default function SignUpUser() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
                 />
               </div>
-
-              {/* Email */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Email
@@ -119,8 +113,6 @@ export default function SignUpUser() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-md bg-white/90 text-black"
                 />
               </div>
-
-              {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Password
@@ -144,8 +136,6 @@ export default function SignUpUser() {
                   </button>
                 </div>
               </div>
-
-              {/* Confirm Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-900">
                   Confirm Password
@@ -169,8 +159,6 @@ export default function SignUpUser() {
                   </button>
                 </div>
               </div>
-
-              {/* Button */}
               <button
                 type="submit"
                 disabled={isLoading}

@@ -14,7 +14,6 @@ import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
 
 export default function Favorites() {
-  // Default to empty array so .map never fails
   const { data: favorites = [], isLoading } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
@@ -63,7 +62,6 @@ export default function Favorites() {
       ) : (
         <div className="flex flex-col gap-4">
           {favorites.map((fav) => {
-            // Always use saved favorite size OR fallback to product's first available size
             const size =
               fav.size ||
               fav.product.sizes?.[0]?.size ||

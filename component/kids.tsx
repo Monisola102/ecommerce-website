@@ -110,10 +110,7 @@ export default function KidsPage() {
           ))}
         </Slider>
       </div>
-
-      {/* Rest of content inside container */}
       <div className="container mx-auto px-4">
-        {/* Available Section */}
         <h1
           id="available-section"
           className="font-bold text-black text-lg sm:text-xl md:text-2xl mt-8 mb-4 px-4 sm:px-8"

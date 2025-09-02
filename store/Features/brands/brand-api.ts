@@ -5,17 +5,15 @@ export const brandApi = createApi({
   reducerPath: "brandApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/brands`,
-    credentials: "include", // ensures cookies are sent with requests
+    credentials: "include",
   }),
   tagTypes: ["Brand"],
   endpoints: (builder) => ({
-    // GET all brands
     getBrands: builder.query<any, void>({
       query: () => "/",
       providesTags: ["Brand"],
     }),
 
-    // CREATE brand (with logo upload)
     createBrand: builder.mutation<any, FormData>({
       query: (formData) => ({
         url: "/createbrand",
@@ -24,8 +22,6 @@ export const brandApi = createApi({
       }),
       invalidatesTags: ["Brand"],
     }),
-
-    // UPDATE brand
     updateBrand: builder.mutation<any, { id: string; formData: FormData }>({
       query: ({ id, formData }) => ({
         url: `/${id}`,
@@ -34,8 +30,6 @@ export const brandApi = createApi({
       }),
       invalidatesTags: ["Brand"],
     }),
-
-    // DELETE brand
     deleteBrand: builder.mutation<any, string>({
       query: (id) => ({
         url: `/${id}`,

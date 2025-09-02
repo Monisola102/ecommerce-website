@@ -114,15 +114,12 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
 
   return (
     <div className="relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
-      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-
-      {/* 📸 Clickable Product Image + Name */}
       <Link href={`/product/${trend._id}`} className="block">
         <Image
           className="w-[170px] h-[185px] object-cover"
@@ -134,16 +131,12 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
         <p className="text-gray-400 text-[10px] mt-1">{trend.brand?.name}</p>
         <p className="text-black text-[12px]">{trend.name}</p>
       </Link>
-
-      {/* 💰 Price */}
       <div className="flex gap-2 mt-1">
         <p className="text-black font-bold text-[14px]">{trend.price}&#163;</p>
         <span className="line-through text-gray-400 text-[12px] italic">
           110,00&#163;
         </span>
       </div>
-
-      {/* ⭐ Dynamic Rating */}
       <div className="flex items-center text-[10px] mt-1">
         {Array.from({ length: 5 }).map((_, i) => (
           <IoMdStar
@@ -155,8 +148,6 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
           ({reviews?.length || 0})
         </span>
       </div>
-
-      {/* 👕 Sizes */}
       <div className="mt-2">
         <select
           className="text-[10px] border rounded w-full px-2 py-1"
@@ -171,8 +162,6 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
           ))}
         </select>
       </div>
-
-      {/* 🛒 Add to Cart */}
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}

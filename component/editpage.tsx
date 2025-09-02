@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 
 export default function EditProfilePage() {
   const { data, isLoading: isFetching } = useFetchUserQuery();
-  const user = data?.data; // because controller sends { data: { id, name, ... } }
+  const user = data?.data; 
 
   const [updateUserProfile, { isLoading }] = useUpdateUserProfileMutation();
   const router = useRouter();

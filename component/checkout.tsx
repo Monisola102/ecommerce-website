@@ -1,6 +1,6 @@
 "use client";
 
-import {useState } from "react";
+import { useState } from "react";
 import { useCreateOrderMutation } from "@/store/Features/order/order-api";
 import { useGetCartQuery } from "@/store/Features/cart/cart-api";
 import { useRouter } from "next/navigation";
@@ -60,9 +60,7 @@ export default function CheckOutPage() {
         Checkout
       </h1>
 
-      {/* Responsive grid: stacked on mobile, 2-column on large screens */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Shipping + Payment form */}
         <div>
           <div className="space-y-4">
             {["fullName", "address", "city", "postalCode", "country"].map(
@@ -79,8 +77,6 @@ export default function CheckOutPage() {
               )
             )}
           </div>
-
-          {/* Payment Method */}
           <div className="mt-4">
             <label className="font-semibold text-sm sm:text-base">
               Payment Method
@@ -97,12 +93,9 @@ export default function CheckOutPage() {
               <option value="ussd">USSD</option>
               <option value="mastercard">MasterCard</option>
               <option value="visa">Visa</option>
-
             </select>
           </div>
         </div>
-
-        {/* Order Summary */}
         <div className="mt-6 lg:mt-0 border-t lg:border-t-0 lg:border-l pt-4 lg:pt-0 lg:pl-6">
           <h2 className="text-lg sm:text-xl font-semibold mb-2">
             Order Summary

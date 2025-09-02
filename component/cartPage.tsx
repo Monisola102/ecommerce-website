@@ -41,14 +41,12 @@ export default function CartPage() {
     );
   }
 
-  // Map cart items to a "safe" object
   const displayCartItems: CartItemDisplay[] = cart.updatedCart.map(item => ({
     productName: item.product.name,
     productImage: item.product.image,
     price: item.product.price,
     size: item.size,
     quantity: item.quantity,
-    // keep original _id for internal use (not displayed)
     _originalId: item.product._id,
   }));
 
@@ -59,7 +57,6 @@ export default function CartPage() {
       </h1>
 
       <div className="flex flex-col lg:flex-row gap-6">
-        {/* Left Column: Products */}
         <div className="flex-1">
           <h2 className="text-lg font-semibold mb-4">Products</h2>
           <div className="flex flex-col gap-4">
@@ -68,8 +65,6 @@ export default function CartPage() {
             ))}
           </div>
         </div>
-
-        {/* Right Column: Totals & Actions */}
         <div className="w-full lg:w-64 flex flex-col gap-4">
           <div className="bg-white rounded-lg shadow-sm p-4 flex flex-col gap-4">
             <div>

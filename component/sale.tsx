@@ -53,7 +53,6 @@ export default function Sales() {
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
       <div className="w-full bg-[url('/salebg.jpg')] bg-cover bg-center h-[70vh] sm:h-[80vh] md:h-[90vh] flex flex-col items-center justify-center relative">
         <h1 className="text-center text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 sm:mb-8">
           Mid-Season Sale
@@ -62,8 +61,6 @@ export default function Sales() {
           Shop Collection
         </button>
       </div>
-
-      {/* Collections Section */}
       <div className="w-full py-20 sm:py-28 px-4 sm:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-center gap-4 lg:gap-6 overflow-x-auto scrollbar-hide">
           {collections.map((c, i) => (

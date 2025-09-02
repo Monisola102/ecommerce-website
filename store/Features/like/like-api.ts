@@ -12,15 +12,15 @@ export interface Product {
 }
 
 export interface Favorite {
-  _id: string;              // Favorite document ID
+  _id: string;             
   product: Product;
   size: string;
 }
 
 interface FavoritesResponse {
   message: string;
-  favorite?: Favorite;       // For add/remove single favorite
-  favorites?: Favorite[];    // For getFavorites
+  favorite?: Favorite;       
+  favorites?: Favorite[];    
 }
 
 interface AddFavoriteRequest {

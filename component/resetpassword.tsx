@@ -8,7 +8,7 @@ import Image from "next/image";
 export default function ResetPassword() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const token = searchParams.get("token"); // token passed in URL e.g. /reset-password?token=abc123
+  const token = searchParams.get("token"); 
 
   const [password, setPassword] = useState("");
   const [resetPassword, { isLoading }] = useResetPasswordMutation();

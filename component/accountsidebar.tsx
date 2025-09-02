@@ -22,7 +22,6 @@ export default function AccountSidebar() {
 
   return (
     <div className="relative md:flex">
-      {/* Mobile menu button */}
       <button
         className="md:hidden absolute top-4 left-4 p-2 bg-red-400 text-white rounded"
         onClick={() => setIsOpen(!isOpen)}
@@ -74,8 +73,6 @@ export default function AccountSidebar() {
           </button>
         </nav>
       </aside>
-
-      {/* Overlay for mobile */}
       {isOpen && (
         <div
           className="fixed inset-0 backdrop-blur-sm z-40 md:hidden"

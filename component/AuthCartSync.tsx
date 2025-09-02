@@ -18,5 +18,5 @@ export default function AuthCartSync() {
     }
   }, [user, addToCart]);
 
-  return null; // this component doesn’t render anything
+  return null; 
 }

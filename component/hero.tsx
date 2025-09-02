@@ -3,7 +3,6 @@ import Image from "next/image";
 export default function Hero() {
   return (
     <div className="w-full relative h-[45vh] sm:h-[45vh] md:h-[70vh] lg:h-[80vh] xl:h-[85vh] 2xl:h-[90vh]">
-      {/* Hero background */}
       <Image
         src="/heroooo-bg.jpg"
         alt="Hero Background"
@@ -11,8 +10,6 @@ export default function Hero() {
         priority
         className="object-cover object-center -z-10"
       />
-
-      {/* Content */}
       <div className="h-full flex items-center px-4 sm:px-6 md:px-10 lg:px-20 text-white">
         <div className="mt-[50px] sm:mt-[60px] md:mt-[100px] w-full sm:w-[80%] md:w-[60%] lg:w-[50%] flex flex-col gap-y-2">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-wide font-inter">

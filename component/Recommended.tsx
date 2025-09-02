@@ -69,7 +69,7 @@ export default function RecommendedComp() {
       ],
   };
 if (loading) {
-    // <-- simple placeholder while backend wakes up
+    //simple placeholder while backend wakes up
     return (
       <div className="flex justify-center items-center h-[370px]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>

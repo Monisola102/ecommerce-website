@@ -15,15 +15,12 @@ export default function DashboardPage() {
 
   return (
     <div className="p-4 md:p-6 max-w-6xl mx-auto space-y-8">
-      {/* Welcome Header */}
       <div className="bg-white shadow rounded-xl p-6 flex flex-col md:flex-row md:items-center md:justify-between">
         <div>
           <h1 className="text-3xl font-bold mb-2">Welcome, {data.name}</h1>
           <p className="text-gray-500">{data.email}</p>
         </div>
       </div>
-
-      {/* Recent Orders */}
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold">Recent Orders</h2>
 

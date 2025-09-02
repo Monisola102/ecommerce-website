@@ -44,8 +44,6 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
   const [addToCart] = useAddToCartMutation();
 
   const isLiked = likedProductIds.includes(prop._id);
-
-  // ✅ Fetch reviews
   const { data: reviews } = useGetReviewsQuery(prop._id);
   const avgRating =
     reviews && reviews.length > 0
@@ -117,15 +115,12 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
 
   return (
     <div className="container relative w-full max-w-[200px] p-2 rounded-lg shadow-sm">
-      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-
-      {/* 📸 Product preview clickable */}
       <Link href={`/product/${prop._id}`} className="block">
         <Image
           className="w-[170.24px] h-[185px] object-cover"
@@ -140,8 +135,6 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
           <p className="text-black font-bold text-[14px]">{prop.price}&#163;</p>
           <span className="line-through text-gray-400 text-[12px] italic">110,00&#163;</span>
         </div>
-
-        {/* ⭐ Dynamic Rating */}
         <div className="flex items-center text-[10px] mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar
@@ -152,8 +145,6 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
           <span className="ml-1 text-gray-500 text-[9px]">({reviews?.length || 0})</span>
         </div>
       </Link>
-
-      {/* 👕 Size dropdown */}
       <div className="mt-2">
         <select
           className="text-[10px] border rounded w-full px-2 py-1"
@@ -168,8 +159,6 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
           ))}
         </select>
       </div>
-
-      {/* 🛒 Add to Cart button */}
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}

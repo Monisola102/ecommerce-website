@@ -113,8 +113,6 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-
-      {/* 📸 Clickable Product Preview */}
       <Link href={`/product/${kids._id}`} className="block">
         <div className="flex justify-center">
           <Image
@@ -140,8 +138,6 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
             <p className="text-black font-bold text-xs sm:text-sm md:text-base">{kids.price}&#163;</p>
             <span className="line-through text-gray-400 text-[10px] sm:text-xs italic">110,00&#163;</span>
           </div>
-
-          {/* ⭐ Dynamic Rating */}
           <div className="flex items-center mt-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <IoMdStar

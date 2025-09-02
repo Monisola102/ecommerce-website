@@ -1,8 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useSelector } from "react-redux";
-import { RootState } from "@/store/store";
 import {
   useFetchUserQuery,
   useGetUserPaymentsQuery,
@@ -66,7 +64,7 @@ export default function PaymentsPage() {
               </div>
               <div className="flex-1">
                 <p className="text-gray-600 mt-1">
-                  <strong>Amount:</strong> ₦{payment.amount.toLocaleString()}
+                  <strong>Amount:</strong> &#163;{payment.amount.toLocaleString()}
                 </p>
                 <p className="text-gray-600 mt-1">
                   <strong>Method:</strong> {payment.paymentMethod}

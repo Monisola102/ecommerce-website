@@ -59,7 +59,6 @@ export default function ProductDetail() {
 
   return (
     <div className="max-w-3xl mx-auto p-4 sm:p-6">
-      {/* Product Image */}
       <div className="relative w-full overflow-hidden rounded-md shadow-md">
         <img
           src={product.image}
@@ -67,12 +66,9 @@ export default function ProductDetail() {
           className="w-full h-64 sm:h-80 md:h-96 object-cover object-center brightness-105 contrast-110"
         />
       </div>
-
-      {/* Product Info */}
       <h1 className="text-2xl sm:text-3xl font-bold mt-4">{product.name}</h1>
       <p className="text-black font-semibold mt-1 text-lg sm:text-xl">{product.price}&#163;</p>
       <p className="mt-2 text-sm sm:text-base text-gray-600">{product.description}</p>
-
       {/* Size Selector */}
       <div className="mt-3">
         <p className="font-medium mb-1">Select Size:</p>

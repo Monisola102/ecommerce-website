@@ -135,8 +135,8 @@ export const authApi = createApi({
       invalidatesTags: ["Payments"],
     }),
  forgotPassword: builder.mutation<
-      { message: string },         // response type
-      { email: string }            // request body
+      { message: string },       
+      { email: string }            
     >({
       query: (body) => ({
         url: "/forgot-password",

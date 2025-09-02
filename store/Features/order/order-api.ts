@@ -23,7 +23,7 @@ export interface Order {
     postalCode: string;
     country: string;
   };
-  totalPrice: number; // or totalAmount if your backend calls it that
+  totalPrice: number; 
   status: string;
   createdAt: string;
 }

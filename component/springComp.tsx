@@ -6,7 +6,7 @@ import Slider from "react-slick";
 
 export default function SpringComp() {
   const [springs, setSprings] = useState([]);
-  const [loading, setLoading] = useState(true); // <-- loading state
+  const [loading, setLoading] = useState(true); 
 
   useEffect(() => {
     const fetchSprings = async () => {
@@ -29,7 +29,7 @@ export default function SpringComp() {
       } catch (error) {
         console.error("Error fetching spring:", error);
       }finally {
-        setLoading(false); // <-- stop loading regardless of success/failure
+        setLoading(false); 
       }
     };
 
@@ -73,7 +73,6 @@ export default function SpringComp() {
       ],
   };
 if (loading) {
-    // <-- simple placeholder while backend wakes up
     return (
       <div className="flex justify-center items-center h-[370px]">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>

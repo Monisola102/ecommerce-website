@@ -10,8 +10,6 @@ export default function ProfilePage() {
   const router = useRouter();
 
   const user = userResponse?.data;
-
-  // Redirect if not logged in
   useEffect(() => {
     if (!isLoading && !user) {
       router.replace("/login?redirect=/account/profile");
@@ -20,8 +18,6 @@ export default function ProfilePage() {
 
   if (isLoading) return <p className="text-center p-6">Loading profile...</p>;
   if (isError || !user) return null;
-
-  // Role badge color
   const roleColor = user.role === "admin"
     ? "bg-red-100 text-red-700"
     : user.role === "moderator"
@@ -31,7 +27,6 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 md:p-10 flex justify-center">
       <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl p-6 sm:p-8 md:p-10">
-        {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6">
           <h1 className="text-3xl sm:text-4xl font-bold text-gray-800 mb-2 md:mb-0">
             My Profile
@@ -39,10 +34,7 @@ export default function ProfilePage() {
           <Link href="/account/edit"> <button className="px-5 py-2 rounded-full bg-red-400 text-black font-medium hover:bg-red-300 transition">
             Edit Profile
           </button></Link>
-        
         </div>
-
-        {/* Profile Details */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="space-y-2">
             <p className="text-gray-500 font-medium">Name</p>

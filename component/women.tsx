@@ -113,18 +113,13 @@ export default function WomenPage() {
           ))}
         </Slider>
       </div>
-
-      {/* Rest of the content inside container */}
       <div className="container mx-auto px-4">
-        {/* Available Section */}
         <h1
           id="available-section"
           className="font-bold text-black text-lg sm:text-xl mt-8 sm:mt-12 mb-3 sm:mb-4 ml-1 sm:ml-16"
         >
           AVAILABLE
         </h1>
-
-        {/* Product Slider */}
         <div className="w-[95%] sm:w-[90%] mx-auto max-h-[370px] overflow-visible mb-5">
           {loading ? (
             <p className="text-center">Loading products...</p>
