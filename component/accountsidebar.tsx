@@ -1,24 +1,38 @@
 "use client";
 import Link from "next/link";
 import { clearUser } from "@/store/Features/auth/auth-slice";
-import { useAppDispatch } from "@/store/hook";
+import { useAppDispatch, useAppSelector} from "@/store/hook";
 import { LayoutDashboard, ShoppingBag, User, CreditCard, LogOut, Menu, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { clearCartState } from "@/store/Features/cart/cart-slice";
+import { useClearCartMutation } from "@/store/Features/cart/cart-api";
 
 export default function AccountSidebar() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+const [clearCart] = useClearCartMutation();
+  const user = useAppSelector((state) => state.auth.user);
 
-  const handleLogout = () => {
-    dispatch(clearUser());
-    toast.success("Logout successful!");
-    setTimeout(() => {
-    router.push("/");
-  }, 1500); 
+  const handleLogout = async () => {
+    try {
+
+      if (user) await clearCart().unwrap();
+
+      dispatch(clearUser());
+      dispatch(clearCartState());
+
+      localStorage.removeItem("pendingCartItem");
+
+      toast.success("Logout successful!");
+      setTimeout(() => router.push("/"), 1500);
+    } catch (err) {
+      toast.error("Error during logout");
+    }
   };
+
 
   return (
     <div className="relative md:flex">

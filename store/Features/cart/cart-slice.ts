@@ -18,9 +18,12 @@ const cartSlice = createSlice({
     closeCart(state) {
       state.isOpen = false;
     },
+     clearCartState(state) {
+      state.isOpen = false;
+    },
   },
 });
 
-export const { openCart, closeCart } = cartSlice.actions;
+export const { openCart, closeCart, clearCartState } = cartSlice.actions;
 
 export default cartSlice.reducer;

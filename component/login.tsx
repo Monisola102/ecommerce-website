@@ -1,24 +1,43 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/store/hook";
-import { useLoginMutation } from "@/store/Features/auth/auth-api";
+import { useLoginMutation,useFetchUserQuery } from "@/store/Features/auth/auth-api";
 import { setUser } from "@/store/Features/auth/auth-slice";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useAppSelector } from "@/store/hook";
 
 export default function Login() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get("redirect");
+  const redirectUrl = searchParams?.get("redirect") || "/";
   const dispatch = useAppDispatch();
-
+  const userState = useAppSelector((state) => state.auth.user); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
+  const { refetch: fetchCurrentUser } = useFetchUserQuery(undefined, { skip: true });
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !userState) {
+      fetchCurrentUser()
+        .then((res) => {
+          if (res.data) {
+            dispatch(setUser(res.data.data)); 
+            router.replace(redirectUrl); 
+          } else {
+            localStorage.removeItem("token");
+          }
+        })
+        .catch(() => localStorage.removeItem("token"));
+    } else if (userState) {
+      router.replace(redirectUrl);
+    }
+  }, [dispatch, fetchCurrentUser, redirectUrl, router, userState]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
