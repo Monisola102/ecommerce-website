@@ -18,7 +18,7 @@ const nextConfig = {
       {
         source: "/api/:path*",
         destination:
-          "https://my-shoe-shop-backend.vercel.app/api/:path*",
+          "https://backend-ecommerce-deployment.onrender.com/api/:path*",
       },
     ];
   },
