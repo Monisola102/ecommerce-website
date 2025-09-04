@@ -136,8 +136,8 @@ export default function Header() {
         <Link href="/Kids" className="hover:opacity-70">KIDS</Link>
       </nav>
       <div className="hidden md:flex justify-start items-center mt-1 text-xs lg:text-sm space-x-4">
-        <Link href="/sale" className="hover:opacity-70">SALE</Link>
-        <Link href="/brands" className="hover:opacity-70">BRANDS</Link>
+        <Link href="/Sale" className="hover:opacity-70">SALE</Link>
+        <Link href="/Brands" className="hover:opacity-70">BRANDS</Link>
       </div>
     </header>
   );
