@@ -40,13 +40,7 @@ export const cartApi = createApi({
   reducerPath: "cartApi",
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/carts`,
-    prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
+   credentials: "include",
   }),
   tagTypes: ["Cart"],
   endpoints: (builder) => ({

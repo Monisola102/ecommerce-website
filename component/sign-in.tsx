@@ -1,18 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
-import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { useAppDispatch} from "@/store/hook";
 import {
   useSignupMutation,
-  useFetchUserQuery,
 } from "@/store/Features/auth/auth-api";
 import { setUser } from "@/store/Features/auth/auth-slice";
 import Link from "next/link";
 import Image from "next/image";
 import { Eye, EyeOff } from "lucide-react";
-import { useSearchParams } from "next/navigation";
 
 interface FormState {
   name: string;
@@ -28,38 +26,12 @@ export default function SignUpUser() {
     password: "",
     confirmPassword: "",
   });
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams?.get("redirect") || "/";
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [signup, { isLoading }] = useSignupMutation();
-  const userState = useAppSelector((state) => state.auth.user);
-  const { refetch: fetchCurrentUser } = useFetchUserQuery(undefined, {
-    skip: true,
-  });
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-
-    if (token && !userState) {
-      // token exists but user not in Redux
-      fetchCurrentUser()
-        .then((res) => {
-          if (res.data) {
-            dispatch(setUser(res.data.data));
-            router.replace(redirectUrl);
-          } else {
-            localStorage.removeItem("token");
-          }
-        })
-        .catch(() => localStorage.removeItem("token"));
-    } else if (userState) {
-      router.replace(redirectUrl);
-    }
-  }, [dispatch, fetchCurrentUser, redirectUrl, router, userState]);
+  
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });

@@ -66,11 +66,8 @@ export const authApi = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({
     baseUrl:`${process.env.NEXT_PUBLIC_API_BASE_URL}/users`,
-     prepareHeaders: (headers) => {
-      const token = localStorage.getItem("token");
-      if (token) headers.set("Authorization", `Bearer ${token}`);
-      return headers;
-    },
+    credentials:"include",
+   
   }),
   tagTypes: ["User", "Payments"], 
   endpoints: (builder) => ({
@@ -80,10 +77,7 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
-      transformResponse: (response: { user: User; token: string }) => {
-        localStorage.setItem("token", response.token);
-        return response.user;
-      },
+      transformResponse: (response: { user: User;}) => response.user, 
       invalidatesTags: ["User"], 
     }),
 
@@ -93,10 +87,7 @@ export const authApi = createApi({
         method: "POST",
         body,
       }),
-      transformResponse: (response: { user: User; token: string }) => {
-        localStorage.setItem("token", response.token);
-        return response.user;
-      },
+      transformResponse: (response: { user: User;}) => response.user, 
       invalidatesTags: ["User"],
     }),
 
@@ -105,10 +96,6 @@ export const authApi = createApi({
         url: "/logout",
         method: "POST",
       }),
-      transformResponse: (response: { message: string }) => {
-        localStorage.removeItem("token");
-        return response;
-      },
       invalidatesTags: ["User"],
     }),
 
