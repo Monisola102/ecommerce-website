@@ -6,8 +6,9 @@ import { LayoutDashboard, ShoppingBag, User, CreditCard, LogOut, Menu, X } from 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { clearCartState } from "@/store/Features/cart/cart-slice";
 import { useClearCartMutation } from "@/store/Features/cart/cart-api";
-
+import { clearLikes } from "@/store/Features/like/like-slice";
 export default function AccountSidebar() {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -21,6 +22,9 @@ const [clearCart] = useClearCartMutation();
       if (user) await clearCart().unwrap();
 
       dispatch(clearUser());
+      dispatch(clearCartState());
+dispatch(clearLikes());
+      localStorage.removeItem("pendingCartItem");
 
       toast.success("Logout successful!");
       setTimeout(() => router.push("/"), 1500);

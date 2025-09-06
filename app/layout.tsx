@@ -7,6 +7,7 @@ import AuthCartSync from "@/component/AuthCartSync";
 import FavoritesSync from "@/component/FavoriteSync";
 import { Suspense } from "react";
 import { Poppins } from "next/font/google";
+import RestoreUser from "./restoreUser";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -34,10 +35,10 @@ export default function RootLayout({
       <body className="font-poppins antialiased">
         <Providers>
           <Suspense fallback={<div>Loading...</div>}>
+            <RestoreUser />
             <AuthCartSync />
             <FavoritesSync />
           </Suspense>
-
           {children}
         </Providers>
       </body>

@@ -22,8 +22,11 @@ export const likeSlice = createSlice({
         state.likedProductIds.push(action.payload);
       }
     },
+    clearLikes: (state) => {
+      state.likedProductIds = [];
+    },
   },
 });
 
-export const { setLikedProducts, toggleLike } = likeSlice.actions;
+export const { setLikedProducts, toggleLike , clearLikes} = likeSlice.actions;
 export default likeSlice.reducer;

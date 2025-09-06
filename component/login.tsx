@@ -12,25 +12,42 @@ import { useAppSelector } from "@/store/hook";
 
 export default function Login() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams?.get("redirect") || "/";
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user); 
+  const userState = useAppSelector((state) => state.auth.user); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
+  const { refetch: fetchCurrentUser } = useFetchUserQuery(undefined, { skip: true });
+useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token && !userState) {
+      fetchCurrentUser()
+        .then((res) => {
+          if (res.data) {
+            dispatch(setUser(res.data.data)); 
+            router.replace(redirectUrl); 
+          } else {
+            localStorage.removeItem("token");
+          }
+        })
+        .catch(() => localStorage.removeItem("token"));
+    } else if (userState) {
+      router.replace(redirectUrl);
+    }
+  }, [dispatch, fetchCurrentUser, redirectUrl, router, userState]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-if (user) {
-      router.replace("/"); 
-      return;
-    }
+
     try {
-      const loggedinUser = await login({ email, password }).unwrap();
-      dispatch(setUser(loggedinUser));
+      const user = await login({ email, password }).unwrap();
+      dispatch(setUser(user));
       toast.success("Login successful!");
       console.log("All accessible cookies:", document.cookie);
-      router.replace("/");
+      router.replace(redirectUrl || "/");
     } catch (err: any) {
       toast.error(err?.data?.message || "Login failed");
     }
