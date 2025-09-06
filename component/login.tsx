@@ -1,43 +1,22 @@
 "use client";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useState} from "react";
+import { useRouter} from "next/navigation";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/store/hook";
-import { useLoginMutation,useFetchUserQuery } from "@/store/Features/auth/auth-api";
+import { useLoginMutation} from "@/store/Features/auth/auth-api";
 import { setUser } from "@/store/Features/auth/auth-slice";
 import Image from "next/image";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { useAppSelector } from "@/store/hook";
 
 export default function Login() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const redirectUrl = searchParams?.get("redirect") || "/";
   const dispatch = useAppDispatch();
-  const userState = useAppSelector((state) => state.auth.user); 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [login, { isLoading }] = useLoginMutation();
-  const { refetch: fetchCurrentUser } = useFetchUserQuery(undefined, { skip: true });
-useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token && !userState) {
-      fetchCurrentUser()
-        .then((res) => {
-          if (res.data) {
-            dispatch(setUser(res.data.data)); 
-            router.replace(redirectUrl); 
-          } else {
-            localStorage.removeItem("token");
-          }
-        })
-        .catch(() => localStorage.removeItem("token"));
-    } else if (userState) {
-      router.replace(redirectUrl);
-    }
-  }, [dispatch, fetchCurrentUser, redirectUrl, router, userState]);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,7 +26,7 @@ useEffect(() => {
       dispatch(setUser(user));
       toast.success("Login successful!");
       console.log("All accessible cookies:", document.cookie);
-      router.replace(redirectUrl || "/");
+      router.push("/");
     } catch (err: any) {
       toast.error(err?.data?.message || "Login failed");
     }
@@ -56,12 +35,9 @@ useEffect(() => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <div className="w-full max-w-7xl flex flex-col lg:flex-row shadow-lg rounded-lg overflow-hidden">
-        {/* Left Image */}
         <div className="hidden lg:block lg:w-1/2">
           <div className="h-[300px] sm:h-[400px] md:h-[500px] lg:h-full w-full bg-[url('/reg4pic.jpg')] bg-cover bg-center" />
         </div>
-
-        {/* Form Section */}
         <div className="flex flex-col justify-center px-4 py-8 sm:px-6 md:px-10 lg:px-12 bg-white/60 backdrop-blur-sm w-full lg:w-1/2">
           <div className="sm:mx-auto sm:w-full sm:max-w-sm">
             <div className="flex items-center justify-center mb-4 gap-2">
@@ -97,8 +73,6 @@ useEffect(() => {
                   className="w-full px-4 py-2 sm:py-3 border border-gray-300 rounded-md bg-white/90 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
-
-              {/* Password with Eye Toggle */}
               <div>
                 <label
                   htmlFor="password"
@@ -126,8 +100,6 @@ useEffect(() => {
                   </button>
                 </div>
               </div>
-
-              {/* Forgot Password */}
               <div className="text-right">
                 <Link
                   href="/account/forgot-password"
@@ -136,8 +108,6 @@ useEffect(() => {
                   Forgot Password?
                 </Link>
               </div>
-
-              {/* Submit Button */}
               <button
                 type="submit"
                 disabled={isLoading}
