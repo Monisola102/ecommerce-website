@@ -19,14 +19,11 @@ export default function Favorites() {
   const [addToCart] = useAddToCartMutation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.auth);
-  const likedIds = useAppSelector((state) => state.like.likedProductIds);
-  if (isLoading) return <p className="p-6 text-center">Loading...</p>;
-const displayedFavorites = favorites.filter((fav) =>
-    likedIds.includes(fav.product._id)
-  );
-  const handleRemove = async (productId: string, size: string) => {
-        dispatch(toggleLike(productId));
 
+  if (isLoading) return <p className="p-6 text-center">Loading...</p>;
+
+  const handleRemove = async (productId: string, size: string) => {
+    dispatch(toggleLike(productId));
     try {
       await removeFavorite({ productId, size }).unwrap();
       toast.success("Removed from favorites");
@@ -64,7 +61,7 @@ const displayedFavorites = favorites.filter((fav) =>
         <p className="text-center text-gray-500">No liked items yet.</p>
       ) : (
         <div className="flex flex-col gap-4">
-          {displayedFavorites.map((fav) => {
+          {favorites.map((fav) => {
             const size =
               fav.size ||
               fav.product.sizes?.[0]?.size ||
