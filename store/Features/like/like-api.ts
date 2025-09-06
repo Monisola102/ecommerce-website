@@ -72,7 +72,6 @@ export const likeApi = createApi({
         }`,
 
         method: "DELETE",
-        body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
       transformResponse: (response: FavoritesResponse) =>
