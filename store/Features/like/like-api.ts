@@ -67,7 +67,6 @@ export const likeApi = createApi({
       query: ({ productId, size }) => ({
       url: `/remove-favorite?productId=${productId}${size ? `&size=${size}` : ""}`,
         method: "DELETE",
-        body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
       transformResponse: (response: FavoritesResponse) => response.favorite as Favorite,
