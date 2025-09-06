@@ -12,15 +12,15 @@ export interface Product {
 }
 
 export interface Favorite {
-  _id: string;             
+  _id: string;
   product: Product;
   size: string;
 }
 
 interface FavoritesResponse {
   message: string;
-  favorite?: Favorite;       
-  favorites?: Favorite[];    
+  favorite?: Favorite;
+  favorites?: Favorite[];
 }
 
 interface AddFavoriteRequest {
@@ -50,7 +50,8 @@ export const likeApi = createApi({
     getFavorites: builder.query<Favorite[], void>({
       query: () => "/favorites",
       providesTags: ["Favorites"],
-      transformResponse: (response: FavoritesResponse) => response.favorites || [],
+      transformResponse: (response: FavoritesResponse) =>
+        response.favorites || [],
     }),
 
     addFavorite: builder.mutation<Favorite, AddFavoriteRequest>({
@@ -60,17 +61,22 @@ export const likeApi = createApi({
         body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
-      transformResponse: (response: FavoritesResponse) => response.favorite as Favorite,
+      transformResponse: (response: FavoritesResponse) =>
+        response.favorite as Favorite,
     }),
 
     removeFavorite: builder.mutation<Favorite, RemoveFavoriteRequest>({
       query: ({ productId, size }) => ({
-        url: "/remove-favorite",
+        url: `/remove-favorite?productId=${productId}${
+          size ? `&size=${size}` : ""
+        }`,
+
         method: "DELETE",
         body: { productId, size },
       }),
       invalidatesTags: ["Favorites"],
-      transformResponse: (response: FavoritesResponse) => response.favorite as Favorite,
+      transformResponse: (response: FavoritesResponse) =>
+        response.favorite as Favorite,
     }),
   }),
 });

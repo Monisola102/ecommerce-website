@@ -23,15 +23,13 @@ export default function Favorites() {
   if (isLoading) return <p className="p-6 text-center">Loading...</p>;
 
   const handleRemove = async (productId: string, size: string) => {
-    dispatch(toggleLike(productId));
-    try {
-      await removeFavorite({ productId, size }).unwrap();
-      toast.success("Removed from favorites");
-    } catch {
-      toast.error("Failed to remove favorite");
-      dispatch(toggleLike(productId));
-    }
-  };
+  try {
+    await removeFavorite({ productId, size }).unwrap();
+    toast.success("Removed from favorites");
+  } catch {
+    toast.error("Failed to remove favorite");
+  }
+};
 
   const handleAddToCart = async (productId: string, size?: string) => {
     if (!user) {

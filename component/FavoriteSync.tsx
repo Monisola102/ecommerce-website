@@ -16,5 +16,5 @@ export default function FavoritesSync() {
     }
   }, [favorites, dispatch]);
 
-  return null; 
+  return null;
 }
