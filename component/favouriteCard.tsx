@@ -1,11 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { FaHeart } from "react-icons/fa";
+import { Trash } from "lucide-react";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
-import { toggleLike } from "@/store/Features/like/like-slice";
 import {
   useGetFavoritesQuery,
   useRemoveFavoriteMutation,
@@ -75,7 +74,8 @@ export default function Favorites() {
                   className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
                   title="Remove from favorites"
                 >
-                  <FaHeart size={16} />
+                 <Trash size={16} />
+
                 </button>
 
                 <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
