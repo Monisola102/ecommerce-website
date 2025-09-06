@@ -65,7 +65,7 @@ export const likeApi = createApi({
 
     removeFavorite: builder.mutation<Favorite, RemoveFavoriteRequest>({
       query: ({ productId, size }) => ({
-        url: "/remove-favorite",
+      url: `/remove-favorite?productId=${productId}${size ? `&size=${size}` : ""}`,
         method: "DELETE",
         body: { productId, size },
       }),
