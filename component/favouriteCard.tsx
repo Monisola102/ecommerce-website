@@ -1,19 +1,20 @@
 "use client";
 
 import Image from "next/image";
-import { Trash } from "lucide-react";
+import { FaHeart } from "react-icons/fa";
 import { ShoppingCart } from "lucide-react";
 import { toast } from "react-toastify";
 import { useAppDispatch, useAppSelector } from "@/store/hook";
+import { toggleLike } from "@/store/Features/like/like-slice";
 import {
   useGetFavoritesQuery,
   useRemoveFavoriteMutation,
 } from "@/store/Features/like/like-api";
 import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
-import { toggleLike } from "@/store/Features/like/like-slice";
+
 export default function Favorites() {
-  const { data : favorites = [], isLoading } = useGetFavoritesQuery();
+  const { data: favorites = [], isLoading } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
   const dispatch = useAppDispatch();
@@ -22,14 +23,15 @@ export default function Favorites() {
   if (isLoading) return <p className="p-6 text-center">Loading...</p>;
 
   const handleRemove = async (productId: string, size: string) => {
-  try {
-    await removeFavorite({ productId, size }).unwrap();
     dispatch(toggleLike(productId));
-    toast.success("Removed from favorites");
-  } catch {
-    toast.error("Failed to remove favorite");
-  }
-};
+    try {
+      await removeFavorite({ productId, size }).unwrap();
+      toast.success("Removed from favorites");
+    } catch {
+      toast.error("Failed to remove favorite");
+      dispatch(toggleLike(productId));
+    }
+  };
 
   const handleAddToCart = async (productId: string, size?: string) => {
     if (!user) {
@@ -75,8 +77,7 @@ export default function Favorites() {
                   className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
                   title="Remove from favorites"
                 >
-                 <Trash size={16} />
-
+                  <FaHeart size={16} />
                 </button>
 
                 <div className="border border-gray-200 rounded-md overflow-hidden w-24 h-24 sm:w-32 sm:h-32 flex-shrink-0">
