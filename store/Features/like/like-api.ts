@@ -66,10 +66,10 @@ export const likeApi = createApi({
     }),
 
     removeFavorite: builder.mutation<Favorite, RemoveFavoriteRequest>({
-      query: ({ productId, size }) => ({
+      query: (body) => ({
         url:"/remove-favorite",
-        method: "POST",
-        body: { productId, size },
+        method: "DELETE",
+body,
       }),
       invalidatesTags: ["Favorites"],
       transformResponse: (response: FavoritesResponse) =>
