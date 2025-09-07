@@ -11,9 +11,9 @@ import {
 } from "@/store/Features/like/like-api";
 import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
-
+import { toggleLike } from "@/store/Features/like/like-slice";
 export default function Favorites() {
-  const { data : favorites = [], isLoading, refetch } = useGetFavoritesQuery();
+  const { data : favorites = [], isLoading } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
   const dispatch = useAppDispatch();
@@ -24,8 +24,8 @@ export default function Favorites() {
   const handleRemove = async (productId: string, size: string) => {
   try {
     await removeFavorite({ productId, size }).unwrap();
+    dispatch(toggleLike(productId));
     toast.success("Removed from favorites");
-    refetch()
   } catch {
     toast.error("Failed to remove favorite");
   }
