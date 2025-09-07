@@ -13,8 +13,7 @@ import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { openCart } from "@/store/Features/cart/cart-slice";
 
 export default function Favorites() {
-  const { data, isLoading, refetch } = useGetFavoritesQuery();
-  const favorites = data ?? []; 
+  const { data : favorites = [], isLoading, refetch } = useGetFavoritesQuery();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
   const dispatch = useAppDispatch();

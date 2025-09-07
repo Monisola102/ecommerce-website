@@ -12,7 +12,7 @@ export default function FavoritesSync() {
 
   useEffect(() => {
     if (favorites) {
-      dispatch(setLikedProducts(favorites.map((item) => item._id)));
+      dispatch(setLikedProducts(favorites.map((item) => item.product._id)));
     }
   }, [favorites, dispatch]);
 
