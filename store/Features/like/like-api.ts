@@ -38,6 +38,7 @@ export const likeApi = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_API_BASE_URL}/favorite`,
     prepareHeaders: (headers) => {
+      headers.set("Content-Type", "application/json");
       const token = localStorage.getItem("token");
       if (token) {
         headers.set("Authorization", `Bearer ${token}`);
@@ -67,9 +68,9 @@ export const likeApi = createApi({
 
     removeFavorite: builder.mutation<Favorite, RemoveFavoriteRequest>({
       query: (body) => ({
-        url:"/remove-favorite",
+        url: "/remove-favorite",
         method: "DELETE",
-body,
+        body,
       }),
       invalidatesTags: ["Favorites"],
       transformResponse: (response: FavoritesResponse) =>
