@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -10,12 +9,14 @@ import {
 } from "@/store/products/product-api";
 import { IoMdStar } from "react-icons/io";
 import { toast } from "react-toastify";
+import { useAppSelector } from "@/store/hook";
 
 export default function ProductReviews({ productId }: { productId: string }) {
   const { data: reviews, refetch } = useGetReviewsQuery(productId);
   const [addReview] = useAddReviewMutation();
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
+  const { user } = useAppSelector((state) => state.auth);
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -29,7 +30,6 @@ export default function ProductReviews({ productId }: { productId: string }) {
 
     try {
       if (editingId) {
-        // Update existing review
         await updateReview({
           productId,
           reviewId: editingId,
@@ -38,7 +38,6 @@ export default function ProductReviews({ productId }: { productId: string }) {
         toast.success("Review updated!");
         setEditingId(null);
       } else {
-        // Add new review
         await addReview({ productId, review: { rating, comment } }).unwrap();
         toast.success("Review added!");
       }
@@ -84,27 +83,31 @@ export default function ProductReviews({ productId }: { productId: string }) {
                   <IoMdStar key={i} />
                 ))}
             </div>
-            <div className="flex gap-2 mt-4">
-              <button
-                className="px-3 py-1 rounded-lg text-white font-medium 
-               bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 
-               hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 
-               transition-all duration-300 shadow-md"
-                onClick={() => handleEdit(r._id, r.rating, r.comment)}
-              >
-                Edit
-              </button>
-              <button
-                className="px-3 py-1 rounded-lg text-white font-medium 
-               bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 
-               hover:from-yellow-500 hover:via-red-500 hover:to-pink-500 
-               transition-all duration-300 shadow-md"
-                onClick={() => handleDelete(r._id)}
-              >
-                Delete
-              </button>
-            </div>
+
+            {user?._id === r.user._id && (
+              <div className="flex gap-2 mt-4">
+                <button
+                  className="px-3 py-1 rounded-lg text-white font-medium 
+                  bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 
+                  hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 
+                  transition-all duration-300 shadow-md"
+                  onClick={() => handleEdit(r._id, r.rating, r.comment)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="px-3 py-1 rounded-lg text-white font-medium 
+                  bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 
+                  hover:from-yellow-500 hover:via-red-500 hover:to-pink-500 
+                  transition-all duration-300 shadow-md"
+                  onClick={() => handleDelete(r._id)}
+                >
+                  Delete
+                </button>
+              </div>
+            )}
           </div>
+
           <p>{r.comment}</p>
           <small className="text-gray-500">by {r.user.name}</small>
         </div>

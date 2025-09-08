@@ -109,13 +109,13 @@ export default function CheckOutPage() {
               <ul className="text-sm sm:text-base space-y-2">
                 {cartData.updatedCart.map((item: any) => (
                   <li key={item.product._id + item.size}>
-                    {item.product.name} ({item.size}) x {item.quantity} – ₦
+                    {item.product.name} ({item.size}) x {item.quantity} – &#163;
                     {(item.product.price * item.quantity).toLocaleString()}
                   </li>
                 ))}
               </ul>
               <p className="mt-4 font-semibold">
-                Total: ₦{cartData.totalPrice.toLocaleString()}
+                Total: &#163;{cartData.totalPrice.toLocaleString()}
               </p>
             </>
           )}
