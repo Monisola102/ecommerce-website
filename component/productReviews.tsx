@@ -13,9 +13,9 @@ import { useAppSelector } from "@/store/hook";
 
 export default function ProductReviews({ productId }: { productId: string }) {
   const { data: reviews } = useGetReviewsQuery(productId);
-  const [addReview, { isLoading }] = useAddReviewMutation();
-  const [updateReview] = useUpdateReviewMutation();
-  const [deleteReview] = useDeleteReviewMutation();
+  const [addReview, { isLoading: adding }] = useAddReviewMutation();
+  const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
+  const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
   const { user } = useAppSelector((state) => state.auth);
 
   const [rating, setRating] = useState(0);
@@ -82,24 +82,21 @@ export default function ProductReviews({ productId }: { productId: string }) {
                 ))}
             </div>
 
-            {/* Only show edit/delete if the logged-in user posted the review */}
-            {user && r.user._id.toString() === user._id.toString() && (
-              <div className="flex gap-2 mt-4">
+            {user?._id === r.user._id && (
+              <div className="flex gap-2 mt-2">
                 <button
-                  className="px-3 py-1 rounded-lg text-white font-medium 
-                  bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 
-                  hover:from-pink-500 hover:via-red-500 hover:to-yellow-500 
-                  transition-all duration-300 shadow-md"
+                  className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
+                    rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
                   onClick={() => handleEdit(r._id, r.rating, r.comment)}
+                  disabled={updating}
                 >
                   Edit
                 </button>
                 <button
-                  className="px-3 py-1 rounded-lg text-white font-medium 
-                  bg-gradient-to-r from-red-500 via-orange-500 to-yellow-500 
-                  hover:from-yellow-500 hover:via-red-500 hover:to-pink-500 
-                  transition-all duration-300 shadow-md"
+                  className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
+                    rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
                   onClick={() => handleDelete(r._id)}
+                  disabled={deleting}
                 >
                   Delete
                 </button>
@@ -134,9 +131,10 @@ export default function ProductReviews({ productId }: { productId: string }) {
           onChange={(e) => setComment(e.target.value)}
         />
         <button
-          className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-3xl px-4 py-2 text-sm hover:opacity-90 transition"
+          className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
+            rounded-3xl px-4 py-2 text-sm hover:opacity-90 transition"
           onClick={handleSubmit}
-          disabled={isLoading}
+          disabled={adding}
         >
           {editingId ? "Update Review" : "Submit Review"}
         </button>

@@ -43,7 +43,7 @@ export default function AccountSidebar() {
   return (
     <div className="relative md:flex">
       <button
-        className="md:hidden absolute top-4 left-4 p-2 bg-red-400 text-white rounded"
+        className="md:hidden absolute top-4 left-4 p-1 bg-red-400 text-white rounded"
         onClick={() => setIsOpen(!isOpen)}
       >
         {isOpen ? <X size={24} /> : <Menu size={24} />}
