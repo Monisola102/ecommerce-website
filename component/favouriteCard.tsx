@@ -56,17 +56,16 @@ export default function Favorites() {
 
   return (
     <div className="p-4 sm:p-6 max-w-xl mx-auto">
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">Favourites</h1>
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center">
+        Favourites
+      </h1>
 
       {favorites.length === 0 ? (
         <p className="text-center text-gray-500">No liked items yet.</p>
       ) : (
         <div className="flex flex-col gap-4">
           {favorites.map((fav) => {
-            const size =
-              fav.size ||
-              fav.product.sizes?.[0]?.size ||
-              "";
+            const size = fav.size;
 
             return (
               <div
@@ -74,7 +73,7 @@ export default function Favorites() {
                 className="relative w-full p-2 bg-white rounded-lg shadow-sm flex flex-col items-center sm:flex-row sm:items-start gap-4 hover:shadow-md transition"
               >
                 <button
-                  onClick={() => handleRemove(fav.product._id, size)}
+                  onClick={() => handleRemove(fav.product._id, fav.size)}
                   className="absolute top-2 right-2 bg-white p-1 rounded-full text-red-500 hover:text-red-700 z-10 shadow"
                   title="Remove from favorites"
                 >
@@ -97,9 +96,15 @@ export default function Favorites() {
                       ? fav.product.brand.name
                       : fav.product.brand}
                   </p>
-                  <p className="text-black font-medium text-[12px]">{fav.product.name}</p>
-                  <p className="text-black font-bold text-[12px]">₤{fav.product.price}</p>
-                  {size && <p className="text-gray-400 text-[10px]">Size: {size}</p>}
+                  <p className="text-black font-medium text-[12px]">
+                    {fav.product.name}
+                  </p>
+                  <p className="text-black font-bold text-[12px]">
+                    ₤{fav.product.price}
+                  </p>
+                  {size && (
+                    <p className="text-gray-400 text-[10px]">Size: {size}</p>
+                  )}
 
                   <button
                     className="mt-2 bg-blue-400 text-black rounded-3xl px-4 py-1 text-[10px] flex items-center gap-1 hover:opacity-90 transition w-max self-center sm:self-start"
