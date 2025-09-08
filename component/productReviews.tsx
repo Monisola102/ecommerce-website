@@ -23,6 +23,11 @@ export default function ProductReviews({ productId }: { productId: string }) {
   const [editingId, setEditingId] = useState<string | null>(null);
 
   const handleSubmit = async () => {
+    if (!user) {
+      toast.error("You must be logged in to submit a review");
+      return;
+    }
+
     if (!rating || !comment) {
       toast.error("Please provide rating and comment.");
       return;
@@ -82,6 +87,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
                 ))}
             </div>
 
+            {/* Show buttons only if logged-in user owns this review */}
             {user?._id === r.user._id && (
               <div className="flex gap-2 mt-2">
                 <button
@@ -109,36 +115,43 @@ export default function ProductReviews({ productId }: { productId: string }) {
         </div>
       ))}
 
-      <div className="mt-4 border-t pt-2">
-        <h3 className="text-sm font-semibold mb-1">
-          {editingId ? "Edit Your Review" : "Add a Review"}
-        </h3>
-        <select
-          className="border rounded w-full px-2 py-1 mb-2 text-sm"
-          value={rating}
-          onChange={(e) => setRating(Number(e.target.value))}
-        >
-          <option value={0}>Rate</option>
-          <option value={1}>1 Star</option>
-          <option value={2}>2 Stars</option>
-          <option value={3}>3 Stars</option>
-          <option value={4}>4 Stars</option>
-          <option value={5}>5 Stars</option>
-        </select>
-        <textarea
-          className="border rounded w-full px-2 py-1 mb-2 text-sm"
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-        />
-        <button
-          className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
-            rounded-3xl px-4 py-2 text-sm hover:opacity-90 transition"
-          onClick={handleSubmit}
-          disabled={adding}
-        >
-          {editingId ? "Update Review" : "Submit Review"}
-        </button>
-      </div>
+      {/* Only logged-in users can add a review */}
+      {user ? (
+        <div className="mt-4 border-t pt-2">
+          <h3 className="text-sm font-semibold mb-1">
+            {editingId ? "Edit Your Review" : "Add a Review"}
+          </h3>
+          <select
+            className="border rounded w-full px-2 py-1 mb-2 text-sm"
+            value={rating}
+            onChange={(e) => setRating(Number(e.target.value))}
+          >
+            <option value={0}>Rate</option>
+            <option value={1}>1 Star</option>
+            <option value={2}>2 Stars</option>
+            <option value={3}>3 Stars</option>
+            <option value={4}>4 Stars</option>
+            <option value={5}>5 Stars</option>
+          </select>
+          <textarea
+            className="border rounded w-full px-2 py-1 mb-2 text-sm"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <button
+            className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
+              rounded-3xl px-4 py-2 text-sm hover:opacity-90 transition"
+            onClick={handleSubmit}
+            disabled={adding}
+          >
+            {editingId ? "Update Review" : "Submit Review"}
+          </button>
+        </div>
+      ) : (
+        <p className="mt-4 text-sm text-gray-500">
+          Please log in to add a review.
+        </p>
+      )}
     </div>
   );
 }
