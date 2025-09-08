@@ -12,8 +12,8 @@ import { toast } from "react-toastify";
 import { useAppSelector } from "@/store/hook";
 
 export default function ProductReviews({ productId }: { productId: string }) {
-  const { data: reviews, refetch } = useGetReviewsQuery(productId);
-  const [addReview] = useAddReviewMutation();
+  const { data: reviews} = useGetReviewsQuery(productId);
+  const [addReview, { isLoading }] = useAddReviewMutation();
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
   const { user } = useAppSelector((state) => state.auth);
@@ -43,7 +43,6 @@ export default function ProductReviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
-      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
@@ -63,7 +62,6 @@ export default function ProductReviews({ productId }: { productId: string }) {
     try {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted!");
-      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -137,6 +135,7 @@ export default function ProductReviews({ productId }: { productId: string }) {
         <button
           className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-3xl px-4 py-2 text-sm hover:opacity-90 transition"
           onClick={handleSubmit}
+          disabled={isLoading}
         >
           {editingId ? "Update Review" : "Submit Review"}
         </button>
