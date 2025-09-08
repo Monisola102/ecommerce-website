@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useGetReviewsQuery,
   useAddReviewMutation,
@@ -11,16 +11,36 @@ import { IoMdStar } from "react-icons/io";
 import { toast } from "react-toastify";
 import { useAppSelector } from "@/store/hook";
 
-export default function ProductReviews({ productId }: { productId: string }) {
-  const { data: reviews } = useGetReviewsQuery(productId);
+interface ProductReviewsProps {
+  productId: string;
+}
+
+export default function ProductReviews({ productId }: ProductReviewsProps) {
+  const { user } = useAppSelector((state) => state.auth);
+
+  // Fetch reviews
+  const { data: reviews = [], refetch } = useGetReviewsQuery(productId);
+
+  // Mutations
   const [addReview, { isLoading: adding }] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
-  const { user } = useAppSelector((state) => state.auth);
 
+  // Local state for form
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  // Populate form when editing
+  useEffect(() => {
+    if (editingId) {
+      const review = reviews.find((r) => r._id === editingId);
+      if (review) {
+        setRating(review.rating);
+        setComment(review.comment);
+      }
+    }
+  }, [editingId, reviews]);
 
   const handleSubmit = async () => {
     if (!user) {
@@ -48,25 +68,22 @@ export default function ProductReviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
+      refetch(); // Refresh reviews immediately
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
   };
 
-  const handleEdit = (
-    reviewId: string,
-    currentRating: number,
-    currentComment: string
-  ) => {
-    setEditingId(reviewId);
-    setRating(currentRating);
-    setComment(currentComment);
-  };
+  const handleEdit = (reviewId: string) => setEditingId(reviewId);
 
   const handleDelete = async (reviewId: string) => {
+    if (!user) return;
+
     try {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted!");
+      if (editingId === reviewId) setEditingId(null);
+      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -76,7 +93,9 @@ export default function ProductReviews({ productId }: { productId: string }) {
     <div className="mt-4">
       <h2 className="text-lg font-semibold mb-2">Reviews</h2>
 
-      {reviews?.map((r) => (
+      {reviews.length === 0 && <p>No reviews yet.</p>}
+
+      {reviews.map((r) => (
         <div key={r._id} className="border-b py-2">
           <div className="flex items-center justify-between">
             <div className="flex text-yellow-500">
@@ -87,13 +106,12 @@ export default function ProductReviews({ productId }: { productId: string }) {
                 ))}
             </div>
 
-            {/* Show buttons only if logged-in user owns this review */}
             {user?._id === r.user._id && (
               <div className="flex gap-2 mt-2">
                 <button
                   className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold 
                     rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
-                  onClick={() => handleEdit(r._id, r.rating, r.comment)}
+                  onClick={() => handleEdit(r._id)}
                   disabled={updating}
                 >
                   Edit
@@ -110,12 +128,11 @@ export default function ProductReviews({ productId }: { productId: string }) {
             )}
           </div>
 
-          <p>{r.comment}</p>
+          <p className="mt-1">{r.comment}</p>
           <small className="text-gray-500">by {r.user.name}</small>
         </div>
       ))}
 
-      {/* Only logged-in users can add a review */}
       {user ? (
         <div className="mt-4 border-t pt-2">
           <h3 className="text-sm font-semibold mb-1">
