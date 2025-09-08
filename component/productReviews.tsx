@@ -12,7 +12,7 @@ import { toast } from "react-toastify";
 import { useAppSelector } from "@/store/hook";
 
 export default function ProductReviews({ productId }: { productId: string }) {
-  const { data: reviews} = useGetReviewsQuery(productId);
+  const { data: reviews } = useGetReviewsQuery(productId);
   const [addReview, { isLoading }] = useAddReviewMutation();
   const [updateReview] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
@@ -82,7 +82,8 @@ export default function ProductReviews({ productId }: { productId: string }) {
                 ))}
             </div>
 
-            {user?._id === r.user._id && (
+            {/* Only show edit/delete if the logged-in user posted the review */}
+            {user && r.user._id.toString() === user._id.toString() && (
               <div className="flex gap-2 mt-4">
                 <button
                   className="px-3 py-1 rounded-lg text-white font-medium 
