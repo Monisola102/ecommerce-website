@@ -5,7 +5,12 @@ import { IoMdStar } from "react-icons/io";
 import {
   useFetchUserQuery,
 } from "@/store/Features/auth/auth-api";
-import { useGetReviewsQuery, useAddReviewMutation, useDeleteReviewMutation, useUpdateReviewMutation } from "@/store/products/product-api";
+import {
+  useGetReviewsQuery,
+  useAddReviewMutation,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
+} from "@/store/products/product-api";
 
 interface Review {
   _id: string;
@@ -16,9 +21,10 @@ interface Review {
 
 export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
-  const user = userData?.data; // because your query returns {data: User}
+  const user = userData?.data; // your user object
 
-  const { data: reviews = [], refetch } = useGetReviewsQuery(productId);
+  // get reviews for this product
+  const { data: reviews = [] } = useGetReviewsQuery(productId);
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
@@ -51,16 +57,18 @@ export default function Reviews({ productId }: { productId: string }) {
       await updateReview({
         productId,
         reviewId: editingReviewId,
-        review: {rating, comment},
+        review: { rating, comment },
       }).unwrap();
       setEditingReviewId(null);
     } else {
-      await addReview({ productId, review:{rating, comment }}).unwrap();
+      await addReview({
+        productId,
+        review: { rating, comment },
+      }).unwrap();
     }
 
     setRating(0);
     setComment("");
-    refetch();
   };
 
   const handleEdit = (id: string) => {
@@ -69,7 +77,6 @@ export default function Reviews({ productId }: { productId: string }) {
 
   const handleDelete = async (id: string) => {
     await deleteReview({ productId, reviewId: id }).unwrap();
-    refetch();
   };
 
   return (
@@ -112,8 +119,6 @@ export default function Reviews({ productId }: { productId: string }) {
                   <IoMdStar key={i} />
                 ))}
             </div>
-
-            {/* Only show edit/delete if current user is review owner */}
             {String(user?._id) === String(r.user._id) && (
               <div className="flex gap-2 mt-2">
                 <button
