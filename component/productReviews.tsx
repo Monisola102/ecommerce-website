@@ -29,7 +29,7 @@ export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
   const user = userData?.data as CurrentUser | undefined;
 
-  const { data: reviews = [] , refetch } = useGetReviewsQuery(productId);
+  const { data: reviews = []} = useGetReviewsQuery(productId);
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
@@ -79,7 +79,6 @@ export default function Reviews({ productId }: { productId: string }) {
   const handleDelete = async (reviewId: string) => {
   try {
     await deleteReview({ productId, reviewId }).unwrap();
-    refetch(); 
   } catch (err) {
     console.error("Delete failed", err);
   }
