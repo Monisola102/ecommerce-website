@@ -12,16 +12,13 @@ import {
   useDeleteReviewMutation,
 } from "@/store/products/product-api";
 
-interface ReviewUser {
-  _id: string;
-  name: string;
-}
+type ReviewUser = { _id: string; name: string } | string;
 
 export interface Review {
   _id: string;
   rating: number;
   comment: string;
-  user: ReviewUser | string;
+  user: ReviewUser;
 }
 
 interface CurrentUser {
@@ -82,7 +79,6 @@ export default function Reviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
-      refetch(); // refresh reviews
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
@@ -95,7 +91,7 @@ export default function Reviews({ productId }: { productId: string }) {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
       if (editingReviewId === reviewId) setEditingReviewId(null);
-      refetch(); // refresh reviews
+      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -132,10 +128,8 @@ export default function Reviews({ productId }: { productId: string }) {
       </form>
 
       {(reviews as Review[]).map((r) => {
-        const reviewUserId =
-          typeof r.user === "string" ? r.user : r.user._id;
-        const reviewUserName =
-          typeof r.user === "string" ? "Unknown" : r.user.name;
+        const reviewUserId = typeof r.user === "string" ? r.user : r.user._id;
+        const reviewUserName = typeof r.user === "string" ? "Unknown" : r.user.name;
 
         return (
           <div key={r._id} className="border-b py-2">
