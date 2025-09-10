@@ -31,13 +31,11 @@ export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
-
-  // This query will auto-update when the reviews cache is invalidated
-  const { data: reviews = [] } = useGetReviewsQuery(productId);
+  const { data: reviews = [], refetch } = useGetReviewsQuery(productId);
 
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
-  const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
+  const [deleteReview] = useDeleteReviewMutation();
 
   const [rating, setRating] = useState(0);
   const [comment, setComment] = useState("");
@@ -91,7 +89,8 @@ export default function Reviews({ productId }: { productId: string }) {
     try {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
-      if (editingReviewId === reviewId) setEditingReviewId(null); // Reset editing if deleted
+      if (editingReviewId === reviewId) setEditingReviewId(null);
+      refetch(); // 🔹 ensures the UI refreshes after deletion
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -129,7 +128,7 @@ export default function Reviews({ productId }: { productId: string }) {
 
       {(reviews as Review[]).map((r) => {
         const reviewUserId =
-          typeof r.user === "string" ? r : r.user._id;
+          typeof r.user === "string" ? r.user : r.user._id;
         const reviewUserName =
           typeof r.user === "string" ? "Unknown" : r.user.name;
 
@@ -158,7 +157,6 @@ export default function Reviews({ productId }: { productId: string }) {
                     type="button"
                     className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
                     onClick={() => handleDelete(r._id)}
-                    disabled={deleting}
                   >
                     Delete
                   </button>
