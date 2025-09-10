@@ -12,13 +12,16 @@ import {
   useDeleteReviewMutation,
 } from "@/store/products/product-api";
 
-type ReviewUser = { _id: string; name: string } | string;
+interface ReviewUser {
+  _id: string;
+  name: string;
+}
 
 export interface Review {
   _id: string;
   rating: number;
   comment: string;
-  user: ReviewUser;
+  user: ReviewUser | string;
 }
 
 interface CurrentUser {
@@ -31,6 +34,7 @@ export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
+
   const { data: reviews = [], refetch } = useGetReviewsQuery(productId);
 
   const [addReview] = useAddReviewMutation();
@@ -78,6 +82,7 @@ export default function Reviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
+      refetch(); // refresh reviews
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
@@ -90,7 +95,7 @@ export default function Reviews({ productId }: { productId: string }) {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
       if (editingReviewId === reviewId) setEditingReviewId(null);
-      refetch(); // 🔹 ensures the UI refreshes after deletion
+      refetch(); // refresh reviews
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
