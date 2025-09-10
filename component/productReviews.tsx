@@ -29,7 +29,7 @@ export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
   const user = userData?.data as CurrentUser | undefined;
 
-  const { data: reviews = [] } = useGetReviewsQuery(productId);
+  const { data: reviews = [] , refetch } = useGetReviewsQuery(productId);
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
@@ -76,10 +76,15 @@ export default function Reviews({ productId }: { productId: string }) {
   };
 
   const handleEdit = (id: string) => setEditingReviewId(id);
-  const handleDelete = async (id: string) =>
-    await deleteReview({ productId, reviewId: id }).unwrap();
+  const handleDelete = async (reviewId: string) => {
+  try {
+    await deleteReview({ productId, reviewId }).unwrap();
+    refetch(); 
+  } catch (err) {
+    console.error("Delete failed", err);
+  }
+};
 
-  // now no red squiggle:
   const userId = user?._id ?? user?.id;
 
   return (
