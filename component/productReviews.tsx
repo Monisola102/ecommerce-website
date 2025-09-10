@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { IoMdStar } from "react-icons/io";
-import {
-  useFetchUserQuery,
-} from "@/store/Features/auth/auth-api";
+import { useFetchUserQuery } from "@/store/Features/auth/auth-api";
 import {
   useGetReviewsQuery,
   useAddReviewMutation,
@@ -12,18 +10,25 @@ import {
   useDeleteReviewMutation,
 } from "@/store/products/product-api";
 
-interface Review {
+type ReviewUser = { _id: string; name: string } | string;
+
+export interface Review {
   _id: string;
   rating: number;
   comment: string;
-  user: { _id: string; name: string };
+  user: ReviewUser;
+}
+
+interface CurrentUser {
+  _id?: string;
+  id?: string;
+  name?: string;
 }
 
 export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
-  const user = userData?.data; // your user object
+  const user = userData?.data as CurrentUser | undefined;
 
-  // get reviews for this product
   const { data: reviews = [] } = useGetReviewsQuery(productId);
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
@@ -33,7 +38,6 @@ export default function Reviews({ productId }: { productId: string }) {
   const [comment, setComment] = useState("");
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
 
-  // prefill form when editing
   useEffect(() => {
     if (editingReviewId) {
       const reviewToEdit = (reviews as Review[]).find(
@@ -71,13 +75,12 @@ export default function Reviews({ productId }: { productId: string }) {
     setComment("");
   };
 
-  const handleEdit = (id: string) => {
-    setEditingReviewId(id);
-  };
-
-  const handleDelete = async (id: string) => {
+  const handleEdit = (id: string) => setEditingReviewId(id);
+  const handleDelete = async (id: string) =>
     await deleteReview({ productId, reviewId: id }).unwrap();
-  };
+
+  // now no red squiggle:
+  const userId = user?._id ?? user?.id;
 
   return (
     <div className="mt-6">
@@ -109,40 +112,48 @@ export default function Reviews({ productId }: { productId: string }) {
         </button>
       </form>
 
-      {(reviews as Review[]).map((r) => (
-        <div key={r._id} className="border-b py-2">
-          <div className="flex items-center justify-between">
-            <div className="flex text-yellow-500">
-              {Array(r.rating)
-                .fill(0)
-                .map((_, i) => (
-                  <IoMdStar key={i} />
-                ))}
-            </div>
-            {String(user?._id) === String(r.user._id) && (
-              <div className="flex gap-2 mt-2">
-                <button
-                  className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
-                  onClick={() => handleEdit(r._id)}
-                  disabled={updating}
-                >
-                  Edit
-                </button>
-                <button
-                  className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
-                  onClick={() => handleDelete(r._id)}
-                  disabled={deleting}
-                >
-                  Delete
-                </button>
-              </div>
-            )}
-          </div>
+      {(reviews as Review[]).map((r) => {
+        const reviewUserId =
+          typeof r.user === "string" ? r.user : r.user._id;
+        const reviewUserName =
+          typeof r.user === "string" ? "Unknown" : r.user.name;
 
-          <p className="mt-1">{r.comment}</p>
-          <small className="text-gray-500">by {r.user.name}</small>
-        </div>
-      ))}
+        return (
+          <div key={r._id} className="border-b py-2">
+            <div className="flex items-center justify-between">
+              <div className="flex text-yellow-500">
+                {Array(r.rating)
+                  .fill(0)
+                  .map((_, i) => (
+                    <IoMdStar key={i} />
+                  ))}
+              </div>
+
+              {userId && String(userId) === String(reviewUserId) && (
+                <div className="flex gap-2 mt-2">
+                  <button
+                    className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
+                    onClick={() => handleEdit(r._id)}
+                    disabled={updating}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
+                    onClick={() => handleDelete(r._id)}
+                    disabled={deleting}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <p className="mt-1">{r.comment}</p>
+            <small className="text-gray-500">by {reviewUserName}</small>
+          </div>
+        );
+      })}
     </div>
   );
 }
