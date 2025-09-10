@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { IoMdStar } from "react-icons/io";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useFetchUserQuery } from "@/store/Features/auth/auth-api";
 import {
   useGetReviewsQuery,
@@ -28,8 +30,10 @@ interface CurrentUser {
 export default function Reviews({ productId }: { productId: string }) {
   const { data: userData } = useFetchUserQuery();
   const user = userData?.data as CurrentUser | undefined;
+  const userId = user?._id ?? user?.id;
 
-  const { data: reviews = []} = useGetReviewsQuery(productId);
+  const { data: reviews = [] } = useGetReviewsQuery(productId);
+
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview, { isLoading: deleting }] = useDeleteReviewMutation();
@@ -57,34 +61,39 @@ export default function Reviews({ productId }: { productId: string }) {
     e.preventDefault();
     if (!rating || !comment) return;
 
-    if (editingReviewId) {
-      await updateReview({
-        productId,
-        reviewId: editingReviewId,
-        review: { rating, comment },
-      }).unwrap();
-      setEditingReviewId(null);
-    } else {
-      await addReview({
-        productId,
-        review: { rating, comment },
-      }).unwrap();
+    try {
+      if (editingReviewId) {
+        await updateReview({
+          productId,
+          reviewId: editingReviewId,
+          review: { rating, comment },
+        }).unwrap();
+        toast.success("Review updated successfully!");
+        setEditingReviewId(null);
+      } else {
+        await addReview({
+          productId,
+          review: { rating, comment },
+        }).unwrap();
+        toast.success("Review added successfully!");
+      }
+      setRating(0);
+      setComment("");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to submit review");
     }
-
-    setRating(0);
-    setComment("");
   };
 
   const handleEdit = (id: string) => setEditingReviewId(id);
-  const handleDelete = async (reviewId: string) => {
-  try {
-    await deleteReview({ productId, reviewId }).unwrap();
-  } catch (err) {
-    console.error("Delete failed", err);
-  }
-};
 
-  const userId = user?._id ?? user?.id;
+  const handleDelete = async (reviewId: string) => {
+    try {
+      await deleteReview({ productId, reviewId }).unwrap();
+      toast.success("Review deleted successfully!");
+    } catch (err: any) {
+      toast.error(err?.data?.message || "Failed to delete review");
+    }
+  };
 
   return (
     <div className="mt-6">
@@ -136,6 +145,7 @@ export default function Reviews({ productId }: { productId: string }) {
               {userId && String(userId) === String(reviewUserId) && (
                 <div className="flex gap-2 mt-2">
                   <button
+                    type="button"
                     className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
                     onClick={() => handleEdit(r._id)}
                     disabled={updating}
@@ -143,6 +153,7 @@ export default function Reviews({ productId }: { productId: string }) {
                     Edit
                   </button>
                   <button
+                    type="button"
                     className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-3 py-1 text-xs hover:opacity-90 transition"
                     onClick={() => handleDelete(r._id)}
                     disabled={deleting}
