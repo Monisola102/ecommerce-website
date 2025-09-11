@@ -130,7 +130,7 @@ updateReview: builder.mutation<Review, { productId: string; reviewId: string; re
     { type: 'Reviews', id: productId },
   ],
 }),
-deleteReview: builder.mutation<void, { productId: string; reviewId: string }>({
+deleteReview: builder.mutation<Review[], { productId: string; reviewId: string }>({
   query: ({ productId, reviewId }) => ({
     url: `/${productId}/reviews/${reviewId}`,
     method: 'DELETE',
