@@ -44,9 +44,12 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
   const [addToCart] = useAddToCartMutation();
 
   const isLiked = likedProductIds.includes(prop._id);
-  const { data: reviews } = useGetReviewsQuery(prop._id);
+
+  // ✅ FIX: unwrap reviewsResponse.data safely
+  const { data: reviewsResponse } = useGetReviewsQuery(prop._id);
+  const reviews = reviewsResponse?.data ?? []; // always an array
   const avgRating =
-    reviews && reviews.length > 0
+    reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
 
@@ -142,7 +145,7 @@ export default function RecommendedCard({ prop }: { prop: RecommendedInterface }
               className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
             />
           ))}
-          <span className="ml-1 text-gray-500 text-[9px]">({reviews?.length || 0})</span>
+          <span className="ml-1 text-gray-500 text-[9px]">({reviews.length})</span>
         </div>
       </Link>
       <div className="mt-2">

@@ -46,12 +46,12 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
 
-  // ✅ Fetch reviews
-  const { data: reviews } = useGetReviewsQuery(trend._id);
+  // ✅ Fetch reviews correctly (unwrap data)
+  const { data: reviewsResponse } = useGetReviewsQuery(trend._id);
+  const reviews = reviewsResponse?.data ?? []; // always array
   const avgRating =
-    reviews && reviews.length > 0
-      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) /
-        reviews.length
+    reviews.length > 0
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
 
   const isLiked = likedProductIds.includes(trend._id);
@@ -145,7 +145,7 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
           />
         ))}
         <span className="ml-1 text-gray-500 text-[9px]">
-          ({reviews?.length || 0})
+          ({reviews.length})
         </span>
       </div>
       <div className="mt-2">

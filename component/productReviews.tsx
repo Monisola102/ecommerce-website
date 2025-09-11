@@ -14,7 +14,7 @@ import {
 
 type ReviewUser = { _id: string; name: string } | string;
 
-export interface Review {
+interface Review {
   _id: string;
   rating: number;
   comment: string;
@@ -32,14 +32,9 @@ export default function Reviews({ productId }: { productId: string }) {
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
 
-  // ✅ RTK Query returns { success, message, data }
-  const {
-    data: reviewsResponse,
-    refetch,
-    isFetching,
-  } = useGetReviewsQuery(productId);
-
-  const reviews = (reviewsResponse as any)?.data || [];
+  // auto–re-fetch on mutation because of tags
+  const { data: reviewsResponse, isFetching } = useGetReviewsQuery(productId);
+  const reviews = reviewsResponse?.data ?? [];
 
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
@@ -51,9 +46,7 @@ export default function Reviews({ productId }: { productId: string }) {
 
   useEffect(() => {
     if (editingReviewId) {
-      const reviewToEdit = reviews.find(
-        (r: Review) => r._id === editingReviewId
-      );
+      const reviewToEdit = reviews.find((r) => r._id === editingReviewId);
       if (reviewToEdit) {
         setRating(reviewToEdit.rating);
         setComment(reviewToEdit.comment);
@@ -86,7 +79,6 @@ export default function Reviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
-      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
@@ -99,7 +91,6 @@ export default function Reviews({ productId }: { productId: string }) {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
       if (editingReviewId === reviewId) setEditingReviewId(null);
-      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -138,7 +129,7 @@ export default function Reviews({ productId }: { productId: string }) {
 
       {isFetching && <p className="text-sm text-gray-500">Loading reviews…</p>}
 
-      {reviews.map((r: Review) => {
+      {reviews.map((r) => {
         const reviewUserId = typeof r.user === "string" ? r.user : r.user._id;
         const reviewUserName =
           typeof r.user === "string" ? "Unknown" : r.user.name;

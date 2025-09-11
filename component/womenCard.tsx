@@ -12,7 +12,10 @@ import { useAddToCartMutation } from "@/store/Features/cart/cart-api";
 import { useAppSelector, useAppDispatch } from "@/store/hook";
 import { openCart } from "@/store/Features/cart/cart-slice";
 import { toggleLike } from "@/store/Features/like/like-slice";
-import { useAddFavoriteMutation, useRemoveFavoriteMutation } from "@/store/Features/like/like-api";
+import {
+  useAddFavoriteMutation,
+  useRemoveFavoriteMutation,
+} from "@/store/Features/like/like-api";
 import { useGetReviewsQuery } from "@/store/products/product-api";
 
 interface SizeType {
@@ -43,12 +46,16 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
   const [addToCart] = useAddToCartMutation();
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
-  const isLiked = likedProductIds.includes(women._id);
-  const { data: reviews } = useGetReviewsQuery(women._id);
+
+  // ✅ same fix as TrendCard
+  const { data: reviewsResponse } = useGetReviewsQuery(women._id);
+  const reviews = reviewsResponse?.data ?? []; // always an array
   const avgRating =
-    reviews && reviews.length > 0
+    reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
+
+  const isLiked = likedProductIds.includes(women._id);
 
   const handleToggleLike = async () => {
     if (!user) {
@@ -114,20 +121,34 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           height={185}
           alt={women.name}
         />
-        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter mt-1">{women.brand?.name}</p>
-        <p className="text-black text-[11px] sm:text-[12px] font-inter">{women.name}</p>
+        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter mt-1">
+          {women.brand?.name}
+        </p>
+        <p className="text-black text-[11px] sm:text-[12px] font-inter">
+          {women.name}
+        </p>
         <div className="flex gap-2">
-          <p className="text-black font-bold text-[12px] sm:text-[14px]">{women.price}&#163;</p>
-          <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">110,00&#163;</span>
+          <p className="text-black font-bold text-[12px] sm:text-[14px]">
+            {women.price}&#163;
+          </p>
+          <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">
+            110,00&#163;
+          </span>
         </div>
         <div className="flex items-center mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar
               key={i}
-              className={i < avgRating ? "text-yellow-500 text-[9px] sm:text-[10px]" : "text-gray-300 text-[9px] sm:text-[10px]"}
+              className={
+                i < avgRating
+                  ? "text-yellow-500 text-[9px] sm:text-[10px]"
+                  : "text-gray-300 text-[9px] sm:text-[10px]"
+              }
             />
           ))}
-          <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews?.length || 0})</span>
+          <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">
+            ({reviews.length})
+          </span>
         </div>
       </Link>
       <div className="mt-2">
@@ -139,7 +160,8 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           <option value="">Select Size</option>
           {women.sizes.map((s, index) => (
             <option key={index} value={s.size} disabled={s.stock === 0}>
-              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              Size {s.size}{" "}
+              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
           ))}
         </select>
@@ -150,7 +172,8 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
           className="bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white rounded-3xl px-3 sm:px-4 py-1.5 sm:py-2 text-[8px] sm:text-[9px] md:text-[10px] flex items-center gap-1 hover:cursor-pointer disabled:opacity-50"
           onClick={handleAddToCart}
         >
-          <ShoppingCart className="w-3 sm:w-4 text-white" /> {loadingCart ? "Adding..." : "Add to Cart"}
+          <ShoppingCart className="w-3 sm:w-4 text-white" />{" "}
+          {loadingCart ? "Adding..." : "Add to Cart"}
         </button>
       </div>
     </div>

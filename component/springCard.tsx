@@ -46,9 +46,11 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
 
-  const { data: reviews } = useGetReviewsQuery(spring._id);
+  // ✅ Fetch reviews and always ensure it's an array
+  const { data: reviewsResponse } = useGetReviewsQuery(spring._id);
+  const reviews = reviewsResponse?.data ?? [];
   const avgRating =
-    reviews && reviews.length > 0
+    reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
 
@@ -114,12 +116,14 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
 
   return (
     <div className="relative w-full max-w-[240px] p-2 rounded-lg shadow-sm">
+      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
+
       <Link href={`/product/${spring._id}`} className="block">
         <Image
           className="w-full h-[185px] object-cover"
@@ -134,6 +138,8 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           <p className="text-black font-bold text-[14px]">{spring.price}&#163;</p>
           <span className="line-through text-gray-400 text-[12px] italic">110,00&#163;</span>
         </div>
+
+        {/* ⭐ Dynamic Rating */}
         <div className="flex items-center text-[10px] mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar
@@ -141,11 +147,11 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
               className={i < avgRating ? "text-yellow-500" : "text-gray-300"}
             />
           ))}
-          <span className="ml-1 text-gray-500 text-[9px]">
-            ({reviews?.length || 0})
-          </span>
+          <span className="ml-1 text-gray-500 text-[9px]">({reviews.length})</span>
         </div>
       </Link>
+
+      {/* 👕 Size dropdown */}
       <div className="mt-2">
         <select
           className="text-[10px] border rounded w-full px-2 py-1"
@@ -160,6 +166,8 @@ export default function SpringCard({ spring }: { spring: SpringInterface }) {
           ))}
         </select>
       </div>
+
+      {/* 🛒 Add to Cart */}
       <div className="flex justify-center mt-3">
         <button
           disabled={loadingCart}

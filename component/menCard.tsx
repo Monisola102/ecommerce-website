@@ -47,10 +47,11 @@ export default function MenCard({ men }: { men: MenInterface }) {
 
   const isLiked = likedProductIds.includes(men._id);
 
-  // ✅ Fetch reviews
-  const { data: reviews } = useGetReviewsQuery(men._id);
+  // ✅ Fetch reviews and normalize to array
+  const { data: reviewsResponse } = useGetReviewsQuery(men._id);
+  const reviews = reviewsResponse?.data ?? [];
   const avgRating =
-    reviews && reviews.length > 0
+    reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
 
@@ -76,12 +77,8 @@ export default function MenCard({ men }: { men: MenInterface }) {
 
   const handleAddToCart = async () => {
     if (!user) {
-      toast.error("Please login to add items to your cart");
-      const pendingItem = {
-        productId: men._id,
-        quantity: 1,
-        size: selectedSize,
-      };
+      toast.error("Please log in to add items to your cart.");
+      const pendingItem = { productId: men._id, size: selectedSize, quantity: 1 };
       localStorage.setItem("pendingCartItem", JSON.stringify(pendingItem));
       router.push(`/login?redirect=/cart`);
       return;
@@ -95,12 +92,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
     if (loadingCart) return;
     setLoadingCart(true);
     try {
-      await addToCart({
-        productId: men._id,
-        size: selectedSize,
-        quantity: 1,
-      }).unwrap();
-
+      await addToCart({ productId: men._id, size: selectedSize, quantity: 1 }).unwrap();
       toast.success(`${men.name} (Size ${selectedSize}) added to cart!`);
       dispatch(openCart());
     } catch (err: any) {
@@ -131,9 +123,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
           height={185}
           alt={men.name}
         />
-        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter">
-          {men.brand?.name}
-        </p>
+        <p className="text-gray-400 text-[9px] sm:text-[10px] font-inter">{men.brand?.name}</p>
         <p className="text-black text-[11px] sm:text-[12px] font-inter">{men.name}</p>
         <div className="flex gap-2">
           <p className="text-black font-bold text-[12px] sm:text-[14px]">{men.price}&#163;</p>
@@ -145,7 +135,7 @@ export default function MenCard({ men }: { men: MenInterface }) {
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar key={i} className={i < avgRating ? "text-yellow-500" : "text-gray-300"} />
           ))}
-          <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews?.length || 0})</span>
+          <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews.length})</span>
         </div>
       </Link>
 

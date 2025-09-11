@@ -48,10 +48,11 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
 
   const isLiked = likedProductIds.includes(kids._id);
 
-  // ✅ Fetch reviews
-  const { data: reviews } = useGetReviewsQuery(kids._id);
+  // ✅ Fetch reviews safely like TrendCard
+  const { data: reviewsResponse } = useGetReviewsQuery(kids._id);
+  const reviews = reviewsResponse?.data ?? []; // always array
   const avgRating =
-    reviews && reviews.length > 0
+    reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
       : 0;
 
@@ -136,16 +137,24 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
           {/* Price */}
           <div className="flex gap-2 items-center">
             <p className="text-black font-bold text-xs sm:text-sm md:text-base">{kids.price}&#163;</p>
-            <span className="line-through text-gray-400 text-[10px] sm:text-xs italic">110,00&#163;</span>
+            <span className="line-through text-gray-400 text-[10px] sm:text-xs italic">
+              110,00&#163;
+            </span>
           </div>
           <div className="flex items-center mt-1">
             {Array.from({ length: 5 }).map((_, i) => (
               <IoMdStar
                 key={i}
-                className={i < avgRating ? "text-yellow-500 text-[8px] sm:text-[10px] md:text-xs" : "text-gray-300 text-[8px] sm:text-[10px] md:text-xs"}
+                className={
+                  i < avgRating
+                    ? "text-yellow-500 text-[8px] sm:text-[10px] md:text-xs"
+                    : "text-gray-300 text-[8px] sm:text-[10px] md:text-xs"
+                }
               />
             ))}
-            <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px] md:text-xs">({reviews?.length || 0})</span>
+            <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px] md:text-xs">
+              ({reviews.length})
+            </span>
           </div>
         </div>
       </Link>
