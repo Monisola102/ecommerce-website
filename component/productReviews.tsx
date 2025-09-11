@@ -32,7 +32,9 @@ export default function Reviews({ productId }: { productId: string }) {
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
 
-  const { data: reviews = [], refetch } = useGetReviewsQuery(productId);
+  // ✅ destructure correctly from the query
+  const { data: reviewsResponse, refetch } = useGetReviewsQuery(productId);
+  const reviews: Review[] = reviewsResponse?.data ?? [];
 
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
@@ -44,9 +46,7 @@ export default function Reviews({ productId }: { productId: string }) {
 
   useEffect(() => {
     if (editingReviewId) {
-      const reviewToEdit = (reviews as Review[]).find(
-        (r) => r._id === editingReviewId
-      );
+      const reviewToEdit = reviews.find((r) => r._id === editingReviewId);
       if (reviewToEdit) {
         setRating(reviewToEdit.rating);
         setComment(reviewToEdit.comment);
@@ -91,7 +91,8 @@ export default function Reviews({ productId }: { productId: string }) {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
       if (editingReviewId === reviewId) setEditingReviewId(null);
-      refetch();
+      // refetch is optional because invalidatesTags auto-refetches
+      // refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -127,9 +128,10 @@ export default function Reviews({ productId }: { productId: string }) {
         </button>
       </form>
 
-      {(reviews as Review[]).map((r) => {
+      {reviews.map((r) => {
         const reviewUserId = typeof r.user === "string" ? r.user : r.user._id;
-        const reviewUserName = typeof r.user === "string" ? "Unknown" : r.user.name;
+        const reviewUserName =
+          typeof r.user === "string" ? "Unknown" : r.user.name;
 
         return (
           <div key={r._id} className="border-b py-2">

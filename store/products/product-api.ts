@@ -38,6 +38,11 @@ export interface ProductResponse {
     pages: number;
   };
 }
+export interface ReviewsResponse {
+  success: boolean;
+  message: string;
+  data: Review[];
+}
 export interface ReviewRequest {
   rating: number;
   comment: string;
@@ -104,13 +109,13 @@ export const productsApi = createApi({
     getProductById: builder.query<SingleProductResponse, string>({
       query: (id) => `/${id}`,
     }),
-   getReviews: builder.query<Review[], string>({
+   getReviews: builder.query<ReviewsResponse, string>({
   query: (productId) => `/${productId}/reviews`,
   providesTags: (result, error, productId) => [
     { type: 'Reviews', id: productId },
   ],
 }),
-addReview: builder.mutation<Review, { productId: string; review: ReviewRequest }>({
+addReview: builder.mutation<ReviewsResponse, { productId: string; review: ReviewRequest }>({
   query: ({ productId, review }) => ({
     url: `/${productId}/reviews`,
     method: 'POST',
@@ -120,7 +125,7 @@ addReview: builder.mutation<Review, { productId: string; review: ReviewRequest }
     { type: 'Reviews', id: productId },
   ],
 }),
-updateReview: builder.mutation<Review, { productId: string; reviewId: string; review: ReviewRequest }>({
+updateReview: builder.mutation<ReviewsResponse, { productId: string; reviewId: string; review: ReviewRequest }>({
   query: ({ productId, reviewId, review }) => ({
     url: `/${productId}/reviews/${reviewId}`,
     method: 'PUT',
@@ -130,7 +135,7 @@ updateReview: builder.mutation<Review, { productId: string; reviewId: string; re
     { type: 'Reviews', id: productId },
   ],
 }),
-deleteReview: builder.mutation<Review[], { productId: string; reviewId: string }>({
+deleteReview: builder.mutation<ReviewsResponse, { productId: string; reviewId: string }>({
   query: ({ productId, reviewId }) => ({
     url: `/${productId}/reviews/${reviewId}`,
     method: 'DELETE',
