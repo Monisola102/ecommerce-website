@@ -32,9 +32,14 @@ export default function Reviews({ productId }: { productId: string }) {
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
 
-  // ✅ destructure correctly from the query
-  const { data: reviewsResponse, refetch } = useGetReviewsQuery(productId);
-  const reviews: Review[] = reviewsResponse?.data ?? [];
+  // ✅ RTK Query returns { success, message, data }
+  const {
+    data: reviewsResponse,
+    refetch,
+    isFetching,
+  } = useGetReviewsQuery(productId);
+
+  const reviews = (reviewsResponse as any)?.data || [];
 
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
@@ -46,7 +51,9 @@ export default function Reviews({ productId }: { productId: string }) {
 
   useEffect(() => {
     if (editingReviewId) {
-      const reviewToEdit = reviews.find((r) => r._id === editingReviewId);
+      const reviewToEdit = reviews.find(
+        (r: Review) => r._id === editingReviewId
+      );
       if (reviewToEdit) {
         setRating(reviewToEdit.rating);
         setComment(reviewToEdit.comment);
@@ -79,6 +86,7 @@ export default function Reviews({ productId }: { productId: string }) {
       }
       setRating(0);
       setComment("");
+      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to submit review");
     }
@@ -91,8 +99,7 @@ export default function Reviews({ productId }: { productId: string }) {
       await deleteReview({ productId, reviewId }).unwrap();
       toast.success("Review deleted successfully!");
       if (editingReviewId === reviewId) setEditingReviewId(null);
-      // refetch is optional because invalidatesTags auto-refetches
-      // refetch();
+      refetch();
     } catch (err: any) {
       toast.error(err?.data?.message || "Failed to delete review");
     }
@@ -122,13 +129,16 @@ export default function Reviews({ productId }: { productId: string }) {
         />
         <button
           type="submit"
+          disabled={updating}
           className="bg-gradient-to-r from-purple-500 to-green-500 text-black font-semibold rounded-2xl px-4 py-2 hover:opacity-90 transition"
         >
           {editingReviewId ? "Update Review" : "Add Review"}
         </button>
       </form>
 
-      {reviews.map((r) => {
+      {isFetching && <p className="text-sm text-gray-500">Loading reviews…</p>}
+
+      {reviews.map((r: Review) => {
         const reviewUserId = typeof r.user === "string" ? r.user : r.user._id;
         const reviewUserName =
           typeof r.user === "string" ? "Unknown" : r.user.name;
