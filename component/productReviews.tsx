@@ -33,7 +33,6 @@ export default function Reviews({ productId }: { productId: string }) {
   const userId = user?._id ?? user?.id;
   const { data: reviewsResponse, isFetching } = useGetReviewsQuery(productId);
   const reviews = reviewsResponse?.data ?? [];
-
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
   const [deleteReview] = useDeleteReviewMutation();
