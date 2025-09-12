@@ -11,7 +11,7 @@ import RestoreUser from "./restoreUser";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // choose weights you want
+  weight: ["400", "500", "600", "700"], 
 });
 
 export const metadata: Metadata = {

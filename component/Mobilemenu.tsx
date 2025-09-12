@@ -31,14 +31,11 @@ const SideMenu = ({
 
   return (
     <div className="md:hidden">
-      {/* Backdrop */}
       <div
         className={`fixed inset-0 z-40 bg-black/20 backdrop-blur-sm transition-opacity duration-300 ${
           isOpen ? "opacity-100 visible" : "opacity-0 invisible"
         }`}
       />
-
-      {/* Side Drawer */}
       <div
         className={`fixed inset-y-0 left-0 z-50 transform transition-transform duration-300 ease-in-out ${
           isOpen ? "translate-x-0" : "-translate-x-full"

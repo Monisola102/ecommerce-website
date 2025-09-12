@@ -42,8 +42,6 @@ export default function ProductList() {
             <option value="recommended">Recommended</option>
           </select>
         </div>
-
-        {/* Sort */}
         <div>
           <label className="mr-2 font-medium text-gray-700">Sort by:</label>
           <select

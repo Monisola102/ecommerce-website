@@ -46,10 +46,8 @@ export default function WomenCard({ women }: { women: WomenInterface }) {
   const [addToCart] = useAddToCartMutation();
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
-
-  // ✅ same fix as TrendCard
   const { data: reviewsResponse } = useGetReviewsQuery(women._id);
-  const reviews = reviewsResponse?.data ?? []; // always an array
+  const reviews = reviewsResponse?.data ?? []; 
   const avgRating =
     reviews.length > 0
       ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length

@@ -46,8 +46,6 @@ export default function MenCard({ men }: { men: MenInterface }) {
   const [removeFavorite] = useRemoveFavoriteMutation();
 
   const isLiked = likedProductIds.includes(men._id);
-
-  // ✅ Fetch reviews and normalize to array
   const { data: reviewsResponse } = useGetReviewsQuery(men._id);
   const reviews = reviewsResponse?.data ?? [];
   const avgRating =
@@ -106,15 +104,12 @@ export default function MenCard({ men }: { men: MenInterface }) {
 
   return (
     <div className="relative w-full max-w-[150px] sm:max-w-[180px] md:max-w-[200px] p-2 rounded-lg shadow-sm">
-      {/* ❤️ Like button */}
       <div
         className="absolute top-1 right-2 bg-white p-1 text-black text-sm sm:text-md cursor-pointer z-10"
         onClick={handleToggleLike}
       >
         {isLiked ? <FaHeart className="text-red-500" /> : <IoMdHeartEmpty />}
       </div>
-
-      {/* 📸 Clickable product preview */}
       <Link href={`/product/${men._id}`} className="block">
         <Image
           className="w-[140px] h-[160px] sm:w-[160px] sm:h-[175px] md:w-[170px] md:h-[185px] object-cover mx-auto"
@@ -129,8 +124,6 @@ export default function MenCard({ men }: { men: MenInterface }) {
           <p className="text-black font-bold text-[12px] sm:text-[14px]">{men.price}&#163;</p>
           <span className="line-through text-gray-400 text-[10px] sm:text-[12px] italic">110,00&#163;</span>
         </div>
-
-        {/* ⭐ Dynamic Rating */}
         <div className="flex items-center text-[9px] sm:text-[10px] mt-1">
           {Array.from({ length: 5 }).map((_, i) => (
             <IoMdStar key={i} className={i < avgRating ? "text-yellow-500" : "text-gray-300"} />
@@ -138,8 +131,6 @@ export default function MenCard({ men }: { men: MenInterface }) {
           <span className="ml-1 text-gray-500 text-[8px] sm:text-[9px]">({reviews.length})</span>
         </div>
       </Link>
-
-      {/* 👕 Size dropdown */}
       <div className="mt-2">
         <select
           className="text-[9px] sm:text-[10px] border rounded w-full px-2 py-1"

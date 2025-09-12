@@ -45,13 +45,12 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
   const [addFavorite] = useAddFavoriteMutation();
   const [removeFavorite] = useRemoveFavoriteMutation();
   const [addToCart] = useAddToCartMutation();
-
-  // ✅ Fetch reviews correctly (unwrap data)
   const { data: reviewsResponse } = useGetReviewsQuery(trend._id);
-  const reviews = reviewsResponse?.data ?? []; // always array
+  const reviews = reviewsResponse?.data ?? [];
   const avgRating =
     reviews.length > 0
-      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) / reviews.length
+      ? reviews.reduce((acc: number, r: any) => acc + r.rating, 0) /
+        reviews.length
       : 0;
 
   const isLiked = likedProductIds.includes(trend._id);
@@ -66,9 +65,15 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
 
     try {
       if (isLiked) {
-        await removeFavorite({ productId: trend._id, size: selectedSize }).unwrap();
+        await removeFavorite({
+          productId: trend._id,
+          size: selectedSize,
+        }).unwrap();
       } else {
-        await addFavorite({ productId: trend._id, size: selectedSize }).unwrap();
+        await addFavorite({
+          productId: trend._id,
+          size: selectedSize,
+        }).unwrap();
       }
     } catch (error) {
       toast.error("Failed to update favorite.");
@@ -157,7 +162,8 @@ export default function TrendCard({ trend }: { trend: trendInterface }) {
           <option value="">Select Size</option>
           {trend.sizes.map((s, index) => (
             <option key={index} value={s.size} disabled={s.stock === 0}>
-              Size {s.size} {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
+              Size {s.size}{" "}
+              {s.stock === 0 ? "(Out of stock)" : `- ${s.stock} left`}
             </option>
           ))}
         </select>

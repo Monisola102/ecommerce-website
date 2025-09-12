@@ -92,8 +92,6 @@ const SupportComp = () => {
           We are here to help you with all your shopping needs. Get instant
           assistance or browse our comprehensive help resources.
         </p>
-
-        {/* Support Cards */}
         <div className="w-full">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {supports.map((prod, index) => (
@@ -101,8 +99,6 @@ const SupportComp = () => {
             ))}
           </div>
         </div>
-
-        {/* FAQ */}
         <h1
           id="faq"
           className="text-center font-bold text-3xl mt-12 text-black"

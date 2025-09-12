@@ -69,7 +69,6 @@ export default function ProductDetail() {
       <h1 className="text-2xl sm:text-3xl font-bold mt-4">{product.name}</h1>
       <p className="text-black font-semibold mt-1 text-lg sm:text-xl">{product.price}&#163;</p>
       <p className="mt-2 text-sm sm:text-base text-gray-600">{product.description}</p>
-      {/* Size Selector */}
       <div className="mt-3">
         <p className="font-medium mb-1">Select Size:</p>
         <div className="flex flex-wrap gap-2">
@@ -89,13 +88,9 @@ export default function ProductDetail() {
           ))}
         </div>
       </div>
-
-      {/* Reviews */}
       <div className="mt-6">
         <ProductReviews productId={product._id} />
       </div>
-
-      {/* Add to Cart Button */}
    <button
   onClick={handleAddToCart}
   disabled={isAdding}

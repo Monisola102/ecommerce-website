@@ -12,13 +12,14 @@ import {
   useDeleteReviewMutation,
 } from "@/store/products/product-api";
 
-type ReviewUser = { _id: string; name: string } | string;
-
 interface Review {
   _id: string;
   rating: number;
   comment: string;
-  user: ReviewUser;
+  user: {
+    _id: string;
+    name: string;
+  };
 }
 
 interface CurrentUser {
@@ -32,9 +33,8 @@ export default function Reviews({ productId }: { productId: string }) {
   const user = userData?.data as CurrentUser | undefined;
   const userId = user?._id ?? user?.id;
 
-  // auto–re-fetch on mutation because of tags
   const { data: reviewsResponse, isFetching } = useGetReviewsQuery(productId);
-  const reviews = reviewsResponse?.data ?? [];
+  const reviews: Review[] = reviewsResponse?.data ?? [];
 
   const [addReview] = useAddReviewMutation();
   const [updateReview, { isLoading: updating }] = useUpdateReviewMutation();
@@ -44,6 +44,7 @@ export default function Reviews({ productId }: { productId: string }) {
   const [comment, setComment] = useState("");
   const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
 
+  // Populate inputs when editing
   useEffect(() => {
     if (editingReviewId) {
       const reviewToEdit = reviews.find((r) => r._id === editingReviewId);
@@ -51,15 +52,16 @@ export default function Reviews({ productId }: { productId: string }) {
         setRating(reviewToEdit.rating);
         setComment(reviewToEdit.comment);
       }
-    } else {
-      setRating(0);
-      setComment("");
     }
-  }, [editingReviewId, reviews]);
+  }, [editingReviewId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!rating || !comment) return;
+
+    if (!rating || !comment) {
+      toast.error("Please provide both rating and comment");
+      return;
+    }
 
     try {
       if (editingReviewId) {
@@ -71,12 +73,11 @@ export default function Reviews({ productId }: { productId: string }) {
         toast.success("Review updated successfully!");
         setEditingReviewId(null);
       } else {
-        await addReview({
-          productId,
-          review: { rating, comment },
-        }).unwrap();
+        await addReview({ productId, review: { rating, comment } }).unwrap();
         toast.success("Review added successfully!");
       }
+
+      // Reset inputs
       setRating(0);
       setComment("");
     } catch (err: any) {
@@ -105,9 +106,7 @@ export default function Reviews({ productId }: { productId: string }) {
           {[1, 2, 3, 4, 5].map((star) => (
             <IoMdStar
               key={star}
-              className={`cursor-pointer ${
-                star <= rating ? "text-yellow-500" : "text-gray-300"
-              }`}
+              className={`cursor-pointer ${star <= rating ? "text-yellow-500" : "text-gray-300"}`}
               onClick={() => setRating(star)}
             />
           ))}
@@ -130,22 +129,18 @@ export default function Reviews({ productId }: { productId: string }) {
       {isFetching && <p className="text-sm text-gray-500">Loading reviews…</p>}
 
       {reviews.map((r) => {
-        const reviewUserId = typeof r.user === "string" ? r.user : r.user._id;
-        const reviewUserName =
-          typeof r.user === "string" ? "Unknown" : r.user.name;
+        const isOwner = userId && String(userId) === String(r.user._id);
 
         return (
           <div key={r._id} className="border-b py-2">
             <div className="flex items-center justify-between">
               <div className="flex text-yellow-500">
-                {Array(r.rating)
-                  .fill(0)
-                  .map((_, i) => (
-                    <IoMdStar key={i} />
-                  ))}
+                {[...Array(r.rating)].map((_, i) => (
+                  <IoMdStar key={i} />
+                ))}
               </div>
 
-              {userId && String(userId) === String(reviewUserId) && (
+              {isOwner && (
                 <div className="flex gap-2 mt-2">
                   <button
                     type="button"
@@ -167,7 +162,7 @@ export default function Reviews({ productId }: { productId: string }) {
             </div>
 
             <p className="mt-1">{r.comment}</p>
-            <small className="text-gray-500">by {reviewUserName}</small>
+            <small className="text-gray-500">by {r.user.name}</small>
           </div>
         );
       })}

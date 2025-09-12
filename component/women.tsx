@@ -81,7 +81,6 @@ export default function WomenPage() {
 
   return (
     <>
-      {/* Hero Section - full width */}
       <div className="w-full">
         <Slider {...heroSliderSettings}>
           {heroImages.map((img, i) => (
