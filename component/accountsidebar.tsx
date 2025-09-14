@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import { clearCartState } from "@/store/Features/cart/cart-slice";
 import { useClearCartMutation } from "@/store/Features/cart/cart-api";
 import { clearLikes } from "@/store/Features/like/like-slice";
+import { MdHome } from "react-icons/md";  
 export default function AccountSidebar() {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -57,6 +58,13 @@ export default function AccountSidebar() {
       >
         <h2 className="text-xl font-semibold mb-6">My Account</h2>
         <nav className="space-y-4 mt-6">
+           <Link
+            href="/"
+            className="flex items-center gap-2 hover:text-white"
+            onClick={() => setIsOpen(false)}
+          >
+            <MdHome size={18} /> Home
+          </Link>
           <Link
             href="/account/dashboard"
             className="flex items-center gap-2 hover:text-white"
