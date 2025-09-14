@@ -109,12 +109,19 @@ export default function Reviews({ productId }: { productId: string }) {
             />
           ))}
         </div>
-        <textarea
-          value={comment}
-          onChange={(e) => setComment(e.target.value)}
-          placeholder="Write your review..."
-          className="border p-2 rounded w-full mb-2"
-        />
+       <textarea
+  value={comment}
+  onChange={(e) => setComment(e.target.value)}
+  placeholder="Write your review..."
+  className="
+    border border-gray-100 
+    p-2 rounded w-full mb-2
+    focus:outline-none              
+    focus:ring-2 focus:ring-pink-200 
+    focus:border-pink-200        
+  "
+/>
+
         <button
           type="submit"
           disabled={updating}

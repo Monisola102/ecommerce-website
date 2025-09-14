@@ -158,8 +158,6 @@ export default function KidsCard({ kids }: { kids: KidsInterface }) {
           </div>
         </div>
       </Link>
-
-      {/* 👕 Size Selector */}
       <div className="mt-2">
         <select
           className="text-[9px] sm:text-[10px] md:text-xs border rounded w-full px-2 py-1"
