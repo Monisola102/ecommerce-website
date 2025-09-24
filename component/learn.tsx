@@ -35,7 +35,7 @@ router.push('/support');
             className="
               hidden sm:block absolute 
               right-[-120px] md:right-[-230px] lg:right-[-300px]
-              top-10 sm:top-14 md:top-18 lg:top-18
+              top-10 sm:top-14 md:top-18 lg:top-15
             "
           >
             <Image
