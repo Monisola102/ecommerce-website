@@ -18,7 +18,6 @@ router.push('/support');
           w-full sm:w-[600px] md:w-[700px] lg:w-[800px] 
           h-auto lg:h-[320px]
         ">
-          {/* Text Section */}
           <div className="w-full sm:w-[300px] flex flex-col">
             <h6 className="mb-5 font-bold text-[16px] sm:text-[18px] tracking-wider">
               It's all about you
@@ -29,18 +28,14 @@ router.push('/support');
               Learn more about our policy.
             </p>
           </div>
-
-          {/* Button */}
           <button onClick={handleClick} className="mt-4 bg-inherit border border-white text-white p-2 w-fit">
             <FaArrowRight />
           </button>
-
-          {/* Image Section */}
           <div
             className="
               hidden sm:block absolute 
               right-[-120px] md:right-[-230px] lg:right-[-300px]
-              top-10 sm:top-14 md:top-18 lg:top-22
+              top-10 sm:top-14 md:top-18 lg:top-18
             "
           >
             <Image
